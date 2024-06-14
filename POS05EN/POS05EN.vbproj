@@ -1,0 +1,482 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{90A81757-958D-460B-B404-B0728E2BBCB2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>POS05EN</RootNamespace>
+    <AssemblyName>POS05EN</AssemblyName>
+    <MyType>Windows</MyType>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <SignAssembly>false</SignAssembly>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>false</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DefineConstants>_MYFORMS=True</DefineConstants>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>None</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>false</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DefineConstants>_MYFORMS=True</DefineConstants>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <PlatformTarget>x86</PlatformTarget>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>_MYFORMS=True</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>_MYFORMS=True</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>
+    </DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BitImageTest, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\BitImageTest.dll</HintPath>
+    </Reference>
+    <Reference Include="DataHash, Version=1.0.1564.4616, Culture=neutral, PublicKeyToken=cfc46422161c132c">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\DataHash.dll</HintPath>
+    </Reference>
+    <Reference Include="FlatTabControl, Version=1.0.2469.22824, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\FlatTabControl.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Newtonsoft.Json, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\SC.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLite.NET, Version=0.21.1869.3794, Culture=neutral, PublicKeyToken=c273bd375e695f9c">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\SQLite.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ThoughtWorks.QRCode, Version=1.0.7950.24889, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\ThoughtWorks.QRCode.dll</HintPath>
+    </Reference>
+    <Reference Include="Translib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\Translib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CLASSES\BitmapData.vb" />
+    <Compile Include="CLASSES\CreditCard.vb" />
+    <Compile Include="CLASSES\DateInterval.vb" />
+    <Compile Include="CLASSES\FGTASync.vb" />
+    <Compile Include="CLASSES\ItemNotAllowedException.vb" />
+    <Compile Include="CLASSES\MobilePaymentParameter.vb" />
+    <Compile Include="CLASSES\MobilePaymentResult.vb" />
+    <Compile Include="CLASSES\PaymentInteractionParam.vb" />
+    <Compile Include="CLASSES\POS.vb" />
+    <Compile Include="CLASSES\PosPromo.vb" />
+    <Compile Include="CLASSES\PosPromoData.vb" />
+    <Compile Include="CLASSES\PosPromoGroup.vb" />
+    <Compile Include="CLASSES\PromoArguments.vb" />
+    <Compile Include="CLASSES\TransbrowserFileCompress.vb" />
+    <Compile Include="CLASSES\FGTAWebService.vb" />
+    <Compile Include="CLASSES\VoucherData.vb" />
+    <Compile Include="CLASSES\WsResult.vb" />
+    <Compile Include="CLASSES\WsVoucherInfoResult.vb" />
+    <Compile Include="CLASSES\WsVoucherMarkResult.vb" />
+    <Compile Include="Config.vb" />
+    <Compile Include="DIALOG\dlgAlloMemberScan.Designer.vb">
+      <DependentUpon>dlgAlloMemberScan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgAlloMemberScan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgCustomerEdit.Designer.vb">
+      <DependentUpon>dlgCustomerEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgCustomerEdit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgCustomerSearch.Designer.vb">
+      <DependentUpon>dlgCustomerSearch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgCustomerSearch.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgDiag.Designer.vb">
+      <DependentUpon>dlgDiag.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgDiag.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgMobilePayment.Designer.vb">
+      <DependentUpon>dlgMobilePayment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgMobilePayment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgParameters.Designer.vb">
+      <DependentUpon>dlgParameters.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgParameters.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgQRTest.Designer.vb">
+      <DependentUpon>dlgQRTest.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgQRTest.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgRedeemVoucher.Designer.vb">
+      <DependentUpon>dlgRedeemVoucher.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgRedeemVoucher.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgSecondDisplay.Designer.vb">
+      <DependentUpon>dlgSecondDisplay.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgSecondDisplay.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgTfiMemberScan.Designer.vb">
+      <DependentUpon>dlgTfiMemberScan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgTfiMemberScan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgTrnPosReturNote.Designer.vb">
+      <DependentUpon>dlgTrnPosReturNote.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgTrnPosReturNote.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgTrnPosDataBrowse.Designer.vb">
+      <DependentUpon>dlgTrnPosDataBrowse.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgTrnPosDataBrowse.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgTrnPosNew.Designer.vb">
+      <DependentUpon>dlgTrnPosNew.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgTrnPosNew.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgConfirmSize.Designer.vb">
+      <DependentUpon>dlgConfirmSize.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgConfirmSize.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgPrintPreview.Designer.vb">
+      <DependentUpon>dlgPrintPreview.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgPrintPreview.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgTrnPosVoid.Designer.vb">
+      <DependentUpon>dlgTrnPosVoid.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgTrnPosVoid.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgTrnPosVoucher.Designer.vb">
+      <DependentUpon>dlgTrnPosVoucher.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgTrnPosVoucher.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgItemSelect.Designer.vb">
+      <DependentUpon>dlgItemSelect.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgItemSelect.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgConfirmYesNo.Designer.vb">
+      <DependentUpon>dlgConfirmYesNo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgConfirmYesNo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgTrnPosEN.Designer.vb">
+      <DependentUpon>dlgTrnPosEN.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgTrnPosEN.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DIALOG\dlgTrnPosPayment.Designer.vb">
+      <DependentUpon>dlgTrnPosPayment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgTrnPosPayment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LX300.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="POLEDISPLAY.vb" />
+    <EmbeddedResource Include="SQL\InsertPayment.sql" />
+    <Compile Include="UI\uiQRTest.Designer.vb">
+      <DependentUpon>uiQRTest.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UI\uiQRTest.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\uiTrnPosEN.Designer.vb">
+      <DependentUpon>uiTrnPosEN.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UI\uiTrnPosEN.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\uiTrnPosGenPassword.Designer.vb">
+      <DependentUpon>uiTrnPosGenPassword.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UI\uiTrnPosGenPassword.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DIALOG\dlgCustomerEdit.resx">
+      <DependentUpon>dlgCustomerEdit.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgCustomerSearch.resx">
+      <DependentUpon>dlgCustomerSearch.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgParameters.resx">
+      <DependentUpon>dlgParameters.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgTrnPosReturNote.resx">
+      <DependentUpon>dlgTrnPosReturNote.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgTrnPosDataBrowse.resx">
+      <DependentUpon>dlgTrnPosDataBrowse.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgTrnPosNew.resx">
+      <DependentUpon>dlgTrnPosNew.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgConfirmSize.resx">
+      <DependentUpon>dlgConfirmSize.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgPrintPreview.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>dlgPrintPreview.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgTrnPosVoid.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>dlgTrnPosVoid.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgTrnPosVoucher.resx">
+      <DependentUpon>dlgTrnPosVoucher.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgItemSelect.resx">
+      <DependentUpon>dlgItemSelect.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgConfirmYesNo.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>dlgConfirmYesNo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgTrnPosEN.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>dlgTrnPosEN.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgTrnPosPayment.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>dlgTrnPosPayment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\uiTrnPosEN.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>uiTrnPosEN.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\uiTrnPosGenPassword.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>uiTrnPosGenPassword.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IMAGES\btn_esc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tbbg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tbbg3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tbbg4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bgf.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dots2.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Resources\dots32.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="imgWait.Image.gif" />
+    <EmbeddedResource Include="DIALOG\dlgDiag.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>dlgDiag.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgQRTest.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>dlgQRTest.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgRedeemVoucher.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>dlgRedeemVoucher.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgSecondDisplay.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>dlgSecondDisplay.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgTfiMemberScan.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>dlgTfiMemberScan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SQL\InsertHeader.sql">
+      <SubType>
+      </SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgAlloMemberScan.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>dlgAlloMemberScan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DIALOG\dlgMobilePayment.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>dlgMobilePayment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SQL\Copy of ScanBarcode02.sql" />
+    <EmbeddedResource Include="SQL\Copy of ScanBarcode03.sql" />
+    <EmbeddedResource Include="SQL\Copy of ScanBarcode01.sql" />
+    <EmbeddedResource Include="SQL\ScanBarcode01.sql" />
+    <EmbeddedResource Include="SQL\ScanBarcode02.sql" />
+    <EmbeddedResource Include="SQL\ScanBarcode03.sql" />
+    <EmbeddedResource Include="UI\uiQRTest.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>uiQRTest.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CLASSES\TextFile1.txt" />
+    <Content Include="tempcode.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

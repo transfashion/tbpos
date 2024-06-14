@@ -1,0 +1,65 @@
+POS Rekap
+
+
+Machine 01
+
+
+Number Of Transaction    
+   Item QTY              10
+   Bon                    3
+
+Payment
+   MEGA          50,000,000
+   OTHER          1,000,000
+   CASH         100,000,000
+              -------------
+   TOTAL        151,000,000
+   
+   
+ 
+
+        10        20        30        40        50        60        70        80        90       100       110       120       130       
+12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567
+LAPORAN BON
+BAZAR PLASA INDONESIA                                                                                                     10/05/2010
+MACHINE 01
+                                          
+  BON                    METHOD         GROSS       VO/RE/AD      MEGA.DISC            NET          MEGA         OTHER          CASH
+  ------------------     -------- -----------   -------------  -------------   -----------   -----------   -----------   -----------
+  XXX.XXX.XX.XXXXXXX     MEGA     XXX,XXX,XXX   (XXX,XXX,XXX)  (XXX,XXX,XXX)   XXX,XXX,XXX   XXX,XXX,XXX   XXX,XXX,XXX   XXX,XXX,XXX
+  XXX.XXX.XX.XXXXXXX     MEGA     XXX,XXX,XXX   (XXX,XXX,XXX)  (XXX,XXX,XXX)   XXX,XXX,XXX   XXX,XXX,XXX   XXX,XXX,XXX   XXX,XXX,XXX
+  XXX.XXX.XX.XXXXXXX     MEGA     XXX,XXX,XXX   (XXX,XXX,XXX)  (XXX,XXX,XXX)   XXX,XXX,XXX   XXX,XXX,XXX   XXX,XXX,XXX   XXX,XXX,XXX
+  XXX.XXX.XX.XXXXXXX     MEGA     XXX,XXX,XXX   (XXX,XXX,XXX)  (XXX,XXX,XXX)   XXX,XXX,XXX   XXX,XXX,XXX   XXX,XXX,XXX   XXX,XXX,XXX
+  XXX.XXX.XX.XXXXXXX     MEGA     XXX,XXX,XXX   (XXX,XXX,XXX)  (XXX,XXX,XXX)   XXX,XXX,XXX   XXX,XXX,XXX   XXX,XXX,XXX   XXX,XXX,XXX
+  XXX.XXX.XX.XXXXXXX     MEGA     XXX,XXX,XXX   (XXX,XXX,XXX)  (XXX,XXX,XXX)   XXX,XXX,XXX   XXX,XXX,XXX   XXX,XXX,XXX   XXX,XXX,XXX
+                                  ==================================================================================================  
+                         TOTAL    XXX,XXX,XXX   (XXX,XXX,XXX)  (XXX,XXX,XXX)   XXX,XXX,XXX   XXX,XXX,XXX   XXX,XXX,XXX   XXX,XXX,XXX
+
+ 
+LAPORAN PEMBAYARAN
+BAZAR PLASA INDONESIA 
+MACHINE 02
+  
+  EDC     TYPE          VALUE
+  EDC01   MEGA    XXX,XXX,XXX     0000.0000.0000.0000  $$$$$$$$$$$$$$$$$
+  EDC01   MEGA    XXX,XXX,XXX     0000.0000.0000.0000  $$$$$$$$$$$$$$$$$
+  EDC01   MEGA    XXX,XXX,XXX     0000.0000.0000.0000  $$$$$$$$$$$$$$$$$
+  EDC01   MEGA    XXX,XXX,XXX     0000.0000.0000.0000  $$$$$$$$$$$$$$$$$
+                  ----------- 
+  TOTAL EDC01     XXX,XXX,XXX
+
+  EDC02   MEGA    XXX,XXX,XXX     0000.0000.0000.0000  $$$$$$$$$$$$$$$$$
+  EDC02   MEGA    XXX,XXX,XXX     0000.0000.0000.0000  $$$$$$$$$$$$$$$$$
+  EDC02   MEGA    XXX,XXX,XXX     0000.0000.0000.0000  $$$$$$$$$$$$$$$$$
+  EDC02   MEGA    XXX,XXX,XXX     0000.0000.0000.0000  $$$$$$$$$$$$$$$$$
+  EDC02   MEGA    XXX,XXX,XXX     0000.0000.0000.0000  $$$$$$$$$$$$$$$$$
+                  -----------
+  TOTAL EDC02     XXX,XXX,XXX
+  
+                  
+  TOTAL EDC       XXX,XXX,XXX
+  TOTAL CASH      XXX,XXX,XXX
+                  =========== 
+  GRAND TOTAL     XXX,XXX,XXX
+
+

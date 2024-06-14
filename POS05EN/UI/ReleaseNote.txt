@@ -1,0 +1,10 @@
+v5.11 rev 1
+Di release untuk keperluan TransStudio Makasssar
+tgl 1 May 2011
+
+
+
+v5.11 rev 2
+Di release untuk keperluan blok credit card
+tgl 3 May 2011
+
