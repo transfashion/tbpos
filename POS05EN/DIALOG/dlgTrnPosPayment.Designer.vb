@@ -809,7 +809,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentInformation.Location = New System.Drawing.Point(2, 288)
         Me.objPaymentInformation.Name = "objPaymentInformation"
         Me.objPaymentInformation.Size = New System.Drawing.Size(482, 293)
-        Me.objPaymentInformation.TabIndex = 1
+        Me.objPaymentInformation.TabIndex = 0
         '
         'objPaymentEdcName
         '
@@ -818,7 +818,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentEdcName.Location = New System.Drawing.Point(201, 112)
         Me.objPaymentEdcName.Name = "objPaymentEdcName"
         Me.objPaymentEdcName.Size = New System.Drawing.Size(205, 15)
-        Me.objPaymentEdcName.TabIndex = 35
+        Me.objPaymentEdcName.TabIndex = 18
         Me.objPaymentEdcName.Text = "objPaymentEdcName"
         Me.objPaymentEdcName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -834,7 +834,7 @@ Partial Class dlgTrnPosPayment
         Me.btn_Qris.Margin = New System.Windows.Forms.Padding(0)
         Me.btn_Qris.Name = "btn_Qris"
         Me.btn_Qris.Size = New System.Drawing.Size(104, 36)
-        Me.btn_Qris.TabIndex = 34
+        Me.btn_Qris.TabIndex = 21
         Me.btn_Qris.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btn_Allo
@@ -848,7 +848,7 @@ Partial Class dlgTrnPosPayment
         Me.btn_Allo.Margin = New System.Windows.Forms.Padding(0)
         Me.btn_Allo.Name = "btn_Allo"
         Me.btn_Allo.Size = New System.Drawing.Size(104, 36)
-        Me.btn_Allo.TabIndex = 19
+        Me.btn_Allo.TabIndex = 20
         Me.btn_Allo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btnSelectEDC
@@ -862,7 +862,7 @@ Partial Class dlgTrnPosPayment
         Me.btnSelectEDC.Name = "btnSelectEDC"
         Me.btnSelectEDC.Padding = New System.Windows.Forms.Padding(2)
         Me.btnSelectEDC.Size = New System.Drawing.Size(25, 19)
-        Me.btnSelectEDC.TabIndex = 8
+        Me.btnSelectEDC.TabIndex = 17
         Me.btnSelectEDC.Text = "..."
         '
         'Label19
@@ -873,7 +873,7 @@ Partial Class dlgTrnPosPayment
         Me.Label19.Location = New System.Drawing.Point(4, 36)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(15, 15)
-        Me.Label19.TabIndex = 33
+        Me.Label19.TabIndex = 1
         Me.Label19.Text = "^"
         Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -885,7 +885,7 @@ Partial Class dlgTrnPosPayment
         Me.Label17.Location = New System.Drawing.Point(303, 62)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(68, 15)
-        Me.Label17.TabIndex = 32
+        Me.Label17.TabIndex = 11
         Me.Label17.Text = "Approval"
         Me.Label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -896,7 +896,7 @@ Partial Class dlgTrnPosPayment
         Me.objApproval.MaxLength = 100
         Me.objApproval.Name = "objApproval"
         Me.objApproval.Size = New System.Drawing.Size(102, 20)
-        Me.objApproval.TabIndex = 31
+        Me.objApproval.TabIndex = 12
         '
         'objPaymentShortcut
         '
@@ -904,7 +904,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentShortcut.Location = New System.Drawing.Point(405, 111)
         Me.objPaymentShortcut.Name = "objPaymentShortcut"
         Me.objPaymentShortcut.Size = New System.Drawing.Size(70, 64)
-        Me.objPaymentShortcut.TabIndex = 30
+        Me.objPaymentShortcut.TabIndex = 19
         Me.objPaymentShortcut.Text = "Shortcut"
         Me.objPaymentShortcut.TextAlign = System.Drawing.ContentAlignment.TopRight
         Me.objPaymentShortcut.Visible = False
@@ -916,7 +916,7 @@ Partial Class dlgTrnPosPayment
         Me.lblSCardHolder.Location = New System.Drawing.Point(281, 85)
         Me.lblSCardHolder.Name = "lblSCardHolder"
         Me.lblSCardHolder.Size = New System.Drawing.Size(87, 20)
-        Me.lblSCardHolder.TabIndex = 23
+        Me.lblSCardHolder.TabIndex = 13
         Me.lblSCardHolder.Text = "$$$$$$$$$$$$$$$"
         Me.lblSCardHolder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -927,7 +927,7 @@ Partial Class dlgTrnPosPayment
         Me.lblSCardNumber.Location = New System.Drawing.Point(377, 85)
         Me.lblSCardNumber.Name = "lblSCardNumber"
         Me.lblSCardNumber.Size = New System.Drawing.Size(97, 20)
-        Me.lblSCardNumber.TabIndex = 22
+        Me.lblSCardNumber.TabIndex = 14
         Me.lblSCardNumber.Text = "0000 0000 0000 0000"
         Me.lblSCardNumber.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -938,7 +938,7 @@ Partial Class dlgTrnPosPayment
         Me.Label13.Location = New System.Drawing.Point(282, 229)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(16, 15)
-        Me.Label13.TabIndex = 14
+        Me.Label13.TabIndex = 24
         Me.Label13.Text = "of"
         Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -950,7 +950,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentOutstanding.Location = New System.Drawing.Point(294, 221)
         Me.objPaymentOutstanding.Name = "objPaymentOutstanding"
         Me.objPaymentOutstanding.Size = New System.Drawing.Size(68, 29)
-        Me.objPaymentOutstanding.TabIndex = 15
+        Me.objPaymentOutstanding.TabIndex = 25
         Me.objPaymentOutstanding.Text = "99,999,999"
         Me.objPaymentOutstanding.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -962,7 +962,7 @@ Partial Class dlgTrnPosPayment
         Me.lblPaymentCash.Location = New System.Drawing.Point(4, 264)
         Me.lblPaymentCash.Name = "lblPaymentCash"
         Me.lblPaymentCash.Size = New System.Drawing.Size(67, 15)
-        Me.lblPaymentCash.TabIndex = 16
+        Me.lblPaymentCash.TabIndex = 26
         Me.lblPaymentCash.Text = "CA&SH"
         Me.lblPaymentCash.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -974,7 +974,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentCash.MaxLength = 12
         Me.objPaymentCash.Name = "objPaymentCash"
         Me.objPaymentCash.Size = New System.Drawing.Size(198, 29)
-        Me.objPaymentCash.TabIndex = 17
+        Me.objPaymentCash.TabIndex = 27
         Me.objPaymentCash.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'Label1
@@ -985,7 +985,7 @@ Partial Class dlgTrnPosPayment
         Me.Label1.Location = New System.Drawing.Point(377, 270)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(98, 15)
-        Me.Label1.TabIndex = 21
+        Me.Label1.TabIndex = 28
         Me.Label1.Text = "Add to Payment [F5]"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -996,7 +996,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentTypeName.Location = New System.Drawing.Point(132, 36)
         Me.objPaymentTypeName.Name = "objPaymentTypeName"
         Me.objPaymentTypeName.Size = New System.Drawing.Size(111, 15)
-        Me.objPaymentTypeName.TabIndex = 3
+        Me.objPaymentTypeName.TabIndex = 4
         Me.objPaymentTypeName.Text = "objPaymentTypeName"
         Me.objPaymentTypeName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -1008,7 +1008,7 @@ Partial Class dlgTrnPosPayment
         Me.lblPaymentValue.Location = New System.Drawing.Point(4, 229)
         Me.lblPaymentValue.Name = "lblPaymentValue"
         Me.lblPaymentValue.Size = New System.Drawing.Size(67, 15)
-        Me.lblPaymentValue.TabIndex = 12
+        Me.lblPaymentValue.TabIndex = 22
         Me.lblPaymentValue.Text = "&Value"
         Me.lblPaymentValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -1020,7 +1020,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentValue.MaxLength = 12
         Me.objPaymentValue.Name = "objPaymentValue"
         Me.objPaymentValue.Size = New System.Drawing.Size(198, 29)
-        Me.objPaymentValue.TabIndex = 13
+        Me.objPaymentValue.TabIndex = 23
         Me.objPaymentValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'lblPaymentEdc
@@ -1031,7 +1031,7 @@ Partial Class dlgTrnPosPayment
         Me.lblPaymentEdc.Location = New System.Drawing.Point(4, 115)
         Me.lblPaymentEdc.Name = "lblPaymentEdc"
         Me.lblPaymentEdc.Size = New System.Drawing.Size(67, 15)
-        Me.lblPaymentEdc.TabIndex = 10
+        Me.lblPaymentEdc.TabIndex = 15
         Me.lblPaymentEdc.Text = "&E.D.C"
         Me.lblPaymentEdc.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -1041,7 +1041,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentEdc.Name = "objPaymentEdc"
         Me.objPaymentEdc.ReadOnly = True
         Me.objPaymentEdc.Size = New System.Drawing.Size(72, 20)
-        Me.objPaymentEdc.TabIndex = 11
+        Me.objPaymentEdc.TabIndex = 16
         '
         'lblPaymentCardHolder
         '
@@ -1051,7 +1051,7 @@ Partial Class dlgTrnPosPayment
         Me.lblPaymentCardHolder.Location = New System.Drawing.Point(4, 89)
         Me.lblPaymentCardHolder.Name = "lblPaymentCardHolder"
         Me.lblPaymentCardHolder.Size = New System.Drawing.Size(67, 15)
-        Me.lblPaymentCardHolder.TabIndex = 8
+        Me.lblPaymentCardHolder.TabIndex = 7
         Me.lblPaymentCardHolder.Text = "Card.&Holder"
         Me.lblPaymentCardHolder.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -1062,7 +1062,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentCardHolder.MaxLength = 100
         Me.objPaymentCardHolder.Name = "objPaymentCardHolder"
         Me.objPaymentCardHolder.Size = New System.Drawing.Size(198, 20)
-        Me.objPaymentCardHolder.TabIndex = 9
+        Me.objPaymentCardHolder.TabIndex = 8
         '
         'objPaymentCardNumber
         '
@@ -1070,7 +1070,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentCardNumber.MaxLength = 100
         Me.objPaymentCardNumber.Name = "objPaymentCardNumber"
         Me.objPaymentCardNumber.Size = New System.Drawing.Size(198, 20)
-        Me.objPaymentCardNumber.TabIndex = 7
+        Me.objPaymentCardNumber.TabIndex = 6
         '
         'lblPaymentCardNumber
         '
@@ -1080,7 +1080,7 @@ Partial Class dlgTrnPosPayment
         Me.lblPaymentCardNumber.Location = New System.Drawing.Point(4, 63)
         Me.lblPaymentCardNumber.Name = "lblPaymentCardNumber"
         Me.lblPaymentCardNumber.Size = New System.Drawing.Size(67, 15)
-        Me.lblPaymentCardNumber.TabIndex = 6
+        Me.lblPaymentCardNumber.TabIndex = 5
         Me.lblPaymentCardNumber.Text = "&Card.Number"
         Me.lblPaymentCardNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -1091,7 +1091,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentBank.MaxLength = 100
         Me.objPaymentBank.Name = "objPaymentBank"
         Me.objPaymentBank.Size = New System.Drawing.Size(102, 20)
-        Me.objPaymentBank.TabIndex = 5
+        Me.objPaymentBank.TabIndex = 10
         '
         'lblPaymentBank
         '
@@ -1101,7 +1101,7 @@ Partial Class dlgTrnPosPayment
         Me.lblPaymentBank.Location = New System.Drawing.Point(333, 36)
         Me.lblPaymentBank.Name = "lblPaymentBank"
         Me.lblPaymentBank.Size = New System.Drawing.Size(38, 15)
-        Me.lblPaymentBank.TabIndex = 4
+        Me.lblPaymentBank.TabIndex = 9
         Me.lblPaymentBank.Text = "&Bank"
         Me.lblPaymentBank.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -1113,7 +1113,7 @@ Partial Class dlgTrnPosPayment
         Me.lblobjPaymentType.Location = New System.Drawing.Point(37, 37)
         Me.lblobjPaymentType.Name = "lblobjPaymentType"
         Me.lblobjPaymentType.Size = New System.Drawing.Size(34, 15)
-        Me.lblobjPaymentType.TabIndex = 1
+        Me.lblobjPaymentType.TabIndex = 2
         Me.lblobjPaymentType.Text = "&Type"
         Me.lblobjPaymentType.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -1123,7 +1123,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentType.Name = "objPaymentType"
         Me.objPaymentType.ReadOnly = True
         Me.objPaymentType.Size = New System.Drawing.Size(49, 20)
-        Me.objPaymentType.TabIndex = 2
+        Me.objPaymentType.TabIndex = 3
         '
         'lblPaymentInformation
         '
