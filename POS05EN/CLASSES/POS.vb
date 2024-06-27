@@ -27,6 +27,10 @@ Namespace TransStore
         Public Shared PaymentNumerator As Integer = 0
         Public Shared PrinterName As String
         Public Shared AllowBackDatedEntry As Boolean = False
+
+       
+
+
         Public SynSignID As String = ""
 
         Private mType As String
@@ -41,6 +45,7 @@ Namespace TransStore
 
         Private mSessionId, mClientName As String
         Private mMachineID, mBranchId, mRegionId, mRegionPathFilter, mEvent, mPrinterDefault, mReceiptPrinter, mLogo, mNPWP, mRPCAddress, mQrisProxy As String
+        Private mSiteName As String
         Private mUsername As String
         Private mui As uiTrnPosEN
         Private mBonType As String
@@ -68,7 +73,6 @@ Namespace TransStore
         Private _BolehDiscPayment As Boolean
         Private _AllowedPaymenttype As Collection = New Collection()
         Private _PromoApplied As Boolean = False
-
 
         Private _PosPromo As PosPromo
 
@@ -668,7 +672,11 @@ Namespace TransStore
 
         Public Property BranchId() As String
             Get
-                Return Me.mBranchId
+                If Me.IsDevelopmentMode Then
+                    Return Config.DevBranchId
+                Else
+                    Return Me.mBranchId
+                End If
             End Get
             Set(ByVal value As String)
                 Me.mBranchId = value
@@ -677,12 +685,31 @@ Namespace TransStore
 
         Public Property RegionId() As String
             Get
-                Return Me.mRegionId
+                If Me.IsDevelopmentMode Then
+                    Return Config.DevRegionId
+                Else
+                    Return Me.mRegionId
+                End If
             End Get
             Set(ByVal value As String)
                 Me.mRegionId = value
             End Set
         End Property
+
+
+        Public Property SiteName() As String
+            Get
+                If Me.IsDevelopmentMode Then
+                    Return "DEV " & Me.RegionId & ":" & Me.BranchId
+                Else
+                    Return Me.mSiteName
+                End If
+            End Get
+            Set(ByVal value As String)
+                Me.mSiteName = value
+            End Set
+        End Property
+
 
         Public Property NPWP() As String
             Get
@@ -1955,6 +1982,109 @@ Namespace TransStore
             Return ret
         End Function
 
+
+
+        Public Function GetPaymentDiscount(ByVal pospayment_id As String, ByVal region_id As String) As DiscountPayment
+            Dim d As DiscountPayment
+
+            ' Ambil data dari Database
+            Dim dsn As String = POS.DSN
+            Dim conn As OleDb.OleDbConnection = New OleDb.OleDbConnection(dsn)
+            Dim sql As String = ""
+            Dim tbl As DataTable = New DataTable()
+
+
+            Try
+                Dim cmd As OleDb.OleDbCommand
+                Dim da As OleDb.OleDbDataAdapter
+
+                conn.Open()
+                sql = "select " & vbCrLf & _
+                      " * " & vbCrLf & _
+                      "from master_pospaymentdisc " & vbCrLf & _
+                      "where pospayment_id = '" & pospayment_id & "' and region_id='" & region_id & "' and branch_id='0' "
+                cmd = New OleDb.OleDbCommand(sql, conn)
+                da = New OleDb.OleDbDataAdapter(cmd)
+                da.Fill(tbl)
+
+
+                If tbl.Rows.Count = 0 Then
+                    Return d
+                End If
+
+                ' Ada informasi discount payment 
+                Dim row As DataRow = tbl.Rows(0)
+                Dim dtstart As Date = CDate(row("date_start"))
+                Dim dtend As Date = CDate(row("date_end"))
+                If (Now.Date < dtstart Or Now.Date > dtend) Then
+                    ' Tanggal tidak sesuai
+                    Return d
+                End If
+
+                d.DiscountPercentage = CDec(row("disc_percent"))
+                d.MinimumValuePurchase = CDec(row("minpurchase_value"))
+                d.MaximumDiscountValue = CDec(row("maxdisc_value"))
+
+                Return d
+
+            Catch ex As Exception
+                Throw ex
+            Finally
+                conn.Close()
+            End Try
+
+        End Function
+
+
+        Public Function GetPosPayment(ByVal pospayment_id As String) As PosPayment
+            ' Ambil data dari Database
+            Dim dsn As String = POS.DSN
+            Dim conn As OleDb.OleDbConnection = New OleDb.OleDbConnection(dsn)
+            Dim sql As String = ""
+            Dim tbl As DataTable = New DataTable()
+
+            Try
+                Dim cmd As OleDb.OleDbCommand
+                Dim da As OleDb.OleDbDataAdapter
+
+                conn.Open()
+                sql = "select " & vbCrLf & _
+                      " * " & vbCrLf & _
+                      "from master_pospayment " & vbCrLf & _
+                      "where pospayment_id = '" & pospayment_id & "' and pospayment_isdisabled=0 "
+                cmd = New OleDb.OleDbCommand(sql, conn)
+                da = New OleDb.OleDbDataAdapter(cmd)
+                da.Fill(tbl)
+
+                If tbl.Rows.Count = 0 Then
+                    Return Nothing
+                End If
+
+
+                Dim row As DataRow = tbl.Rows(0)
+                Dim p As PosPayment
+                'pospayment_id	pospayment_name	pospayment_disc	pospayment_isdisabled	pospayment_iscash	pospayment_isvoucher	pospayment_vouchervalue	pospayment_order	pospayment_multi	pospayment_prefix	pospayment_minpaid	pospayment_shortcut	pospayment_bankname	pospayment_isvoucherdisabled	pospayment_isadddiscdisabled	pospayment_isredeemdisabled	pospayment_discvalue	pospayment_discminpurchase	pospayment_maxitemdiscallowed
+
+
+                p.Id = CStr(row("pospayment_id"))
+                p.Name = CStr(row("pospayment_name"))
+                p.Disc = CDec(row("pospayment_disc"))
+                p.DiscValue = CDec(row("pospayment_discvalue"))
+                p.IsCash = CBool(row("pospayment_iscash"))
+                p.IsVoucher = CBool(row("pospayment_isvoucher"))
+                p.IsMulti = CBool(row("pospayment_multi"))
+                p.VoucherValue = CDec(row("pospayment_vouchervalue"))
+                p.Order = CInt(row("pospayment_order"))
+                p.MinimumPurchase = CDec(row("pospayment_discminpurchase"))
+                p.MaximumItemDiscAllowed = CDec(row("pospayment_maxitemdiscallowed"))
+
+                Return p
+            Catch ex As Exception
+                Throw ex
+            Finally
+                conn.Close()
+            End Try
+        End Function
 
 
         Public Function LoadPaymentType() As DataTable
@@ -3286,7 +3416,7 @@ Namespace TransStore
 
                 ' Fill Initial Data
                 ' dim site_name as String = Me.region_n
-                Dim site_name As String = Me.GetLocationStatus()
+                Dim site_name As String = Me.SiteName
                 Dim site_id As String = Me.RegionId & ":" & Me.BranchId
 
                 sql = " IF NOT EXISTS (SELECT * FROM master_site WHERE site_id='" & site_id & "') " & _
@@ -3332,9 +3462,33 @@ Namespace TransStore
                 cmd.ExecuteNonQuery()
 
 
+                sql = " IF NOT EXISTS (SELECT *  FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[master_pospayment]')  AND name = 'pospayment_maxitemdiscallowed') " & _
+                                     " BEGIN " & _
+                                     "    ALTER TABLE master_pospayment ADD pospayment_maxitemdiscallowed decimal(5,2) not null default 100 " & _
+                                     " END"
+                cmd = New OleDb.OleDbCommand(sql, conn)
+                cmd.ExecuteNonQuery()
 
 
-
+                ' Tambahkan Table untuk discount paymnet
+                sql = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  TABLE_NAME = 'master_pospaymentdisc') " & vbCrLf & _
+                      "BEGIN" & vbCrLf & _
+                      " CREATE TABLE master_pospaymentdisc (" & vbCrLf & _
+                      "     pospayment_id varchar(10) not null," & vbCrLf & _
+                      "   	region_id varchar(5) not null," & vbCrLf & _
+                      "   	branch_id varchar(7) not null," & vbCrLf & _
+                      "     disc_percent decimal(5,2) not null default 0," & vbCrLf & _
+                      "     disc_value decimal(9, 0) not null default 0," & vbCrLf & _
+                      "     minpurchase_value decimal(9, 0) not null default 0," & vbCrLf & _
+                      "     minpurchase_qty int not null default 0," & vbCrLf & _
+                      "     maxdisc_value decimal(9, 0) not null default 0," & vbCrLf & _
+                      "     date_start date not null," & vbCrLf & _
+                      "     date_end date not null," & vbCrLf & _
+                      "     primary key(pospayment_id, region_id, branch_id)" & vbCrLf & _
+                      " )" & vbCrLf & _
+                      "END"
+                cmd = New OleDb.OleDbCommand(sql, conn)
+                cmd.ExecuteNonQuery()
 
             Catch ex As Exception
                 Throw ex
@@ -3382,15 +3536,15 @@ Namespace TransStore
 
 
 
-        Public Function GetExistingPaymentToday(ByVal cardnumber As String, ByVal pospayment_id As String) As Decimal
-            Try
+        'Public Function GetExistingPaymentToday(ByVal cardnumber As String, ByVal pospayment_id As String) As Decimal
+        '    Try
 
 
 
-            Catch ex As Exception
-                Throw ex
-            End Try
-        End Function
+        '    Catch ex As Exception
+        '        Throw ex
+        '    End Try
+        'End Function
 
 
 
@@ -6408,6 +6562,36 @@ Namespace TransStore
         Dim SENDDATAVER As String
     End Structure
 
+
+    Public Structure DiscountPayment
+        'Nilai Discount
+        Dim DiscountPercentage As Decimal
+        Dim DiscountValue As Decimal
+
+        'Syarat
+        Dim MinimumQtyPurchase As Integer
+        Dim MinimumValuePurchase As Decimal
+
+        ' Limitasi
+        Dim MaximumDiscountValue As Decimal
+    End Structure
+
+
+    Public Structure PosPayment
+        ' pospayment_id	pospayment_name	pospayment_disc	pospayment_isdisabled	pospayment_iscash	pospayment_isvoucher	pospayment_vouchervalue	
+        'pospayment_order	pospayment_multi	pospayment_prefix	pospayment_minpaid	pospayment_shortcut	pospayment_bankname	pospayment_isvoucherdisabled	pospayment_isadddiscdisabled	pospayment_isredeemdisabled	pospayment_discvalue	pospayment_discminpurchase	pospayment_maxitemdiscallowed
+        Dim Id As String
+        Dim Name As String
+        Dim Disc As Decimal
+        Dim DiscValue As Decimal
+        Dim IsCash As Boolean
+        Dim IsVoucher As Boolean
+        Dim VoucherValue As Decimal
+        Dim Order As Integer
+        Dim IsMulti As Boolean
+        Dim MinimumPurchase As Decimal
+        Dim MaximumItemDiscAllowed As Decimal
+    End Structure
 
 #End Region
 

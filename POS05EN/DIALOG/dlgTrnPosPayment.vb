@@ -307,10 +307,19 @@ Public Class dlgTrnPosPayment
                         If Not ret And Me.objPaymentBank.Text = "" Then
                             Me.objPaymentBank.Focus()
                         Else
-                            Me.objPaymentValue.Focus()
+                            Me.objApproval.Focus()
                         End If
                         Exit Function
                 End Select
+
+
+            Case "objApproval"
+                Dim objTextbox As TextBox = CType(sender, TextBox)
+                If keycode = Keys.Enter Then
+                    If Trim(objTextbox.Text) <> "" Then
+                        Me.objPaymentValue.Focus()
+                    End If
+                End If
 
 
             Case "objPaymentValue"
@@ -687,24 +696,6 @@ Public Class dlgTrnPosPayment
             obj.Value = CDec(Me.objPaymentValue.Text)
             obj.Cash = CDec(Me.objPaymentCash.Text)
             obj.Approval = Me.objApproval.Text
-
-
-            ' ntuk pospayment 127 & 129 hanya boleh dipakai sehari sekali
-            If obj.Type = "127" Or obj.Type = "129" Then
-                ' Cek apakah di hari ini sudah ada transaksi menggunakan CardNumber ini
-
-                Dim pay = Me.POS.GetExistingPaymentToday(obj.CardNumber, obj.Type)
-                If pay > 0 Then
-
-
-
-                End If
-            End If
-
-
-
-
-
         Catch ex As Exception
             Return False
         End Try
@@ -825,6 +816,18 @@ Public Class dlgTrnPosPayment
             End If
 
 
+            ' Cek Approval harus diisi
+            msg = "Code approval belum diisi"
+            If Trim(obj.Approval) = "" Then
+                Me.objApproval.BackColor = Color.LightCoral
+                Me.objApproval.Focus()
+                Me.objErrorProvider.SetError(Me.objApproval, msg)
+                MessageBox.Show(msg, "Payment", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Function
+            Else
+                Me.objApproval.BackColor = Nothing
+                Me.objErrorProvider.SetError(Me.objApproval, "")
+            End If
 
             '' Cek Promo KArtu Metro
             '' Tambahan potongan harga dengan minimum transaksi :
@@ -842,7 +845,6 @@ Public Class dlgTrnPosPayment
             '    Else
             '    End If
             'End If
-
 
 
             Dim MyPaymentType As String = Me.objPaymentTypeName.Text
@@ -1386,6 +1388,9 @@ Public Class dlgTrnPosPayment
             Me.lblPaymentCash.Enabled = True
             Me.objPaymentCash.Enabled = True
 
+            Me.objApproval.Enabled = False
+            Me.lblApproval.Enabled = False
+
             ' Me.objPaymentCash.Focus()
 
             Me.objPaymentValue.Text = Me.objPaymentOutstanding.Text
@@ -1429,6 +1434,9 @@ Public Class dlgTrnPosPayment
                 Me.objPaymentCardHolder.Enabled = True
             End If
 
+
+            Me.objApproval.Enabled = Me.objPaymentCardNumber.Enabled
+            Me.lblApproval.Enabled = Me.objApproval.Enabled
 
             Me.lblPaymentCardHolder.Enabled = True
 
@@ -1666,6 +1674,7 @@ Public Class dlgTrnPosPayment
             objPaymentBank.KeyDown, _
             objPaymentCardNumber.KeyDown, _
             objPaymentCardHolder.KeyDown, _
+            objApproval.KeyDown, _
             objPaymentEdc.KeyDown, _
             objPaymentValue.KeyDown, _
             objPaymentInstallment.KeyDown, _
@@ -1699,10 +1708,6 @@ Public Class dlgTrnPosPayment
     Private Sub dlg_ItemCalculate()
 
 
-
-
-
-
         ' Hitung total qty
         Dim sumqty As Object = Me.POS.PosItems.Compute("Sum(bondetil_qty)", "")
         If IsDBNull(sumqty) Then
@@ -1724,24 +1729,51 @@ Public Class dlgTrnPosPayment
 
 
 
-        ' Default tanpa discount payment
+
+        ' inisiasi transaksi tanpa discount payment
         Dim discvalue As Decimal = 0
         Me.objPaymentDiscDescr.Text = String.Format("Using {0} with no additional disc.", Me.SelectedPaymentName)
 
-        If (Me.SelectedPaymentDiscValue > 0) Then
-            If (sumsubtotal >= Me.SelectedPaymentDiscMinPurchase) Then
-                discvalue = Me.SelectedPaymentDiscValue
-                Me.objPaymentDiscDescr.Text = String.Format("Using {0} with additional disc {1:#0}", Me.SelectedPaymentName, Me.SelectedPaymentDiscValue)
-            End If
-        ElseIf (Me.SelectedPaymentDisc > 0) Then
-            discvalue = (Me.SelectedPaymentDisc / 100) * CDec(sumsubtotal)
-            Me.objPaymentDiscDescr.Text = String.Format("Using {0} with additional disc {1:#0}%", Me.SelectedPaymentName, Me.SelectedPaymentDisc)
-        Else
-            discvalue = 0
-            Me.objPaymentDiscDescr.Text = String.Format("Using {0} with no additional disc.", Me.SelectedPaymentName)
+
+        ' Cek apakah ada discount brand untuk payment yang dipilih
+        ' pada GetPaymentDiscount akan ambil discount di brand dan tanggal tertentu
+        Dim paymdisc As TransStore.DiscountPayment = Me.POS.GetPaymentDiscount(Me.SelectedPaymentId, Me.POS.RegionId)
+        If paymdisc.DiscountPercentage > 0 Or paymdisc.DiscountValue > 0 Then
+            Me.SelectedPaymentDiscValue = paymdisc.DiscountValue
+            Me.SelectedPaymentDisc = paymdisc.DiscountPercentage
+            Me.SelectedPaymentDiscMinPurchase = paymdisc.MinimumValuePurchase
         End If
 
 
+        ' Hitung nilai discount payment dan tampilkan ke layar
+        Dim limit As String
+        If (Me.SelectedPaymentDiscValue > 0) Then
+            If (sumsubtotal >= Me.SelectedPaymentDiscMinPurchase) Then
+                ' Discount menggunakan fix angka rupiah
+                discvalue = Me.SelectedPaymentDiscValue
+                Me.objPaymentDiscDescr.Text = String.Format("Using {0} with additional disc {1:#0}", Me.SelectedPaymentName, Me.SelectedPaymentDiscValue)
+            End If
+
+        ElseIf (Me.SelectedPaymentDisc > 0) Then
+            If (sumsubtotal >= Me.SelectedPaymentDiscMinPurchase) Then
+                ' Discount menggunakan persentase
+                discvalue = (Me.SelectedPaymentDisc / 100) * CDec(sumsubtotal)
+
+                ' limit discount value
+                limit = ""
+                If discvalue > paymdisc.MaximumDiscountValue And paymdisc.MaximumDiscountValue > 0 Then
+                    discvalue = paymdisc.MaximumDiscountValue
+                    limit = String.Format("max {0:#,##0}", paymdisc.MaximumDiscountValue)
+                End If
+                Me.objPaymentDiscDescr.Text = String.Format("Using {0} with additional disc {1:#0}% {2}", Me.SelectedPaymentName, Me.SelectedPaymentDisc, limit)
+            End If
+
+        Else
+            ' Tanpa discount
+            discvalue = 0
+            Me.objPaymentDiscDescr.Text = String.Format("Using {0} with no additional disc.", Me.SelectedPaymentName)
+
+        End If
 
         Me.objPaymentDiscValue.Text = discvalue
 
@@ -2403,7 +2435,7 @@ Public Class dlgTrnPosPayment
 
 
   
-    Private Sub Label1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Label1.Click
+    Private Sub Label1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
 
@@ -2613,5 +2645,9 @@ Public Class dlgTrnPosPayment
 
     Private Sub lblFinish02_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblFinish02.Click
 
+    End Sub
+
+    Private Sub btnAddToPayment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddToPayment.Click
+        Me.Key(sender, Keys.F5, False, Nothing)
     End Sub
 End Class

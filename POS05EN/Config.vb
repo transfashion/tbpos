@@ -21,4 +21,8 @@ Public Class Config
     Public Shared WebserviceObjectModule As String = "uitrninventorymoving"
 
 
+
+    Public Shared DevRegionId As String = "02600"
+    Public Shared DevBranchId As String = "0000600"
+
 End Class
