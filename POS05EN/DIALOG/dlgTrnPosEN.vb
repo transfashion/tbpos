@@ -394,9 +394,9 @@ Public Class dlgTrnPosEN
             End If
 
 
-            ' Cek discount item maximal
+            ' Cek discount item maximal selain GWP (100%)
             Dim bondetil_discpstd01 As Decimal = CDec(row.Cells("bondetil_discpstd01").Value)
-            If bondetil_discpstd01 > maxdiscitem Then
+            If bondetil_discpstd01 < 100 And bondetil_discpstd01 > maxdiscitem Then
                 maxdiscitem = bondetil_discpstd01
             End If
 
