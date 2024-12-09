@@ -76,12 +76,13 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentVoucher = New System.Windows.Forms.TextBox
         Me.Label5 = New System.Windows.Forms.Label
         Me.objPaymentInformation = New System.Windows.Forms.Panel
+        Me.btnAddToPayment = New System.Windows.Forms.Label
         Me.objPaymentEdcName = New System.Windows.Forms.Label
         Me.btn_Qris = New System.Windows.Forms.Label
         Me.btn_Allo = New System.Windows.Forms.Label
         Me.btnSelectEDC = New System.Windows.Forms.Label
         Me.Label19 = New System.Windows.Forms.Label
-        Me.Label17 = New System.Windows.Forms.Label
+        Me.lblApproval = New System.Windows.Forms.Label
         Me.objApproval = New System.Windows.Forms.TextBox
         Me.objPaymentShortcut = New System.Windows.Forms.Label
         Me.lblSCardHolder = New System.Windows.Forms.Label
@@ -90,7 +91,6 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentOutstanding = New System.Windows.Forms.Label
         Me.lblPaymentCash = New System.Windows.Forms.Label
         Me.objPaymentCash = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
         Me.objPaymentTypeName = New System.Windows.Forms.Label
         Me.lblPaymentValue = New System.Windows.Forms.Label
         Me.objPaymentValue = New System.Windows.Forms.TextBox
@@ -120,7 +120,6 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentCustomerInformation.SuspendLayout()
         Me.objPaymentAdditional.SuspendLayout()
         Me.objPaymentInformation.SuspendLayout()
-        Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'PnlFormMain
@@ -777,12 +776,15 @@ Partial Class dlgTrnPosPayment
         '
         'objPaymentInformation
         '
+        Me.objPaymentInformation.Controls.Add(Me.lblPaymentInstallment)
+        Me.objPaymentInformation.Controls.Add(Me.objPaymentInstallment)
+        Me.objPaymentInformation.Controls.Add(Me.btnAddToPayment)
         Me.objPaymentInformation.Controls.Add(Me.objPaymentEdcName)
         Me.objPaymentInformation.Controls.Add(Me.btn_Qris)
         Me.objPaymentInformation.Controls.Add(Me.btn_Allo)
         Me.objPaymentInformation.Controls.Add(Me.btnSelectEDC)
         Me.objPaymentInformation.Controls.Add(Me.Label19)
-        Me.objPaymentInformation.Controls.Add(Me.Label17)
+        Me.objPaymentInformation.Controls.Add(Me.lblApproval)
         Me.objPaymentInformation.Controls.Add(Me.objApproval)
         Me.objPaymentInformation.Controls.Add(Me.objPaymentShortcut)
         Me.objPaymentInformation.Controls.Add(Me.lblSCardHolder)
@@ -791,7 +793,6 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentInformation.Controls.Add(Me.objPaymentOutstanding)
         Me.objPaymentInformation.Controls.Add(Me.lblPaymentCash)
         Me.objPaymentInformation.Controls.Add(Me.objPaymentCash)
-        Me.objPaymentInformation.Controls.Add(Me.Label1)
         Me.objPaymentInformation.Controls.Add(Me.objPaymentTypeName)
         Me.objPaymentInformation.Controls.Add(Me.lblPaymentValue)
         Me.objPaymentInformation.Controls.Add(Me.objPaymentValue)
@@ -809,16 +810,30 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentInformation.Location = New System.Drawing.Point(2, 288)
         Me.objPaymentInformation.Name = "objPaymentInformation"
         Me.objPaymentInformation.Size = New System.Drawing.Size(482, 293)
-        Me.objPaymentInformation.TabIndex = 1
+        Me.objPaymentInformation.TabIndex = 0
+        '
+        'btnAddToPayment
+        '
+        Me.btnAddToPayment.BackColor = System.Drawing.Color.LightGray
+        Me.btnAddToPayment.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.btnAddToPayment.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btnAddToPayment.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddToPayment.Location = New System.Drawing.Point(348, 253)
+        Me.btnAddToPayment.Margin = New System.Windows.Forms.Padding(0)
+        Me.btnAddToPayment.Name = "btnAddToPayment"
+        Me.btnAddToPayment.Size = New System.Drawing.Size(121, 29)
+        Me.btnAddToPayment.TabIndex = 29
+        Me.btnAddToPayment.Text = "Add to Payment [F5]"
+        Me.btnAddToPayment.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'objPaymentEdcName
         '
         Me.objPaymentEdcName.BackColor = System.Drawing.Color.Transparent
         Me.objPaymentEdcName.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.objPaymentEdcName.Location = New System.Drawing.Point(201, 112)
+        Me.objPaymentEdcName.Location = New System.Drawing.Point(170, 133)
         Me.objPaymentEdcName.Name = "objPaymentEdcName"
-        Me.objPaymentEdcName.Size = New System.Drawing.Size(205, 15)
-        Me.objPaymentEdcName.TabIndex = 35
+        Me.objPaymentEdcName.Size = New System.Drawing.Size(119, 15)
+        Me.objPaymentEdcName.TabIndex = 18
         Me.objPaymentEdcName.Text = "objPaymentEdcName"
         Me.objPaymentEdcName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -830,11 +845,11 @@ Partial Class dlgTrnPosPayment
         Me.btn_Qris.Enabled = False
         Me.btn_Qris.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_Qris.Image = CType(resources.GetObject("btn_Qris.Image"), System.Drawing.Image)
-        Me.btn_Qris.Location = New System.Drawing.Point(194, 147)
+        Me.btn_Qris.Location = New System.Drawing.Point(194, 156)
         Me.btn_Qris.Margin = New System.Windows.Forms.Padding(0)
         Me.btn_Qris.Name = "btn_Qris"
         Me.btn_Qris.Size = New System.Drawing.Size(104, 36)
-        Me.btn_Qris.TabIndex = 34
+        Me.btn_Qris.TabIndex = 21
         Me.btn_Qris.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btn_Allo
@@ -844,11 +859,11 @@ Partial Class dlgTrnPosPayment
         Me.btn_Allo.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btn_Allo.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_Allo.Image = CType(resources.GetObject("btn_Allo.Image"), System.Drawing.Image)
-        Me.btn_Allo.Location = New System.Drawing.Point(77, 147)
+        Me.btn_Allo.Location = New System.Drawing.Point(77, 156)
         Me.btn_Allo.Margin = New System.Windows.Forms.Padding(0)
         Me.btn_Allo.Name = "btn_Allo"
         Me.btn_Allo.Size = New System.Drawing.Size(104, 36)
-        Me.btn_Allo.TabIndex = 19
+        Me.btn_Allo.TabIndex = 20
         Me.btn_Allo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btnSelectEDC
@@ -858,11 +873,11 @@ Partial Class dlgTrnPosPayment
         Me.btnSelectEDC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.btnSelectEDC.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btnSelectEDC.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSelectEDC.Location = New System.Drawing.Point(156, 111)
+        Me.btnSelectEDC.Location = New System.Drawing.Point(249, 111)
         Me.btnSelectEDC.Name = "btnSelectEDC"
         Me.btnSelectEDC.Padding = New System.Windows.Forms.Padding(2)
         Me.btnSelectEDC.Size = New System.Drawing.Size(25, 19)
-        Me.btnSelectEDC.TabIndex = 8
+        Me.btnSelectEDC.TabIndex = 17
         Me.btnSelectEDC.Text = "..."
         '
         'Label19
@@ -873,30 +888,30 @@ Partial Class dlgTrnPosPayment
         Me.Label19.Location = New System.Drawing.Point(4, 36)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(15, 15)
-        Me.Label19.TabIndex = 33
+        Me.Label19.TabIndex = 1
         Me.Label19.Text = "^"
         Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
-        'Label17
+        'lblApproval
         '
-        Me.Label17.BackColor = System.Drawing.Color.Transparent
-        Me.Label17.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label17.ForeColor = System.Drawing.Color.DarkBlue
-        Me.Label17.Location = New System.Drawing.Point(303, 62)
-        Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(68, 15)
-        Me.Label17.TabIndex = 32
-        Me.Label17.Text = "Approval"
-        Me.Label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblApproval.BackColor = System.Drawing.Color.Transparent
+        Me.lblApproval.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblApproval.ForeColor = System.Drawing.Color.DarkBlue
+        Me.lblApproval.Location = New System.Drawing.Point(291, 62)
+        Me.lblApproval.Name = "lblApproval"
+        Me.lblApproval.Size = New System.Drawing.Size(68, 15)
+        Me.lblApproval.TabIndex = 11
+        Me.lblApproval.Text = "Approval"
+        Me.lblApproval.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'objApproval
         '
         Me.objApproval.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.objApproval.Location = New System.Drawing.Point(377, 58)
+        Me.objApproval.Location = New System.Drawing.Point(365, 58)
         Me.objApproval.MaxLength = 100
         Me.objApproval.Name = "objApproval"
         Me.objApproval.Size = New System.Drawing.Size(102, 20)
-        Me.objApproval.TabIndex = 31
+        Me.objApproval.TabIndex = 12
         '
         'objPaymentShortcut
         '
@@ -904,7 +919,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentShortcut.Location = New System.Drawing.Point(405, 111)
         Me.objPaymentShortcut.Name = "objPaymentShortcut"
         Me.objPaymentShortcut.Size = New System.Drawing.Size(70, 64)
-        Me.objPaymentShortcut.TabIndex = 30
+        Me.objPaymentShortcut.TabIndex = 19
         Me.objPaymentShortcut.Text = "Shortcut"
         Me.objPaymentShortcut.TextAlign = System.Drawing.ContentAlignment.TopRight
         Me.objPaymentShortcut.Visible = False
@@ -916,7 +931,7 @@ Partial Class dlgTrnPosPayment
         Me.lblSCardHolder.Location = New System.Drawing.Point(281, 85)
         Me.lblSCardHolder.Name = "lblSCardHolder"
         Me.lblSCardHolder.Size = New System.Drawing.Size(87, 20)
-        Me.lblSCardHolder.TabIndex = 23
+        Me.lblSCardHolder.TabIndex = 13
         Me.lblSCardHolder.Text = "$$$$$$$$$$$$$$$"
         Me.lblSCardHolder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -924,10 +939,10 @@ Partial Class dlgTrnPosPayment
         '
         Me.lblSCardNumber.BackColor = System.Drawing.Color.Transparent
         Me.lblSCardNumber.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSCardNumber.Location = New System.Drawing.Point(377, 85)
+        Me.lblSCardNumber.Location = New System.Drawing.Point(373, 85)
         Me.lblSCardNumber.Name = "lblSCardNumber"
         Me.lblSCardNumber.Size = New System.Drawing.Size(97, 20)
-        Me.lblSCardNumber.TabIndex = 22
+        Me.lblSCardNumber.TabIndex = 14
         Me.lblSCardNumber.Text = "0000 0000 0000 0000"
         Me.lblSCardNumber.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -938,7 +953,7 @@ Partial Class dlgTrnPosPayment
         Me.Label13.Location = New System.Drawing.Point(282, 229)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(16, 15)
-        Me.Label13.TabIndex = 14
+        Me.Label13.TabIndex = 24
         Me.Label13.Text = "of"
         Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -950,7 +965,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentOutstanding.Location = New System.Drawing.Point(294, 221)
         Me.objPaymentOutstanding.Name = "objPaymentOutstanding"
         Me.objPaymentOutstanding.Size = New System.Drawing.Size(68, 29)
-        Me.objPaymentOutstanding.TabIndex = 15
+        Me.objPaymentOutstanding.TabIndex = 25
         Me.objPaymentOutstanding.Text = "99,999,999"
         Me.objPaymentOutstanding.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -962,7 +977,7 @@ Partial Class dlgTrnPosPayment
         Me.lblPaymentCash.Location = New System.Drawing.Point(4, 264)
         Me.lblPaymentCash.Name = "lblPaymentCash"
         Me.lblPaymentCash.Size = New System.Drawing.Size(67, 15)
-        Me.lblPaymentCash.TabIndex = 16
+        Me.lblPaymentCash.TabIndex = 26
         Me.lblPaymentCash.Text = "CA&SH"
         Me.lblPaymentCash.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -974,20 +989,8 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentCash.MaxLength = 12
         Me.objPaymentCash.Name = "objPaymentCash"
         Me.objPaymentCash.Size = New System.Drawing.Size(198, 29)
-        Me.objPaymentCash.TabIndex = 17
+        Me.objPaymentCash.TabIndex = 27
         Me.objPaymentCash.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'Label1
-        '
-        Me.Label1.BackColor = System.Drawing.Color.Transparent
-        Me.Label1.Cursor = System.Windows.Forms.Cursors.Arrow
-        Me.Label1.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(377, 270)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(98, 15)
-        Me.Label1.TabIndex = 21
-        Me.Label1.Text = "Add to Payment [F5]"
-        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'objPaymentTypeName
         '
@@ -996,7 +999,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentTypeName.Location = New System.Drawing.Point(132, 36)
         Me.objPaymentTypeName.Name = "objPaymentTypeName"
         Me.objPaymentTypeName.Size = New System.Drawing.Size(111, 15)
-        Me.objPaymentTypeName.TabIndex = 3
+        Me.objPaymentTypeName.TabIndex = 4
         Me.objPaymentTypeName.Text = "objPaymentTypeName"
         Me.objPaymentTypeName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -1008,7 +1011,7 @@ Partial Class dlgTrnPosPayment
         Me.lblPaymentValue.Location = New System.Drawing.Point(4, 229)
         Me.lblPaymentValue.Name = "lblPaymentValue"
         Me.lblPaymentValue.Size = New System.Drawing.Size(67, 15)
-        Me.lblPaymentValue.TabIndex = 12
+        Me.lblPaymentValue.TabIndex = 22
         Me.lblPaymentValue.Text = "&Value"
         Me.lblPaymentValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -1020,7 +1023,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentValue.MaxLength = 12
         Me.objPaymentValue.Name = "objPaymentValue"
         Me.objPaymentValue.Size = New System.Drawing.Size(198, 29)
-        Me.objPaymentValue.TabIndex = 13
+        Me.objPaymentValue.TabIndex = 23
         Me.objPaymentValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'lblPaymentEdc
@@ -1028,20 +1031,20 @@ Partial Class dlgTrnPosPayment
         Me.lblPaymentEdc.BackColor = System.Drawing.Color.Transparent
         Me.lblPaymentEdc.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPaymentEdc.ForeColor = System.Drawing.Color.DarkBlue
-        Me.lblPaymentEdc.Location = New System.Drawing.Point(4, 115)
+        Me.lblPaymentEdc.Location = New System.Drawing.Point(117, 115)
         Me.lblPaymentEdc.Name = "lblPaymentEdc"
-        Me.lblPaymentEdc.Size = New System.Drawing.Size(67, 15)
-        Me.lblPaymentEdc.TabIndex = 10
+        Me.lblPaymentEdc.Size = New System.Drawing.Size(47, 15)
+        Me.lblPaymentEdc.TabIndex = 15
         Me.lblPaymentEdc.Text = "&E.D.C"
         Me.lblPaymentEdc.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'objPaymentEdc
         '
-        Me.objPaymentEdc.Location = New System.Drawing.Point(77, 110)
+        Me.objPaymentEdc.Location = New System.Drawing.Point(170, 110)
         Me.objPaymentEdc.Name = "objPaymentEdc"
         Me.objPaymentEdc.ReadOnly = True
         Me.objPaymentEdc.Size = New System.Drawing.Size(72, 20)
-        Me.objPaymentEdc.TabIndex = 11
+        Me.objPaymentEdc.TabIndex = 16
         '
         'lblPaymentCardHolder
         '
@@ -1051,7 +1054,7 @@ Partial Class dlgTrnPosPayment
         Me.lblPaymentCardHolder.Location = New System.Drawing.Point(4, 89)
         Me.lblPaymentCardHolder.Name = "lblPaymentCardHolder"
         Me.lblPaymentCardHolder.Size = New System.Drawing.Size(67, 15)
-        Me.lblPaymentCardHolder.TabIndex = 8
+        Me.lblPaymentCardHolder.TabIndex = 7
         Me.lblPaymentCardHolder.Text = "Card.&Holder"
         Me.lblPaymentCardHolder.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -1062,7 +1065,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentCardHolder.MaxLength = 100
         Me.objPaymentCardHolder.Name = "objPaymentCardHolder"
         Me.objPaymentCardHolder.Size = New System.Drawing.Size(198, 20)
-        Me.objPaymentCardHolder.TabIndex = 9
+        Me.objPaymentCardHolder.TabIndex = 8
         '
         'objPaymentCardNumber
         '
@@ -1070,7 +1073,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentCardNumber.MaxLength = 100
         Me.objPaymentCardNumber.Name = "objPaymentCardNumber"
         Me.objPaymentCardNumber.Size = New System.Drawing.Size(198, 20)
-        Me.objPaymentCardNumber.TabIndex = 7
+        Me.objPaymentCardNumber.TabIndex = 6
         '
         'lblPaymentCardNumber
         '
@@ -1080,28 +1083,28 @@ Partial Class dlgTrnPosPayment
         Me.lblPaymentCardNumber.Location = New System.Drawing.Point(4, 63)
         Me.lblPaymentCardNumber.Name = "lblPaymentCardNumber"
         Me.lblPaymentCardNumber.Size = New System.Drawing.Size(67, 15)
-        Me.lblPaymentCardNumber.TabIndex = 6
+        Me.lblPaymentCardNumber.TabIndex = 5
         Me.lblPaymentCardNumber.Text = "&Card.Number"
         Me.lblPaymentCardNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'objPaymentBank
         '
         Me.objPaymentBank.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.objPaymentBank.Location = New System.Drawing.Point(377, 32)
+        Me.objPaymentBank.Location = New System.Drawing.Point(365, 32)
         Me.objPaymentBank.MaxLength = 100
         Me.objPaymentBank.Name = "objPaymentBank"
         Me.objPaymentBank.Size = New System.Drawing.Size(102, 20)
-        Me.objPaymentBank.TabIndex = 5
+        Me.objPaymentBank.TabIndex = 10
         '
         'lblPaymentBank
         '
         Me.lblPaymentBank.BackColor = System.Drawing.Color.Transparent
         Me.lblPaymentBank.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPaymentBank.ForeColor = System.Drawing.Color.DarkBlue
-        Me.lblPaymentBank.Location = New System.Drawing.Point(333, 36)
+        Me.lblPaymentBank.Location = New System.Drawing.Point(321, 36)
         Me.lblPaymentBank.Name = "lblPaymentBank"
         Me.lblPaymentBank.Size = New System.Drawing.Size(38, 15)
-        Me.lblPaymentBank.TabIndex = 4
+        Me.lblPaymentBank.TabIndex = 9
         Me.lblPaymentBank.Text = "&Bank"
         Me.lblPaymentBank.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -1113,7 +1116,7 @@ Partial Class dlgTrnPosPayment
         Me.lblobjPaymentType.Location = New System.Drawing.Point(37, 37)
         Me.lblobjPaymentType.Name = "lblobjPaymentType"
         Me.lblobjPaymentType.Size = New System.Drawing.Size(34, 15)
-        Me.lblobjPaymentType.TabIndex = 1
+        Me.lblobjPaymentType.TabIndex = 2
         Me.lblobjPaymentType.Text = "&Type"
         Me.lblobjPaymentType.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -1123,7 +1126,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentType.Name = "objPaymentType"
         Me.objPaymentType.ReadOnly = True
         Me.objPaymentType.Size = New System.Drawing.Size(49, 20)
-        Me.objPaymentType.TabIndex = 2
+        Me.objPaymentType.TabIndex = 3
         '
         'lblPaymentInformation
         '
@@ -1168,16 +1171,16 @@ Partial Class dlgTrnPosPayment
         Me.lblPaymentInstallment.BackColor = System.Drawing.Color.Transparent
         Me.lblPaymentInstallment.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPaymentInstallment.ForeColor = System.Drawing.Color.DarkBlue
-        Me.lblPaymentInstallment.Location = New System.Drawing.Point(13, 18)
+        Me.lblPaymentInstallment.Location = New System.Drawing.Point(-1, 113)
         Me.lblPaymentInstallment.Name = "lblPaymentInstallment"
-        Me.lblPaymentInstallment.Size = New System.Drawing.Size(67, 15)
+        Me.lblPaymentInstallment.Size = New System.Drawing.Size(71, 15)
         Me.lblPaymentInstallment.TabIndex = 18
         Me.lblPaymentInstallment.Text = "&Installment"
         Me.lblPaymentInstallment.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'objPaymentInstallment
         '
-        Me.objPaymentInstallment.Location = New System.Drawing.Point(86, 13)
+        Me.objPaymentInstallment.Location = New System.Drawing.Point(77, 111)
         Me.objPaymentInstallment.MaxLength = 2
         Me.objPaymentInstallment.Name = "objPaymentInstallment"
         Me.objPaymentInstallment.Size = New System.Drawing.Size(33, 20)
@@ -1194,9 +1197,7 @@ Partial Class dlgTrnPosPayment
         '
         'Panel1
         '
-        Me.Panel1.Controls.Add(Me.objPaymentInstallment)
-        Me.Panel1.Controls.Add(Me.lblPaymentInstallment)
-        Me.Panel1.Location = New System.Drawing.Point(1041, 122)
+        Me.Panel1.Location = New System.Drawing.Point(1002, 108)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(200, 100)
         Me.Panel1.TabIndex = 3
@@ -1205,7 +1206,7 @@ Partial Class dlgTrnPosPayment
         'dlgTrnPosPayment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
-        Me.ClientSize = New System.Drawing.Size(960, 627)
+        Me.ClientSize = New System.Drawing.Size(961, 627)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.PnlFormMain)
         Me.KeyPreview = True
@@ -1225,8 +1226,6 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentAdditional.PerformLayout()
         Me.objPaymentInformation.ResumeLayout(False)
         Me.objPaymentInformation.PerformLayout()
-        Me.Panel1.ResumeLayout(False)
-        Me.Panel1.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1264,7 +1263,6 @@ Partial Class dlgTrnPosPayment
     Friend WithEvents Label18 As System.Windows.Forms.Label
     Friend WithEvents objPaymentTotalRefund As System.Windows.Forms.Label
     Friend WithEvents objPaymentTypeName As System.Windows.Forms.Label
-    Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents objPaymentCash As System.Windows.Forms.TextBox
     Friend WithEvents lblPaymentCash As System.Windows.Forms.Label
     Friend WithEvents Label2 As System.Windows.Forms.Label
@@ -1311,7 +1309,7 @@ Partial Class dlgTrnPosPayment
     Friend WithEvents btn_EditCustomer As System.Windows.Forms.Label
     Friend WithEvents Label16 As System.Windows.Forms.Label
     Friend WithEvents objCustomerTelp As System.Windows.Forms.TextBox
-    Friend WithEvents Label17 As System.Windows.Forms.Label
+    Friend WithEvents lblApproval As System.Windows.Forms.Label
     Friend WithEvents objApproval As System.Windows.Forms.TextBox
     Friend WithEvents Label19 As System.Windows.Forms.Label
     Friend WithEvents Label20 As System.Windows.Forms.Label
@@ -1321,5 +1319,6 @@ Partial Class dlgTrnPosPayment
     Friend WithEvents btn_Qris As System.Windows.Forms.Label
     Friend WithEvents objPaymentEdcName As System.Windows.Forms.Label
     Friend WithEvents btn_redeemVoucher As System.Windows.Forms.Label
+    Friend WithEvents btnAddToPayment As System.Windows.Forms.Label
 
 End Class

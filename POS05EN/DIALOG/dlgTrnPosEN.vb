@@ -2,13 +2,10 @@
 Public Class dlgTrnPosEN
 
 
-
+    ' Tidak perlu dipakai lagi, tapi di set dari data development
     Public Sub SetRegionBranchDevelopment()
-        If startInfo.EnvironmentVariables("POSENV") = "DEV" Then
-            Me.POS.IsDevelopmentMode = True
-            Me.CurrentRegionId = "00900"
-            Me.CurrentBranchId = "0000600"
-            Me.objPosEventName.Text = Me.objPosEventName.Text & " (DevMode " & Me.CurrentRegionId & ":" & Me.CurrentBranchId & ")"
+        If Me.POS.IsDevelopmentMode = True Then
+            Me.objPosEventName.Text = Me.objPosEventName.Text & " (DevMode " & Me.POS.RegionId & ":" & Me.POS.BranchId & ")"
         End If
     End Sub
 
@@ -323,35 +320,36 @@ Public Class dlgTrnPosEN
             Exit Function
         End If
 
+        Dim pospayment_id As String = Me.objPaymentTypeId.Text
+        Dim py As TransStore.PosPayment = Me.POS.GetPosPayment(pospayment_id)
+
         ' sorri, HARDCODE
         ' jika ada item yang diskon, paymentnnya tidak boleh infinit (108)
-        If Me.objPaymentTypeId.Text = "107" Then
-            For Each row As DataGridViewRow In Me.DgvPOSItem.Rows
-                Dim bondetil_pricegross As Decimal = CDec(row.Cells("bondetil_pricegross").Value)
-                Dim bondetil_pricenet As Decimal = CDec(row.Cells("bondetil_pricenet").Value)
-                Dim bondetil_qty As Integer = CInt(row.Cells("bondetil_qty").Value)
-
-
-                If bondetil_pricenet < bondetil_pricegross Then
-                    MessageBox.Show("Pembayaran MEGA Infinit tidak bisa untuk item diskon", "Payment", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Return False
-                    Exit Function
-                End If
-            Next
-        End If
+        'If Me.objPaymentTypeId.Text = "107" Then
+        '    For Each row As DataGridViewRow In Me.DgvPOSItem.Rows
+        '        Dim bondetil_pricegross As Decimal = CDec(row.Cells("bondetil_pricegross").Value)
+        '        Dim bondetil_pricenet As Decimal = CDec(row.Cells("bondetil_pricenet").Value)
+        '        Dim bondetil_qty As Integer = CInt(row.Cells("bondetil_qty").Value)
+        '        If bondetil_pricenet < bondetil_pricegross Then
+        '            MessageBox.Show("Pembayaran MEGA Infinit tidak bisa untuk item diskon", "Payment", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '            Return False
+        '            Exit Function
+        '        End If
+        '    Next
+        'End If
 
 
 
-        ' Hitung Qty Real yang dibeli
-        Dim total_qty As Integer = 0
-        For Each row As DataGridViewRow In Me.DgvPOSItem.Rows
-            Dim bondetil_qty As Integer = CInt(row.Cells("bondetil_qty").Value)
-            Dim bondetil_pricenet As Decimal = CDec(row.Cells("bondetil_pricenet").Value)
+        '' Hitung Qty Real yang dibeli
+        'Dim total_qty As Integer = 0
+        'For Each row As DataGridViewRow In Me.DgvPOSItem.Rows
+        '    Dim bondetil_qty As Integer = CInt(row.Cells("bondetil_qty").Value)
+        '    Dim bondetil_pricenet As Decimal = CDec(row.Cells("bondetil_pricenet").Value)
 
-            If bondetil_pricenet > 0 Then
-                total_qty = total_qty + bondetil_qty
-            End If
-        Next
+        '    If bondetil_pricenet > 0 Then
+        '        total_qty = total_qty + bondetil_qty
+        '    End If
+        'Next
 
         'If total_qty < 5 Then
         '    MessageBox.Show("Bazar Staff Sale minimal beli 5 pcs", "Payment", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -378,27 +376,71 @@ Public Class dlgTrnPosEN
         End If
 
 
-        ' Cek apakah harus ada Consumable good
-        Dim ConsumableGoodIsMandatory As Boolean = Me.POS.CONSGOOD_IS_MANDATORY
-        Dim dtstart As Date = New Date(2013, 9, 1)
-        If (Now >= dtstart) Then
-            If ConsumableGoodIsMandatory Then
-                Dim consgood_found As Boolean = False
-                For Each row As DataGridViewRow In Me.DgvPOSItem.Rows
-                    Dim bondetil_art As String = row.Cells("bondetil_article").Value.ToString()
-                    Dim artpref = Mid(bondetil_art, 1, Len(ConsumableGoodPrefixCode))
-                    If artpref = Me.ConsumableGoodPrefixCode Then
-                        consgood_found = True
-                        Exit For
-                    End If
-                Next
-                If Not consgood_found Then
-                    MessageBox.Show("Consumable Goods Belum di-entry", "Items", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Return False
-                    Exit Function
-                End If
+        ' Cek Kondisi Items
+        Dim total_qty As Integer = 0
+        Dim consgood_found As Boolean = False
+        Dim maxdiscitem As Decimal = 0
+        For Each row As DataGridViewRow In Me.DgvPOSItem.Rows
+            Dim bondetil_art As String = CStr(row.Cells("bondetil_article").Value)
+            Dim bondetil_qty As Integer = CInt(row.Cells("bondetil_qty").Value)
+            Dim artpref = Mid(bondetil_art, 1, Len(ConsumableGoodPrefixCode))
+
+            ' Ada Consumable goods
+            If artpref = Me.ConsumableGoodPrefixCode Then
+                consgood_found = consgood_found Or True
+            Else
+                ' Jumlah actual barang yang dibeli, untuk consumable goods tidak perlu dihitung
+                total_qty = total_qty + bondetil_qty
+            End If
+
+
+            ' Cek discount item maximal selain GWP (100%)
+            Dim bondetil_discpstd01 As Decimal = CDec(row.Cells("bondetil_discpstd01").Value)
+            If bondetil_discpstd01 < 100 And bondetil_discpstd01 > maxdiscitem Then
+                maxdiscitem = bondetil_discpstd01
+            End If
+
+        Next
+
+
+        ' Cek Consumable Goods
+        If Me.POS.CONSGOOD_IS_MANDATORY Then
+            If Not consgood_found Then
+                MessageBox.Show("Consumable Goods Belum di-entry", "Items", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+                Exit Function
             End If
         End If
+
+
+        ' Cek maksimal discount based on payment method
+        If maxdiscitem > py.MaximumItemDiscAllowed Then
+            MessageBox.Show("Maksimum discount item untuk '" & py.Name & "' adalah " & py.MaximumItemDiscAllowed & "%", "Payment", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return False
+        End If
+
+
+        '' Cek apakah harus ada Consumable good
+        'Dim ConsumableGoodIsMandatory As Boolean = Me.POS.CONSGOOD_IS_MANDATORY
+        'Dim dtstart As Date = New Date(2013, 9, 1)
+        'If (Now >= dtstart) Then
+        '    If ConsumableGoodIsMandatory Then
+        '        Dim consgood_found As Boolean = False
+        '        For Each row As DataGridViewRow In Me.DgvPOSItem.Rows
+        '            Dim bondetil_art As String = row.Cells("bondetil_article").Value.ToString()
+        '            Dim artpref = Mid(bondetil_art, 1, Len(ConsumableGoodPrefixCode))
+        '            If artpref = Me.ConsumableGoodPrefixCode Then
+        '                consgood_found = True
+        '                Exit For
+        '            End If
+        '        Next
+        '        If Not consgood_found Then
+        '            MessageBox.Show("Consumable Goods Belum di-entry", "Items", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '            Return False
+        '            Exit Function
+        '        End If
+        '    End If
+        'End If
 
         ' Cek Voucher versus Payment Type
         Dim i As Integer
@@ -532,9 +574,6 @@ Public Class dlgTrnPosEN
             Me.POS_Display("", "Next Custo", "mer", "Please...", "")
 
             Me.Refresh()
-
-
-
 
             Dim resargs As uiTrnPosEN.PosPaymentEventArgument
             Dim objBon As TransStore.POS.PosHeader
