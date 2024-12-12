@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MINIFRAME", "MINIFRAME\MINIFRAME.csproj", "{EC544DAA-4E45-45CF-BBAC-E9CD681E25A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TBPOS", "TBPOS\TBPOS.csproj", "{CC8136DD-3C12-4707-BCDA-5E4B4810CDAC}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "POS05EN", "POS05EN\POS05EN.vbproj", "{90A81757-958D-460B-B404-B0728E2BBCB2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EC544DAA-4E45-45CF-BBAC-E9CD681E25A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC544DAA-4E45-45CF-BBAC-E9CD681E25A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC544DAA-4E45-45CF-BBAC-E9CD681E25A8}.Debug|x86.ActiveCfg = Debug|x86
+		{EC544DAA-4E45-45CF-BBAC-E9CD681E25A8}.Debug|x86.Build.0 = Debug|x86
+		{EC544DAA-4E45-45CF-BBAC-E9CD681E25A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC544DAA-4E45-45CF-BBAC-E9CD681E25A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC544DAA-4E45-45CF-BBAC-E9CD681E25A8}.Release|x86.ActiveCfg = Release|x86
+		{EC544DAA-4E45-45CF-BBAC-E9CD681E25A8}.Release|x86.Build.0 = Release|x86
+		{CC8136DD-3C12-4707-BCDA-5E4B4810CDAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC8136DD-3C12-4707-BCDA-5E4B4810CDAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC8136DD-3C12-4707-BCDA-5E4B4810CDAC}.Debug|x86.ActiveCfg = Debug|x86
+		{CC8136DD-3C12-4707-BCDA-5E4B4810CDAC}.Debug|x86.Build.0 = Debug|x86
+		{CC8136DD-3C12-4707-BCDA-5E4B4810CDAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC8136DD-3C12-4707-BCDA-5E4B4810CDAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC8136DD-3C12-4707-BCDA-5E4B4810CDAC}.Release|x86.ActiveCfg = Release|x86
+		{CC8136DD-3C12-4707-BCDA-5E4B4810CDAC}.Release|x86.Build.0 = Release|x86
+		{90A81757-958D-460B-B404-B0728E2BBCB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90A81757-958D-460B-B404-B0728E2BBCB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90A81757-958D-460B-B404-B0728E2BBCB2}.Debug|x86.ActiveCfg = Debug|x86
+		{90A81757-958D-460B-B404-B0728E2BBCB2}.Debug|x86.Build.0 = Debug|x86
+		{90A81757-958D-460B-B404-B0728E2BBCB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90A81757-958D-460B-B404-B0728E2BBCB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90A81757-958D-460B-B404-B0728E2BBCB2}.Release|x86.ActiveCfg = Release|x86
+		{90A81757-958D-460B-B404-B0728E2BBCB2}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

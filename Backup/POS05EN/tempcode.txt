@@ -1,0 +1,108 @@
+
+        'Daftar Item
+        'Me.SetPromoItemData_HugoBoss201907_Bundling()
+        'Me.SetPromoItemData_HugoBoss201907_BazarKC()
+        'Me.SetPromoItemData_HugoBoss201905_EOS()
+        'Me.SetPromoItemData_GeoxCPO20190524()
+        'Me.SetPromoItemData_Geox201905()
+        'Me.SetPromoItemData_Geox201904()
+        'Me.SetPromoItemData_HugoBoss201903()
+        'Me.SetPRomoItemData_HugoBoss201904()
+        'Me.SetPromoItemData_Furla201903()
+        'Me.SetPromoItemData_Geox201908()
+        'Me.SetPromoItemData_GeoxPalingMurah()
+        'Me.SetPromoItemData_HugobossBazar201911()
+
+        '' Basar GI
+        'Me.PromoItemHBS = Me.SetPromoItemData_HugobossBazar201911()
+        'Me.PromoItemGeox = Me.SetPromoItemData_GeoxBazar201911
+
+        '' Promo Bundling Hugobos
+        ' Me.PromoItemHBS = Me.SetPromoItemData_HugobossBudngling201911()
+
+        '' Bazar Surabaya
+        '  Me.PromoItemGeox = Me.SetPromoItemData_GeoxBazarSurabaya201911()
+
+        ' Kuncit
+        'Me.PromoItemHBS = Me.SetPromoItemData_HugobossKuncit201911()
+
+
+        'Me.PromoItemHBS = Me.SetPromoItemData_HugobossEndYear201912()
+
+        '2019-12-06
+        'Geox, beli 2 tambahan disc 10%, 6/11/19 s/d 5/1/20
+        ' Me.PromoItemGeox = Me.SetPromoItemData_GeoxBundling10_201912()
+
+
+        '2019-12-10
+        ' Bazar di TP4 Surabaya
+        '  Me.PromoItemHBS = Me.SetPromoItemData_HugobossBazarTP201912()
+
+
+        '2019-12-12
+        ' Bazar PP, Geox Bunding beli 2 tambahan disc 10%
+        ' Me.PromoItemGeox = Me.SetPromoItemData_GeoxBazarPP201912()
+
+
+
+        '2019-12-17
+        'Geox, beli 3 tambahan disc 10%
+        'Geox TEMP CWS
+        'Me.PromoItemGeox = Me.SetPromoItemData_GeoxTempCWS()
+
+
+
+        '2019-12-18
+        ' Hugoboss Bunding, tamabahn discont 15% untuk 4pcs
+        'Semua toko
+        'Me.PromoItemHBS = Me.setPromoItemData_HugoBoss201912()
+
+
+        '2019-12-20
+        ' Hugoboss Bunding, tamabahn discont 15% untuk 4pcs
+        'Temp KC only
+        ' Me.PromoItemHBS = Me.setPromoItemData_HugoBoss_TempKC_201912()
+
+
+        '2019-12-24
+        ' Geox, tambahan 10% untuk boots 
+        ' All store
+        ' Me.PromoItemGeox = Me.setPromoItemData_GeoxBundlingBoots_201912()
+
+
+        '2019-12-26
+        ' Hugoboss Bunding, tamabahn discont 15% untuk 4pcs
+        ' Temp KC only, Revisi dari sebelumnya (2019-12-20)
+        ' Me.PromoItemHBS = Me.setPromoItemData_HugoBoss_TempKC_201912_rev1()
+
+
+
+        ' 2020-01-03
+        ' Hugoboss Bundling, tamabahn discont 15% untuk 4pcs
+        ' All Store
+        ' Me.PromoItemHBS = Me.setPromoItemData_HugoBoss_AllStore_202003()
+
+        ' 2020-01-03
+        ' Hugoboss Bundling, tamabahn discont 15% untuk 4pcs
+        ' Temp CWS
+        'Me.PromoItemHBS = Me.setPromoItemData_HugoBoss_TempCWS_202003()
+
+
+
+
+        ' 2020-01-09
+        ' Hugoboss Bundling, tamabahn discont 15% untuk 4pcs
+        ' AlStore, 9 Jan s/d 31 Jan 2020
+        'Me.PromoItemHBS = Me.setPromoItemData_HugoBoss_202001()
+
+
+        ' 2020-01-09
+        ' Hugoboss Bundling, tamabahn discont 15% untuk 4pcs
+        ' AlStore, 30 Jan s/d 9 Feb 2020
+        ' Me.PromoItemHBS = Me.setPromoItemData_HugoBoss_202001_2()
+
+
+        ' 2020-06-06
+        ' Hugoboss Bundling, tamabahn discont 15% untuk 4pcs
+        ' 6 s/d 18 Jun 2020
+        'Me.PromoItemHBS = Me.setPromoItemData_HugoBoss_202006()
