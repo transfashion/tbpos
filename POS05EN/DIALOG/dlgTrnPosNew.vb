@@ -374,6 +374,9 @@ Public Class dlgTrnPosNew
     End Sub
 
     Private Sub dlgOK()
+        Dim startInfo As ProcessStartInfo = New ProcessStartInfo()
+
+
         ' Cek apakah pengisian kode voucher link ke customer
         Dim dr() As DataRow
         Dim site_id_from As String
@@ -485,207 +488,218 @@ Public Class dlgTrnPosNew
         End If
 
 
-        ' Me.POS.SALESPERSON_IS_MANDATORY = True
+        Dim SALESPERSON_IS_MANDATORY As Boolean = Me.POS.SALESPERSON_IS_MANDATORY
+        Dim EXTID_IS_ENABLED As Boolean = Me.POS.EXTID_IS_ENABLED
+        Dim CUSTOMERINFO_IS_MANDATORY As Boolean = Me.POS.CUSTOMERINFO_IS_MANDATORY
+
+
+        ' Untuk mode development, gak perlu input SalesPerson, ExternalId dan Customer Info
+        If startInfo.EnvironmentVariables("POSENV") = "DEV" Then
+            SALESPERSON_IS_MANDATORY = False
+            EXTID_IS_ENABLED = False
+            CUSTOMERINFO_IS_MANDATORY = False
+        End If
+
 
         ' Cek apakah sales code sudah diisi
-        If Me.POS.SALESPERSON_IS_MANDATORY Then
-            If Trim(Me.objSalesId.Text) = "0" Or Trim(Me.objSalesId.Text) = "" Then
-                objError.SetError(Me.objSalesName, "Sales Code belum diisi")
-                MessageBox.Show("Sales Code belum diisi", "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Exit Sub
-            Else
-                objError.SetError(Me.objSalesName, "")
-            End If
-        End If
-
-        ' Cek apakah external id harus diisi
-        If Me.POS.EXTID_IS_ENABLED Then
-            If Me.POS.EXTID_IS_MANDATORY Then
-                If Trim(Me.objBonExternal.Text) = "0" Or Trim(Me.objBonExternal.Text) = "" Then
-                    objError.SetError(Me.objBonExternal, "External ID belum diisi")
-                    MessageBox.Show("External ID belum diisi", "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Me.objBonExternal.Focus()
+        If SALESPERSON_IS_MANDATORY Then
+                If Trim(Me.objSalesId.Text) = "0" Or Trim(Me.objSalesId.Text) = "" Then
+                    objError.SetError(Me.objSalesName, "Sales Code belum diisi")
+                    MessageBox.Show("Sales Code belum diisi", "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 Else
-                    objError.SetError(Me.objBonExternal, "")
+                    objError.SetError(Me.objSalesName, "")
                 End If
             End If
-        End If
 
-        ' Me.POS.CUSTOMERINFO_IS_MANDATORY
-        ' Cek apakah customer harus diisi
-        If Me.POS.CUSTOMERINFO_IS_MANDATORY Then
-
-            If (Me.objCustomerGenderId.Text = "N") Then
-                objError.SetError(Me.lblGender, "Gender belum diisi")
-                MessageBox.Show(objError.GetError(Me.lblGender), "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Exit Sub
-            Else
-                objError.SetError(Me.lblGender, "")
+            ' Cek apakah external id harus diisi
+            If EXTID_IS_ENABLED Then
+                If Me.POS.EXTID_IS_MANDATORY Then
+                    If Trim(Me.objBonExternal.Text) = "0" Or Trim(Me.objBonExternal.Text) = "" Then
+                        objError.SetError(Me.objBonExternal, "External ID belum diisi")
+                        MessageBox.Show("External ID belum diisi", "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Me.objBonExternal.Focus()
+                        Exit Sub
+                    Else
+                        objError.SetError(Me.objBonExternal, "")
+                    End If
+                End If
             End If
 
 
-            If Trim(Me.objCustomerName.Text) = "" Then
-                objError.SetError(Me.objCustomerName, "Nama Customer belum diisi")
-                MessageBox.Show(objError.GetError(Me.objCustomerName), "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Me.objCustomerName.Focus()
-                Exit Sub
-            Else
-                objError.SetError(Me.objCustomerName, "")
-            End If
+            ' Cek apakah customer harus diisi
+            If CUSTOMERINFO_IS_MANDATORY Then
 
-            If Trim(Me.objCustomerTelp.Text) = "" Then
-                objError.SetError(Me.objCustomerTelp, "NoTelp Customer belum diisi")
-                MessageBox.Show(objError.GetError(Me.objCustomerTelp), "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Me.objCustomerTelp.Focus()
-                Exit Sub
-            Else
-                objError.SetError(Me.objCustomerTelp, "")
-            End If
-
-            If (Me.objCustomerTelp.Text.Substring(0, 1) <> "0") Then
-                objError.SetError(Me.objCustomerTelp, "NoTelp Customer salah")
-                MessageBox.Show(objError.GetError(Me.objCustomerTelp), "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Me.objCustomerTelp.Focus()
-                Exit Sub
-            Else
-                objError.SetError(Me.objCustomerTelp, "")
-            End If
-
-            ' Cek apakah no telpon valid
-            Dim phoneisvalid As Boolean = False
-            Dim len = Me.objCustomerTelp.Text.Length
-            If (len < 10) Then
-                If (Me.objCustomerTelp.Text = "01") Then
-                    phoneisvalid = True
+                If (Me.objCustomerGenderId.Text = "N") Then
+                    objError.SetError(Me.lblGender, "Gender belum diisi")
+                    MessageBox.Show(objError.GetError(Me.lblGender), "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
                 Else
-                    phoneisvalid = False
+                    objError.SetError(Me.lblGender, "")
                 End If
-            Else
-                If (len > 12) Then
-                    If Mid(Me.objCustomerTelp.Text.Trim(), 1, 2) = "08" Then
-                        ' Nomor HP
+
+
+                If Trim(Me.objCustomerName.Text) = "" Then
+                    objError.SetError(Me.objCustomerName, "Nama Customer belum diisi")
+                    MessageBox.Show(objError.GetError(Me.objCustomerName), "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Me.objCustomerName.Focus()
+                    Exit Sub
+                Else
+                    objError.SetError(Me.objCustomerName, "")
+                End If
+
+                If Trim(Me.objCustomerTelp.Text) = "" Then
+                    objError.SetError(Me.objCustomerTelp, "NoTelp Customer belum diisi")
+                    MessageBox.Show(objError.GetError(Me.objCustomerTelp), "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Me.objCustomerTelp.Focus()
+                    Exit Sub
+                Else
+                    objError.SetError(Me.objCustomerTelp, "")
+                End If
+
+                If (Me.objCustomerTelp.Text.Substring(0, 1) <> "0") Then
+                    objError.SetError(Me.objCustomerTelp, "NoTelp Customer salah")
+                    MessageBox.Show(objError.GetError(Me.objCustomerTelp), "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Me.objCustomerTelp.Focus()
+                    Exit Sub
+                Else
+                    objError.SetError(Me.objCustomerTelp, "")
+                End If
+
+                ' Cek apakah no telpon valid
+                Dim phoneisvalid As Boolean = False
+                Dim len = Me.objCustomerTelp.Text.Length
+                If (len < 10) Then
+                    If (Me.objCustomerTelp.Text = "01") Then
                         phoneisvalid = True
                     Else
-                        ' Bukan Nomor HP
                         phoneisvalid = False
                     End If
-
                 Else
-                    ' Panjang nomor kurang
-                    phoneisvalid = True
+                    If (len > 12) Then
+                        If Mid(Me.objCustomerTelp.Text.Trim(), 1, 2) = "08" Then
+                            ' Nomor HP
+                            phoneisvalid = True
+                        Else
+                            ' Bukan Nomor HP
+                            phoneisvalid = False
+                        End If
+
+                    Else
+                        ' Panjang nomor kurang
+                        phoneisvalid = True
+                    End If
+                End If
+
+                If (Not phoneisvalid) Then
+                    objError.SetError(Me.objCustomerTelp, "No HP Customer salah." & vbCrLf & "Isilah dengan nomor HP. Minimal nomor adalah 10 digit, maximal 12 digit." & vbCrLf & "Apabila nomor HP tidak ada, isilah dengan '01'")
+                    MessageBox.Show(objError.GetError(Me.objCustomerTelp), "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Me.objCustomerTelp.Focus()
+                    Exit Sub
+                Else
+                    objError.SetError(Me.objCustomerTelp, "")
                 End If
             End If
 
-            If (Not phoneisvalid) Then
-                objError.SetError(Me.objCustomerTelp, "No HP Customer salah." & vbCrLf & "Isilah dengan nomor HP. Minimal nomor adalah 10 digit, maximal 12 digit." & vbCrLf & "Apabila nomor HP tidak ada, isilah dengan '01'")
-                MessageBox.Show(objError.GetError(Me.objCustomerTelp), "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Me.objCustomerTelp.Focus()
-                Exit Sub
-            Else
-                objError.SetError(Me.objCustomerTelp, "")
-            End If
-        End If
 
 
 
+            ' Apabila no telpon diisi, cek nomor telponnya
+            If Trim(Me.objCustomerTelp.Text) <> "" Then
 
-        ' Apabila no telpon diisi, cek nomor telponnya
-        If Trim(Me.objCustomerTelp.Text) <> "" Then
-
-            If (Me.objCustomerTelp.Text.Substring(0, 1) <> "0") Then
-                objError.SetError(Me.objCustomerTelp, "NoTelp Customer salah")
-                MessageBox.Show(objError.GetError(Me.objCustomerTelp), "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Me.objCustomerTelp.Focus()
-                Exit Sub
-            Else
-                objError.SetError(Me.objCustomerTelp, "")
-            End If
-
-            ' Cek apakah no telpon valid
-            Dim phoneisvalid As Boolean = False
-            Dim len = Me.objCustomerTelp.Text.Length
-            If (len < 10) Then
-                If (Me.objCustomerTelp.Text = "01") Then
-                    phoneisvalid = True
+                If (Me.objCustomerTelp.Text.Substring(0, 1) <> "0") Then
+                    objError.SetError(Me.objCustomerTelp, "NoTelp Customer salah")
+                    MessageBox.Show(objError.GetError(Me.objCustomerTelp), "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Me.objCustomerTelp.Focus()
+                    Exit Sub
                 Else
-                    phoneisvalid = False
+                    objError.SetError(Me.objCustomerTelp, "")
                 End If
-            Else
-                If (len > 12) Then
-                    If Mid(Me.objCustomerTelp.Text.Trim(), 1, 2) = "08" Then
-                        ' Nomor HP
+
+                ' Cek apakah no telpon valid
+                Dim phoneisvalid As Boolean = False
+                Dim len = Me.objCustomerTelp.Text.Length
+                If (len < 10) Then
+                    If (Me.objCustomerTelp.Text = "01") Then
                         phoneisvalid = True
                     Else
-                        ' Bukan Nomor HP
                         phoneisvalid = False
                     End If
-
                 Else
-                    ' Panjang nomor kurang
-                    phoneisvalid = True
+                    If (len > 12) Then
+                        If Mid(Me.objCustomerTelp.Text.Trim(), 1, 2) = "08" Then
+                            ' Nomor HP
+                            phoneisvalid = True
+                        Else
+                            ' Bukan Nomor HP
+                            phoneisvalid = False
+                        End If
+
+                    Else
+                        ' Panjang nomor kurang
+                        phoneisvalid = True
+                    End If
+
                 End If
 
+                If (Not phoneisvalid) Then
+                    objError.SetError(Me.objCustomerTelp, "No HP Customer salah." & vbCrLf & "Isilah dengan nomor HP. Minimal nomor adalah 10 digit, maximal 12 digit." & vbCrLf & "Apabila nomor HP tidak ada, isilah dengan '01'")
+                    MessageBox.Show(objError.GetError(Me.objCustomerTelp), "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Me.objCustomerTelp.Focus()
+                    Exit Sub
+                Else
+                    objError.SetError(Me.objCustomerTelp, "")
+                End If
+
+
             End If
 
-            If (Not phoneisvalid) Then
-                objError.SetError(Me.objCustomerTelp, "No HP Customer salah." & vbCrLf & "Isilah dengan nomor HP. Minimal nomor adalah 10 digit, maximal 12 digit." & vbCrLf & "Apabila nomor HP tidak ada, isilah dengan '01'")
-                MessageBox.Show(objError.GetError(Me.objCustomerTelp), "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Me.objCustomerTelp.Focus()
-                Exit Sub
-            Else
-                objError.SetError(Me.objCustomerTelp, "")
+
+
+            If Me.objCustomerPassport.Text.Trim() <> "" Then
+                Dim email = Me.objCustomerPassport.Text.Trim()
+                If Not Me.EmailAddressChecker(email) Then
+                    objError.SetError(Me.objCustomerPassport, "Email salah." & vbCrLf & "Isikan email dengan format email benar!")
+                    MessageBox.Show(objError.GetError(Me.objCustomerPassport), "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Me.objCustomerPassport.Focus()
+                    Exit Sub
+                Else
+                    objError.SetError(Me.objCustomerPassport, "")
+                End If
             End If
 
 
-        End If
-
-
-
-        If Me.objCustomerPassport.Text.Trim() <> "" Then
-            Dim email = Me.objCustomerPassport.Text.Trim()
-            If Not Me.EmailAddressChecker(email) Then
-                objError.SetError(Me.objCustomerPassport, "Email salah." & vbCrLf & "Isikan email dengan format email benar!")
-                MessageBox.Show(objError.GetError(Me.objCustomerPassport), "POS - Transaksi Baru", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Me.objCustomerPassport.Focus()
-                Exit Sub
-            Else
-                objError.SetError(Me.objCustomerPassport, "")
-            End If
-        End If
-
-
-        Dim ReturnValue As TransStore.PosNewTransactionReturnValue = New TransStore.PosNewTransactionReturnValue
-        With ReturnValue
-            .CustomerNationalityId = Me.objCustomerNationalityId.Text
-            .CustomerNationalityName = Me.objCustomerNationality.Text
-            .CustomerGenderId = Me.objCustomerGenderId.Text
-            .CustomerGenderName = Me.objCustomerGender.Text
-            .CustomerAgeId = Me.objCustomerAgeId.Text
-            .CustomerAgeName = Me.objCustomerAge.Text
-            .CustomerId = Me.objCustomerId.Text
-            .CustomerName = Me.objCustomerName.Text
-            .CustomerNPWP = Me.objCustomerNPWP.Text
-            .CustomerTelp = Me.objCustomerTelp.Text
-            .CustomerType = IIf(Me.objCustomerType.Text <> "", Me.objCustomerType.Text, "CUSTOMER")
-            .CustomerDisc = CDec(IIf(Me.objCustomerDisc.Text <> "", Me.objCustomerDisc.Text, "0"))
-            .CustomerPassport = Me.objCustomerPassport.Text
-            .Voucher01Id = Me.objVoucher01TypeId.Text
-            .Voucher01Name = Me.objVoucher01TypeName.Text
-            .Voucher01CodeNum = Me.objPaymentVoucher01Code.Text
-            .Voucher01Type = Me.objVoucher01Type.Text
-            .Voucher01Disc = Me.objVoucher01Disc.Text
-            .Voucher01Method = Me.objVoucher01Method.Text
-            .SalesId = Me.objSalesId.Text
-            .SalesName = Me.objSalesName.Text
-            .BonExternal = Me.objBonExternal.Text
-            .BonEvent = eventname 'Me.objBonEvent.Text
-            .SiteIdFrom = site_id_from
-        End With
-        Me.myRetObj = New Object() {ReturnValue}
-        Me.POS = Nothing
-        uiTrnPosEN.BeepDef2()
-        Me.Close()
+            Dim ReturnValue As TransStore.PosNewTransactionReturnValue = New TransStore.PosNewTransactionReturnValue
+            With ReturnValue
+                .CustomerNationalityId = Me.objCustomerNationalityId.Text
+                .CustomerNationalityName = Me.objCustomerNationality.Text
+                .CustomerGenderId = Me.objCustomerGenderId.Text
+                .CustomerGenderName = Me.objCustomerGender.Text
+                .CustomerAgeId = Me.objCustomerAgeId.Text
+                .CustomerAgeName = Me.objCustomerAge.Text
+                .CustomerId = Me.objCustomerId.Text
+                .CustomerName = Me.objCustomerName.Text
+                .CustomerNPWP = Me.objCustomerNPWP.Text
+                .CustomerTelp = Me.objCustomerTelp.Text
+                .CustomerType = IIf(Me.objCustomerType.Text <> "", Me.objCustomerType.Text, "CUSTOMER")
+                .CustomerDisc = CDec(IIf(Me.objCustomerDisc.Text <> "", Me.objCustomerDisc.Text, "0"))
+                .CustomerPassport = Me.objCustomerPassport.Text
+                .Voucher01Id = Me.objVoucher01TypeId.Text
+                .Voucher01Name = Me.objVoucher01TypeName.Text
+                .Voucher01CodeNum = Me.objPaymentVoucher01Code.Text
+                .Voucher01Type = Me.objVoucher01Type.Text
+                .Voucher01Disc = Me.objVoucher01Disc.Text
+                .Voucher01Method = Me.objVoucher01Method.Text
+                .SalesId = Me.objSalesId.Text
+                .SalesName = Me.objSalesName.Text
+                .BonExternal = Me.objBonExternal.Text
+                .BonEvent = eventname 'Me.objBonEvent.Text
+                .SiteIdFrom = site_id_from
+            End With
+            Me.myRetObj = New Object() {ReturnValue}
+            Me.POS = Nothing
+            uiTrnPosEN.BeepDef2()
+            Me.Close()
     End Sub
 
     Private Sub dlg_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown

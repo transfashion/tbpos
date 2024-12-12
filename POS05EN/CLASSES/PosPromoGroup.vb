@@ -3,6 +3,7 @@ Public Class PosPromoGroup
     Public qtyThreshold As Integer
     Public qtyMaxApllied As Integer
     Public valueThreshold As Decimal
+    Public fixPrice As Decimal
     Public percentDiscount As Decimal
     Public replaceDiscount As Boolean
     Public rowProcedureInfo As String

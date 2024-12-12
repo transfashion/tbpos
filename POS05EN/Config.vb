@@ -22,7 +22,7 @@ Public Class Config
 
 
 
-    Public Shared DevRegionId As String = "02600"
-    Public Shared DevBranchId As String = "0000600"
+    Public Shared DevRegionId As String = "00900"
+    Public Shared DevBranchId As String = "0000300"
 
 End Class

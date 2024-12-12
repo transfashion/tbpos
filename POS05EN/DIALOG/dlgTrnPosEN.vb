@@ -49,6 +49,9 @@ Public Class dlgTrnPosEN
     Private CurrentBranchId As String
 
 
+    Public Shared CurrentSelectedPromoLabel As Label
+
+
 #Region " constructor "
 
     Public Sub New(ByVal [dsn] As String, ByRef [pos] As TransStore.POS)
@@ -237,10 +240,10 @@ Public Class dlgTrnPosEN
                 '    Me.txtItemEntry.Text = ""
                 'End If
 
-                If (Me.POS.SCANMODE = POS.MODE_BARCODESCAN Or Me.POS.SCANMODE = POS.MODE_ORIGINALBARCODESCAN) And searchArt Then
+                If (Me.POS.SCANMODE = TransStore.POS.MODE_BARCODESCAN Or Me.POS.SCANMODE = TransStore.POS.MODE_ORIGINALBARCODESCAN) And searchArt Then
                     not_found_message = "Please search by Product Barcode"
                     Me.txtItemEntry.Text = ""
-                ElseIf Me.POS.SCANMODE = POS.MODE_ORIGINALBARCODESCAN And searchInternalBarcode Then
+                ElseIf Me.POS.SCANMODE = TransStore.POS.MODE_ORIGINALBARCODESCAN And searchInternalBarcode Then
                     not_found_message = "Please search by Product Barcode"
                     Me.txtItemEntry.Text = ""
                 End If
@@ -1652,14 +1655,37 @@ Public Class dlgTrnPosEN
 
 
         ' READ AVAILABLE PROMO
+        ' Tamabahkan ke Container Available Promo List
         Me.POS.PosPromo.setPOS(Me.POS)
         Me.POS.PosPromo.setTrnPOSEN(Me)
         Me.POS.PosPromo.setItemGrid(Me.DgvPOSItem)
         Me.POS.PosPromo.InitializeActivePromo(Me.CurrentRegionId, Me.CurrentBranchId)
         Me.txt_INFO.Text = ""
+
+        Dim firstItemSelected As Boolean = False
+
         For Each pd As PosPromoData In Me.POS.PosPromo.CurrentActivePromo
-            Me.txt_INFO.Text &= pd.Descr & vbCrLf
+            ' Me.txt_INFO.Text &= pd.Descr & vbCrLf
+            Dim lblPromo As New Label With {
+                .AutoSize = True,
+                .Text = pd.Descr,
+                .Padding = New Padding(2, 3, 2, 3) 'left top right bottom
+            }
+
+            If Not firstItemSelected Then
+                dlgTrnPosEN.CurrentSelectedPromoLabel = lblPromo
+                lblPromo.Font = New Font(lblPromo.Font, FontStyle.Bold)
+                lblPromo.BackColor = Color.Black
+                lblPromo.ForeColor = Color.White
+                lblPromo.Tag = pd.PromoId
+                firstItemSelected = True
+            End If
+            Me.PromoListContainer.Controls.Add(lblPromo)
         Next
+
+
+
+
 
         Me.Loaded = True
     End Sub

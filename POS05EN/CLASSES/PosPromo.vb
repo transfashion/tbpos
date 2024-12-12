@@ -59,7 +59,10 @@ Public Class PosPromo
         Dim promoJson As String
 
         ' Baca seluruh ada promo yang ada di promoDirectory
+        Dim i As Integer
         For Each promoFilePath In My.Computer.FileSystem.GetFiles(promoDirectory)
+            i = i + 1
+
             promoContentEncoded = System.IO.File.ReadAllText(promoFilePath)
             promoJson = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(promoContentEncoded))
 
@@ -93,7 +96,7 @@ Public Class PosPromo
             up.PromoId = pd.PromoId
             up.PromoName = pd.PromoName
             up.Active = True
-            Me.POS.UsedPromoList.Add(pd.PromoId, up)
+            Me.POS.UsedPromoList.Add(pd.PromoId & i, up)
 
         Next
 
@@ -119,6 +122,8 @@ Public Class PosPromo
 
         Try
             For Each pd As PosPromoData In Me.CurrentActivePromo
+
+
 
                 If Not Me.POS.UsedPromoList.Item(pd.PromoId).Active Then
                     Continue For

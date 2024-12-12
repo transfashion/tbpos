@@ -19,75 +19,77 @@ Partial Class dlgTrnPosEN
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Me.PnlPosMain = New System.Windows.Forms.Panel
-        Me.PnlPosMainCenter = New System.Windows.Forms.Panel
-        Me.DgvPOSItem = New System.Windows.Forms.DataGridView
-        Me.PnlPosMainF = New System.Windows.Forms.Panel
-        Me.txt_INFO = New System.Windows.Forms.Label
-        Me.btn_PgDown = New System.Windows.Forms.Label
-        Me.btn_PgUp = New System.Windows.Forms.Label
-        Me.Label11 = New System.Windows.Forms.Label
-        Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel
-        Me.objCustomerNationalityId = New System.Windows.Forms.Label
-        Me.objCustomerNationalityName = New System.Windows.Forms.Label
-        Me.objCustomerGenderId = New System.Windows.Forms.Label
-        Me.objCustomerGenderName = New System.Windows.Forms.Label
-        Me.objCustomerAgeId = New System.Windows.Forms.Label
-        Me.objCustomerAgeName = New System.Windows.Forms.Label
-        Me.objCustomerId = New System.Windows.Forms.Label
-        Me.objCustomerName = New System.Windows.Forms.Label
-        Me.objCustomerNPWP = New System.Windows.Forms.Label
-        Me.objVoucher01Disc = New System.Windows.Forms.Label
-        Me.objVoucher01Type = New System.Windows.Forms.Label
-        Me.objVoucher01CodeNum = New System.Windows.Forms.Label
-        Me.objVoucher01Id = New System.Windows.Forms.Label
-        Me.objVoucher01Name = New System.Windows.Forms.Label
-        Me.objSalesId = New System.Windows.Forms.Label
-        Me.objSalesName = New System.Windows.Forms.Label
-        Me.objVoucher01Method = New System.Windows.Forms.Label
-        Me.objCustomerTelp = New System.Windows.Forms.Label
-        Me.objCustomerType = New System.Windows.Forms.Label
-        Me.objCustomerDisc = New System.Windows.Forms.Label
-        Me.objCustomerPassport = New System.Windows.Forms.Label
-        Me.objBonExternal = New System.Windows.Forms.Label
-        Me.objBonEvent = New System.Windows.Forms.Label
-        Me.objSiteIdFrom = New System.Windows.Forms.Label
-        Me.objStatusShow = New System.Windows.Forms.Label
-        Me.objVoucherInformation = New System.Windows.Forms.Label
-        Me.Label10 = New System.Windows.Forms.Label
-        Me.objPaymentShortcut = New System.Windows.Forms.Label
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.objTime = New System.Windows.Forms.Label
-        Me.Label8 = New System.Windows.Forms.Label
-        Me.Label9 = New System.Windows.Forms.Label
-        Me.Label7 = New System.Windows.Forms.Label
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.objPaymentTypeName = New System.Windows.Forms.Label
-        Me.objPaymentTypeId = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.objPosOperator = New System.Windows.Forms.Label
-        Me.objPosMachineID = New System.Windows.Forms.Label
-        Me.objPosDate = New System.Windows.Forms.Label
-        Me.PnlPosMainH = New System.Windows.Forms.Panel
-        Me.lblLocationStatus = New System.Windows.Forms.Label
-        Me.objPosEventName = New System.Windows.Forms.Label
-        Me.objPosCompanyName = New System.Windows.Forms.Label
-        Me.lineItemDisplay = New System.Windows.Forms.Label
-        Me.txtItemSelectedPrice = New System.Windows.Forms.Label
-        Me.txtItemSelectedQty = New System.Windows.Forms.Label
-        Me.txtItemSelectedName = New System.Windows.Forms.Label
-        Me.txtItemEntry = New System.Windows.Forms.TextBox
-        Me.lineSubtotal = New System.Windows.Forms.Label
-        Me.lineQuantity = New System.Windows.Forms.Label
-        Me.lblQuantity = New System.Windows.Forms.Label
-        Me.txtCount = New System.Windows.Forms.Label
-        Me.lblSubtotal = New System.Windows.Forms.Label
-        Me.txtSubtotal = New System.Windows.Forms.Label
+        Me.components = New System.ComponentModel.Container()
+        Me.PnlPosMain = New System.Windows.Forms.Panel()
+        Me.PnlPosMainCenter = New System.Windows.Forms.Panel()
+        Me.DgvPOSItem = New System.Windows.Forms.DataGridView()
+        Me.PnlPosMainF = New System.Windows.Forms.Panel()
+        Me.txt_INFO = New System.Windows.Forms.Label()
+        Me.btn_PgDown = New System.Windows.Forms.Label()
+        Me.btn_PgUp = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
+        Me.objCustomerNationalityId = New System.Windows.Forms.Label()
+        Me.objCustomerNationalityName = New System.Windows.Forms.Label()
+        Me.objCustomerGenderId = New System.Windows.Forms.Label()
+        Me.objCustomerGenderName = New System.Windows.Forms.Label()
+        Me.objCustomerAgeId = New System.Windows.Forms.Label()
+        Me.objCustomerAgeName = New System.Windows.Forms.Label()
+        Me.objCustomerId = New System.Windows.Forms.Label()
+        Me.objCustomerName = New System.Windows.Forms.Label()
+        Me.objCustomerNPWP = New System.Windows.Forms.Label()
+        Me.objVoucher01Disc = New System.Windows.Forms.Label()
+        Me.objVoucher01Type = New System.Windows.Forms.Label()
+        Me.objVoucher01CodeNum = New System.Windows.Forms.Label()
+        Me.objVoucher01Id = New System.Windows.Forms.Label()
+        Me.objVoucher01Name = New System.Windows.Forms.Label()
+        Me.objSalesId = New System.Windows.Forms.Label()
+        Me.objSalesName = New System.Windows.Forms.Label()
+        Me.objVoucher01Method = New System.Windows.Forms.Label()
+        Me.objCustomerTelp = New System.Windows.Forms.Label()
+        Me.objCustomerType = New System.Windows.Forms.Label()
+        Me.objCustomerDisc = New System.Windows.Forms.Label()
+        Me.objCustomerPassport = New System.Windows.Forms.Label()
+        Me.objBonExternal = New System.Windows.Forms.Label()
+        Me.objBonEvent = New System.Windows.Forms.Label()
+        Me.objSiteIdFrom = New System.Windows.Forms.Label()
+        Me.objStatusShow = New System.Windows.Forms.Label()
+        Me.objVoucherInformation = New System.Windows.Forms.Label()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.objPaymentShortcut = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.objTime = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.objPaymentTypeName = New System.Windows.Forms.Label()
+        Me.objPaymentTypeId = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.objPosOperator = New System.Windows.Forms.Label()
+        Me.objPosMachineID = New System.Windows.Forms.Label()
+        Me.objPosDate = New System.Windows.Forms.Label()
+        Me.PnlPosMainH = New System.Windows.Forms.Panel()
+        Me.lblLocationStatus = New System.Windows.Forms.Label()
+        Me.objPosEventName = New System.Windows.Forms.Label()
+        Me.objPosCompanyName = New System.Windows.Forms.Label()
+        Me.lineItemDisplay = New System.Windows.Forms.Label()
+        Me.txtItemSelectedPrice = New System.Windows.Forms.Label()
+        Me.txtItemSelectedQty = New System.Windows.Forms.Label()
+        Me.txtItemSelectedName = New System.Windows.Forms.Label()
+        Me.txtItemEntry = New System.Windows.Forms.TextBox()
+        Me.lineSubtotal = New System.Windows.Forms.Label()
+        Me.lineQuantity = New System.Windows.Forms.Label()
+        Me.lblQuantity = New System.Windows.Forms.Label()
+        Me.txtCount = New System.Windows.Forms.Label()
+        Me.lblSubtotal = New System.Windows.Forms.Label()
+        Me.txtSubtotal = New System.Windows.Forms.Label()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.PromoListContainer = New System.Windows.Forms.FlowLayoutPanel()
         CType(Me.ds, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PnlPosMain.SuspendLayout()
         Me.PnlPosMainCenter.SuspendLayout()
@@ -105,7 +107,7 @@ Partial Class dlgTrnPosEN
         Me.PnlPosMain.Controls.Add(Me.PnlPosMainH)
         Me.PnlPosMain.Location = New System.Drawing.Point(12, 12)
         Me.PnlPosMain.Name = "PnlPosMain"
-        Me.PnlPosMain.Size = New System.Drawing.Size(787, 471)
+        Me.PnlPosMain.Size = New System.Drawing.Size(787, 544)
         Me.PnlPosMain.TabIndex = 3
         '
         'PnlPosMainCenter
@@ -133,6 +135,8 @@ Partial Class dlgTrnPosEN
         '
         'PnlPosMainF
         '
+        Me.PnlPosMainF.Controls.Add(Me.PromoListContainer)
+        Me.PnlPosMainF.Controls.Add(Me.Label12)
         Me.PnlPosMainF.Controls.Add(Me.txt_INFO)
         Me.PnlPosMainF.Controls.Add(Me.btn_PgDown)
         Me.PnlPosMainF.Controls.Add(Me.btn_PgUp)
@@ -158,21 +162,22 @@ Partial Class dlgTrnPosEN
         Me.PnlPosMainF.Controls.Add(Me.objPosMachineID)
         Me.PnlPosMainF.Controls.Add(Me.objPosDate)
         Me.PnlPosMainF.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PnlPosMainF.Location = New System.Drawing.Point(0, 304)
+        Me.PnlPosMainF.Location = New System.Drawing.Point(0, 315)
         Me.PnlPosMainF.Name = "PnlPosMainF"
-        Me.PnlPosMainF.Size = New System.Drawing.Size(787, 167)
+        Me.PnlPosMainF.Size = New System.Drawing.Size(787, 229)
         Me.PnlPosMainF.TabIndex = 1
         '
         'txt_INFO
         '
         Me.txt_INFO.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txt_INFO.ForeColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer))
-        Me.txt_INFO.Location = New System.Drawing.Point(288, 37)
+        Me.txt_INFO.Location = New System.Drawing.Point(555, 81)
         Me.txt_INFO.Name = "txt_INFO"
         Me.txt_INFO.Size = New System.Drawing.Size(222, 30)
         Me.txt_INFO.TabIndex = 37
         Me.txt_INFO.Text = "<text>"
+        Me.txt_INFO.Visible = False
         '
         'btn_PgDown
         '
@@ -198,16 +203,17 @@ Partial Class dlgTrnPosEN
         '
         Me.Label11.AutoSize = True
         Me.Label11.ForeColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer))
-        Me.Label11.Location = New System.Drawing.Point(253, 38)
+        Me.Label11.Location = New System.Drawing.Point(520, 82)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(38, 13)
         Me.Label11.TabIndex = 34
         Me.Label11.Text = "INFO: "
+        Me.Label11.Visible = False
         '
         'FlowLayoutPanel1
         '
         Me.FlowLayoutPanel1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.FlowLayoutPanel1.Controls.Add(Me.objCustomerNationalityId)
         Me.FlowLayoutPanel1.Controls.Add(Me.objCustomerNationalityName)
         Me.FlowLayoutPanel1.Controls.Add(Me.objCustomerGenderId)
@@ -232,7 +238,7 @@ Partial Class dlgTrnPosEN
         Me.FlowLayoutPanel1.Controls.Add(Me.objBonExternal)
         Me.FlowLayoutPanel1.Controls.Add(Me.objBonEvent)
         Me.FlowLayoutPanel1.Controls.Add(Me.objSiteIdFrom)
-        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(398, 131)
+        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(398, 192)
         Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
         Me.FlowLayoutPanel1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.FlowLayoutPanel1.Size = New System.Drawing.Size(366, 14)
@@ -532,7 +538,7 @@ Partial Class dlgTrnPosEN
         Me.objStatusShow.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.objStatusShow.AutoSize = True
         Me.objStatusShow.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.objStatusShow.Location = New System.Drawing.Point(765, 131)
+        Me.objStatusShow.Location = New System.Drawing.Point(765, 192)
         Me.objStatusShow.Name = "objStatusShow"
         Me.objStatusShow.Size = New System.Drawing.Size(13, 13)
         Me.objStatusShow.TabIndex = 33
@@ -541,7 +547,7 @@ Partial Class dlgTrnPosEN
         'objVoucherInformation
         '
         Me.objVoucherInformation.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.objVoucherInformation.Location = New System.Drawing.Point(597, 34)
         Me.objVoucherInformation.Name = "objVoucherInformation"
         Me.objVoucherInformation.Size = New System.Drawing.Size(174, 13)
@@ -563,7 +569,7 @@ Partial Class dlgTrnPosEN
         'objPaymentShortcut
         '
         Me.objPaymentShortcut.Font = New System.Drawing.Font("Courier New", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.objPaymentShortcut.Location = New System.Drawing.Point(253, 68)
+        Me.objPaymentShortcut.Location = New System.Drawing.Point(10, 134)
         Me.objPaymentShortcut.Name = "objPaymentShortcut"
         Me.objPaymentShortcut.Size = New System.Drawing.Size(175, 54)
         Me.objPaymentShortcut.TabIndex = 29
@@ -648,7 +654,7 @@ Partial Class dlgTrnPosEN
         Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Courier New", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(319, 148)
+        Me.Label1.Location = New System.Drawing.Point(319, 209)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(462, 14)
         Me.Label1.TabIndex = 0
@@ -777,7 +783,7 @@ Partial Class dlgTrnPosEN
         'lineItemDisplay
         '
         Me.lineItemDisplay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lineItemDisplay.BackColor = System.Drawing.Color.Gray
         Me.lineItemDisplay.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lineItemDisplay.ForeColor = System.Drawing.Color.Gray
@@ -815,7 +821,7 @@ Partial Class dlgTrnPosEN
         'txtItemSelectedName
         '
         Me.txtItemSelectedName.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtItemSelectedName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtItemSelectedName.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtItemSelectedName.ForeColor = System.Drawing.Color.DimGray
@@ -914,12 +920,32 @@ Partial Class dlgTrnPosEN
         Me.Timer1.Enabled = True
         Me.Timer1.Interval = 1000
         '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label12.ForeColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer))
+        Me.Label12.Location = New System.Drawing.Point(258, 42)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(102, 13)
+        Me.Label12.TabIndex = 38
+        Me.Label12.Text = "Available Promo:"
+        '
+        'PromoListContainer
+        '
+        Me.PromoListContainer.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
+        Me.PromoListContainer.Location = New System.Drawing.Point(261, 60)
+        Me.PromoListContainer.Margin = New System.Windows.Forms.Padding(0)
+        Me.PromoListContainer.Name = "PromoListContainer"
+        Me.PromoListContainer.Size = New System.Drawing.Size(200, 100)
+        Me.PromoListContainer.TabIndex = 39
+        '
         'dlgTrnPosEN
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.BackColor = System.Drawing.Color.DarkGray
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(811, 528)
+        Me.ClientSize = New System.Drawing.Size(811, 601)
         Me.Controls.Add(Me.PnlPosMain)
         Me.DoubleBuffered = True
         Me.Name = "dlgTrnPosEN"
@@ -1005,5 +1031,6 @@ Partial Class dlgTrnPosEN
     Friend WithEvents objBonEvent As System.Windows.Forms.Label
     Friend WithEvents objSiteIdFrom As System.Windows.Forms.Label
     Friend WithEvents txt_INFO As System.Windows.Forms.Label
-
+    Friend WithEvents Label12 As Label
+    Friend WithEvents PromoListContainer As FlowLayoutPanel
 End Class

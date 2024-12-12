@@ -43,8 +43,8 @@ Public Class uiQRTest
             Dim version = CInt(verStr)
             Dim data As String = Me.txtQRCode.Text    ' "00020101021226660018ID.CO.BANKMEGA.WWW01189360042600112810380211000001222640303UMI51410014ID.CO.QRIS.WWW0212ID12345678900303UMI5204581253033605403100550202560105802ID5923Trans Fashion Indonesia6007JAKARTA61051279062270123MID202111051433057btnYq63043FDE"
             encodedString = utf8Encoding.GetBytes(data)
-            qrCodeEncoder.QRCodeEncodeMode = qrCodeEncoder.ENCODE_MODE.BYTE
-            qrCodeEncoder.QRCodeErrorCorrect = qrCodeEncoder.ERROR_CORRECTION.H
+            qrCodeEncoder.QRCodeEncodeMode = ThoughtWorks.QRCode.Codec.QRCodeEncoder.ENCODE_MODE.BYTE
+            qrCodeEncoder.QRCodeErrorCorrect = ThoughtWorks.QRCode.Codec.QRCodeEncoder.ERROR_CORRECTION.H
             qrCodeEncoder.QRCodeScale = scale
             qrCodeEncoder.QRCodeVersion = version
 
