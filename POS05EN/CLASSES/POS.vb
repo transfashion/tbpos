@@ -1332,10 +1332,10 @@ Namespace TransStore
         End Function
 
 
-        Public Sub InitialiseSecondDisplay(ByVal startInfo As ProcessStartInfo)
+        Public Sub InitialiseSecondDisplay()
             Me.mSecondDisplay = New dlgSecondDisplay()
 
-            If startInfo.EnvironmentVariables("POSENV") = "DEV" Then
+            If uiTrnPosEN.StartInfo.EnvironmentVariables("POSENV") = "DEV" Then
                 ' DEVELOMENT
                 Me.mSecondDisplay.Text = "wndow do from kedua"
                 Me.mSecondDisplay.ShowInTaskbar = True
@@ -5617,6 +5617,8 @@ Namespace TransStore
 
         End Function
 
+
+
 #End Region
 
 
@@ -5713,7 +5715,12 @@ Namespace TransStore
                 ' Cek Search shortcut
                 If [operator].ToUpper = "ART:" Then
 
-                    If Me.POS.SCANMODE = POS.MODE_BARCODESCAN Or Me.POS.SCANMODE = POS.MODE_ORIGINALBARCODESCAN Then
+                    Dim ScanMode As String = Me.POS.SCANMODE
+                    If uiTrnPosEN.StartInfo.EnvironmentVariables("POSENV") = "DEV" Then
+                        ScanMode = Config.ScanMode
+                    End If
+
+                    If ScanMode = POS.MODE_BARCODESCAN Or ScanMode = POS.MODE_ORIGINALBARCODESCAN Then
                         Return New DataTable()
                     End If
 

@@ -24,6 +24,8 @@ Partial Class dlgTrnPosEN
         Me.PnlPosMainCenter = New System.Windows.Forms.Panel()
         Me.DgvPOSItem = New System.Windows.Forms.DataGridView()
         Me.PnlPosMainF = New System.Windows.Forms.Panel()
+        Me.PromoListContainer = New System.Windows.Forms.FlowLayoutPanel()
+        Me.Label12 = New System.Windows.Forms.Label()
         Me.txt_INFO = New System.Windows.Forms.Label()
         Me.btn_PgDown = New System.Windows.Forms.Label()
         Me.btn_PgUp = New System.Windows.Forms.Label()
@@ -88,8 +90,6 @@ Partial Class dlgTrnPosEN
         Me.lblSubtotal = New System.Windows.Forms.Label()
         Me.txtSubtotal = New System.Windows.Forms.Label()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.Label12 = New System.Windows.Forms.Label()
-        Me.PromoListContainer = New System.Windows.Forms.FlowLayoutPanel()
         CType(Me.ds, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PnlPosMain.SuspendLayout()
         Me.PnlPosMainCenter.SuspendLayout()
@@ -166,6 +166,26 @@ Partial Class dlgTrnPosEN
         Me.PnlPosMainF.Name = "PnlPosMainF"
         Me.PnlPosMainF.Size = New System.Drawing.Size(787, 229)
         Me.PnlPosMainF.TabIndex = 1
+        '
+        'PromoListContainer
+        '
+        Me.PromoListContainer.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
+        Me.PromoListContainer.Location = New System.Drawing.Point(261, 60)
+        Me.PromoListContainer.Margin = New System.Windows.Forms.Padding(0)
+        Me.PromoListContainer.Name = "PromoListContainer"
+        Me.PromoListContainer.Size = New System.Drawing.Size(200, 100)
+        Me.PromoListContainer.TabIndex = 39
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label12.ForeColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer))
+        Me.Label12.Location = New System.Drawing.Point(258, 42)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(128, 13)
+        Me.Label12.TabIndex = 38
+        Me.Label12.Text = "Available Promo: (F6)"
         '
         'txt_INFO
         '
@@ -919,26 +939,6 @@ Partial Class dlgTrnPosEN
         '
         Me.Timer1.Enabled = True
         Me.Timer1.Interval = 1000
-        '
-        'Label12
-        '
-        Me.Label12.AutoSize = True
-        Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label12.ForeColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer))
-        Me.Label12.Location = New System.Drawing.Point(258, 42)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(102, 13)
-        Me.Label12.TabIndex = 38
-        Me.Label12.Text = "Available Promo:"
-        '
-        'PromoListContainer
-        '
-        Me.PromoListContainer.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
-        Me.PromoListContainer.Location = New System.Drawing.Point(261, 60)
-        Me.PromoListContainer.Margin = New System.Windows.Forms.Padding(0)
-        Me.PromoListContainer.Name = "PromoListContainer"
-        Me.PromoListContainer.Size = New System.Drawing.Size(200, 100)
-        Me.PromoListContainer.TabIndex = 39
         '
         'dlgTrnPosEN
         '

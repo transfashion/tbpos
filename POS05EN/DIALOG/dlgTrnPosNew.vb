@@ -374,7 +374,6 @@ Public Class dlgTrnPosNew
     End Sub
 
     Private Sub dlgOK()
-        Dim startInfo As ProcessStartInfo = New ProcessStartInfo()
 
 
         ' Cek apakah pengisian kode voucher link ke customer
@@ -494,10 +493,10 @@ Public Class dlgTrnPosNew
 
 
         ' Untuk mode development, gak perlu input SalesPerson, ExternalId dan Customer Info
-        If startInfo.EnvironmentVariables("POSENV") = "DEV" Then
-            SALESPERSON_IS_MANDATORY = False
-            EXTID_IS_ENABLED = False
-            CUSTOMERINFO_IS_MANDATORY = False
+        If uiTrnPosEN.StartInfo.EnvironmentVariables("POSENV") = "DEV" Then
+            SALESPERSON_IS_MANDATORY = Config.SalesPersonIsMandatory
+            EXTID_IS_ENABLED = Config.ExtIdIsEnabled
+            CUSTOMERINFO_IS_MANDATORY = Config.CustomerInfoIsMandatory
         End If
 
 

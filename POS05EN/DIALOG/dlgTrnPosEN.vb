@@ -9,7 +9,6 @@ Public Class dlgTrnPosEN
         End If
     End Sub
 
-    Private startInfo As ProcessStartInfo
 
 
     Private DSNLocal As String
@@ -235,15 +234,16 @@ Public Class dlgTrnPosEN
         If Not cancel Then
             If Not ret Then
                 Dim not_found_message As String = ItemNotFoundWarning & "   [" & id & "]"
-                'If Me.POS.SCANMODE = POS.MODE_BARCODESCAN And (searchArt Or searchInternalBarcode) Then
-                '    not_found_message = "Please search by Product Barcode"
-                '    Me.txtItemEntry.Text = ""
-                'End If
 
-                If (Me.POS.SCANMODE = TransStore.POS.MODE_BARCODESCAN Or Me.POS.SCANMODE = TransStore.POS.MODE_ORIGINALBARCODESCAN) And searchArt Then
+                Dim ScanMode As String = Me.POS.SCANMODE
+                If uiTrnPosEN.StartInfo.EnvironmentVariables("POSENV") = "DEV" Then
+                    ScanMode = Config.ScanMode
+                End If
+
+                If (ScanMode = TransStore.POS.MODE_BARCODESCAN Or ScanMode = TransStore.POS.MODE_ORIGINALBARCODESCAN) And searchArt Then
                     not_found_message = "Please search by Product Barcode"
                     Me.txtItemEntry.Text = ""
-                ElseIf Me.POS.SCANMODE = TransStore.POS.MODE_ORIGINALBARCODESCAN And searchInternalBarcode Then
+                ElseIf ScanMode = TransStore.POS.MODE_ORIGINALBARCODESCAN And searchInternalBarcode Then
                     not_found_message = "Please search by Product Barcode"
                     Me.txtItemEntry.Text = ""
                 End If
@@ -611,31 +611,27 @@ Public Class dlgTrnPosEN
     End Function
 
     Private Function Key_F6(ByVal keycode As System.Windows.Forms.Keys, ByVal ctrl As Boolean, ByRef SuppressKeyPress As Boolean) As Boolean
-        If Not Me.POS.PROMO_BUTTON Then
-            Return False
+        'If Not Me.POS.PROMO_BUTTON Then
+        '    Return False
+        'End If
+
+        If (Me.PromoListContainer.Controls.Count > 0) Then
+            Dim lbl As Label = TryCast(Me.PromoListContainer.GetNextControl(dlgTrnPosEN.CurrentSelectedPromoLabel, True), Label)
+            If (lbl IsNot Nothing) Then
+                SetActivePromoLabel(lbl)
+            Else
+                ' pilih label yang pertama
+                lbl = Me.PromoListContainer.Controls.Item(0)
+                SetActivePromoLabel(lbl)
+            End If
+
+            Me.RecalculateTotal()
+            Dim pd As PosPromoData = TryCast(lbl.Tag, PosPromoData)
+            If pd IsNot Nothing Then
+                Dim ci As PosPromo.CustomerInfo = Me.getCurrentCustomerInfo()
+                Me.POS.PosPromo.CalculateCurrentActivePromo(pd, ci)
+            End If
         End If
-
-
-        'Dim promomodel As String = "xxx"
-        'Dim promoargs As PromoArguments = New PromoArguments()
-
-        'Select Case promomodel
-        '    Case "MD1"
-        '        Me.SetPromo_MD1(promoargs)
-
-        '    Case "PROMO123"
-        '        Me.SetPromo_PROMO123(promoargs)
-
-        '    Case "PROMOBUNDLING"
-        '        Me.SetPromo_Bundling(promoargs)
-
-        '    Case "PALINGMURAH"
-        '        Me.SetPromo_PalingMurah(promoargs)
-
-        '    Case "PURCHASEWITHDISC"
-        '        Me.SetPromo_PurchaseWithDisc(promoargs)
-
-        'End Select
     End Function
 
 
@@ -1023,9 +1019,15 @@ Public Class dlgTrnPosEN
         ' Calculate Items
         Me.RecalculateTotal()
 
-        ' Calculate Promo
-        Dim ci As PosPromo.CustomerInfo = Me.getCurrentCustomerInfo()
-        Me.POS.PosPromo.CalculateCurrentActivePromo(ci)
+
+        ' Ambil Promo yang saat ini dipilih
+        Dim lbl As Label = dlgTrnPosEN.CurrentSelectedPromoLabel
+        Dim pd As PosPromoData = TryCast(lbl.Tag, PosPromoData)
+        If pd IsNot Nothing Then
+            Dim ci As PosPromo.CustomerInfo = Me.getCurrentCustomerInfo()
+            Me.POS.PosPromo.CalculateCurrentActivePromo(pd, ci)
+        End If
+
 
         Me.POS_SecondMonitorDisplaySyncValue()
 
@@ -1547,7 +1549,6 @@ Public Class dlgTrnPosEN
     Private Sub dlgTrnPosEN_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         TransStore.POS.InstanceNumerator = 0
-        startInfo = New ProcessStartInfo()
 
 
         Dim obj As Control
@@ -1669,25 +1670,33 @@ Public Class dlgTrnPosEN
             Dim lblPromo As New Label With {
                 .AutoSize = True,
                 .Text = pd.Descr,
-                .Padding = New Padding(2, 3, 2, 3) 'left top right bottom
+                .Padding = New Padding(2, 3, 2, 3), 'left top right bottom
+                .Tag = pd
             }
 
             If Not firstItemSelected Then
-                dlgTrnPosEN.CurrentSelectedPromoLabel = lblPromo
-                lblPromo.Font = New Font(lblPromo.Font, FontStyle.Bold)
-                lblPromo.BackColor = Color.Black
-                lblPromo.ForeColor = Color.White
-                lblPromo.Tag = pd.PromoId
+                Me.SetActivePromoLabel(lblPromo)
                 firstItemSelected = True
             End If
             Me.PromoListContainer.Controls.Add(lblPromo)
         Next
 
-
-
-
-
         Me.Loaded = True
+    End Sub
+
+
+    Private Sub SetActivePromoLabel(lbl As Label)
+        Dim currentLabel As Label = dlgTrnPosEN.CurrentSelectedPromoLabel
+        If currentLabel IsNot Nothing Then
+            currentLabel.Font = DefaultFont
+            currentLabel.BackColor = Color.Transparent
+            currentLabel.ForeColor = DefaultForeColor
+        End If
+
+        dlgTrnPosEN.CurrentSelectedPromoLabel = lbl
+        lbl.Font = New Font(lbl.Font, FontStyle.Bold)
+        lbl.BackColor = Color.Black
+        lbl.ForeColor = Color.White
     End Sub
 
 
@@ -2170,10 +2179,19 @@ Public Class dlgTrnPosEN
         'Me.objPaymentTypeId.AutoSize = True
         Me.objPaymentTypeName.AutoSize = True
 
-        ' Me.CalculatePromo()
         Me.RecalculateTotal()
-        Dim ci As PosPromo.CustomerInfo = Me.getCurrentCustomerInfo()
-        Me.POS.PosPromo.CalculateCurrentActivePromo(ci)
+
+
+        ' Ambil Promo yang saat ini dipilih
+        Dim lbl As Label = dlgTrnPosEN.CurrentSelectedPromoLabel
+        If lbl IsNot Nothing Then
+            Dim pd As PosPromoData = TryCast(lbl.Tag, PosPromoData)
+            If pd IsNot Nothing Then
+                Dim ci As PosPromo.CustomerInfo = Me.getCurrentCustomerInfo()
+                Me.POS.PosPromo.CalculateCurrentActivePromo(pd, ci)
+            End If
+        End If
+
 
 
         ' Display ---xxxx----

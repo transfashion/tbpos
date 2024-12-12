@@ -1,3 +1,6 @@
+Imports System.Security.Cryptography.X509Certificates
+Imports Microsoft.Reporting.WinForms
+
 Public Class PosPromo
     Dim POS As TransStore.POS
     Dim mainPosDialog As dlgTrnPosEN
@@ -96,14 +99,19 @@ Public Class PosPromo
             up.PromoId = pd.PromoId
             up.PromoName = pd.PromoName
             up.Active = True
-            Me.POS.UsedPromoList.Add(pd.PromoId & i, up)
+            If (Not Me.POS.UsedPromoList.ContainsKey(pd.PromoId)) Then
+                Me.POS.UsedPromoList.Add(pd.PromoId, up)
+            Else
+                MessageBox.Show("Promo " & pd.PromoId & " is dupicated.", "POS", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            End If
 
         Next
 
     End Sub
 
 
-    Public Sub CalculateCurrentActivePromo(ByVal ci As CustomerInfo)
+    ' Public Sub CalculateCurrentActivePromo(ByVal ci As CustomerInfo)
+    Public Sub CalculateCurrentActivePromo(pd As PosPromoData, ci As CustomerInfo)
         If Me.POS Is Nothing Then
             Return
         End If
@@ -121,44 +129,42 @@ Public Class PosPromo
         Me.POS.BolehDiscPayment = True
 
         Try
-            For Each pd As PosPromoData In Me.CurrentActivePromo
+            'For Each pd As PosPromoData In Me.CurrentActivePromo
 
+            If Not Me.POS.UsedPromoList.Item(pd.PromoId).Active Then
+                Exit Sub
+            End If
 
+            If pd.isMemberOnly And Not ci.IsMember Then
+                Exit Sub
+            End If
 
-                If Not Me.POS.UsedPromoList.Item(pd.PromoId).Active Then
-                    Continue For
+            dtitem.AcceptChanges()
+            Dim promoapplied As Boolean = False
+            If Me.PromoRule.Contains(pd.Rule) Then
+                Dim rulename As String = Me.PromoRule.Item(pd.Rule)
+                If rulename = "do_BundlingAB" Then
+                    promoapplied = Me.do_BundlingAB(dtitem, pd)
+                ElseIf rulename = "do_BuyA_GetB" Then
+                    promoapplied = Me.do_BuyA_GetB(dtitem, pd)
+                ElseIf rulename = "do_Termurah" Then
+                    promoapplied = Me.do_Termurah(dtitem, pd)
                 End If
+            Else
+                Throw New Exception(String.Format("Promo Rule {0} tidak ditemukan", pd.Rule))
+            End If
 
-                If pd.isMemberOnly And Not ci.IsMember Then
-                    Continue For
-                End If
-
-                dtitem.AcceptChanges()
-                Dim promoapplied As Boolean = False
-                If Me.PromoRule.Contains(pd.Rule) Then
-                    Dim rulename As String = Me.PromoRule.Item(pd.Rule)
-                    If rulename = "do_BundlingAB" Then
-                        promoapplied = Me.do_BundlingAB(dtitem, pd)
-                    ElseIf rulename = "do_BuyA_GetB" Then
-                        promoapplied = Me.do_BuyA_GetB(dtitem, pd)
-                    ElseIf rulename = "do_Termurah" Then
-                        promoapplied = Me.do_Termurah(dtitem, pd)
+            If promoapplied Then
+                Me.POS.PromoApplied = Me.POS.PromoApplied Or True
+                Me.POS.BolehDiscPayment = Me.POS.BolehDiscPayment And pd.PaymentDiscAllowed
+                For Each paymenttype_id As String In pd.PaymentTypeAllowed
+                    If Not Me.POS.AllowedPaymenttype.Contains(paymenttype_id) Then
+                        Me.POS.AllowedPaymenttype.Add(paymenttype_id, paymenttype_id)
                     End If
-                Else
-                    Throw New Exception(String.Format("Promo Rule {0} tidak ditemukan", pd.Rule))
-                End If
+                Next
+            End If
 
-                If promoapplied Then
-                    Me.POS.PromoApplied = Me.POS.PromoApplied Or True
-                    Me.POS.BolehDiscPayment = Me.POS.BolehDiscPayment And pd.PaymentDiscAllowed
-                    For Each paymenttype_id As String In pd.PaymentTypeAllowed
-                        If Not Me.POS.AllowedPaymenttype.Contains(paymenttype_id) Then
-                            Me.POS.AllowedPaymenttype.Add(paymenttype_id, paymenttype_id)
-                        End If
-                    Next
-                End If
-
-            Next
+            'Next
 
             Me.POS.PosItems.AcceptChanges()
 

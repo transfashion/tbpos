@@ -1,3 +1,5 @@
+Imports POS05EN.TransStore
+
 Public Class Config
 
     ''''Development purpose only
@@ -24,5 +26,12 @@ Public Class Config
 
     Public Shared DevRegionId As String = "00900"
     Public Shared DevBranchId As String = "0000300"
+
+    Public Shared ScanMode As String = "" 'TransStore.POS.MODE_BARCODESCAN
+
+    Public Shared SalesPersonIsMandatory = False
+    Public Shared CustomerInfoIsMandatory = False
+    Public Shared ExtIdIsEnabled = False
+
 
 End Class

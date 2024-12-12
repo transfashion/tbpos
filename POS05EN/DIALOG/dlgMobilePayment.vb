@@ -5,7 +5,6 @@ Public Class dlgMobilePayment
     Private _mid As String
     Private _tid As String
     Private extendTime As Integer
-    Private startInfo As ProcessStartInfo
 
     Private Parameter As MobilePaymentParameter
     Private WithEvents POS As TransStore.POS
@@ -22,7 +21,6 @@ Public Class dlgMobilePayment
 
 
     Private Sub dlgMobilePayment_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim startInfo As ProcessStartInfo = New ProcessStartInfo()
 
         Me.txt_ReffNum.BorderStyle = BorderStyle.None
         Me.txt_CountDown.BorderStyle = BorderStyle.None
@@ -30,7 +28,7 @@ Public Class dlgMobilePayment
         Me.extendTime = MaxExtendTime
         Me._payresult = New MobilePaymentResult
 
-        If startInfo.EnvironmentVariables("POSENV") = "DEV" Then
+        If uiTrnPosEN.StartInfo.EnvironmentVariables("POSENV") = "DEV" Then
             Me.btn_Copy.Visible = True
         Else
             Me.btn_Copy.Visible = False
