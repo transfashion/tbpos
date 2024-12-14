@@ -135,6 +135,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CLASSES\BitmapData.vb" />
+    <Compile Include="CLASSES\DataExporter.vb" />
+    <Compile Include="CLASSES\POSItem.vb" />
     <Compile Include="CLASSES\CreditCard.vb" />
     <Compile Include="CLASSES\DateInterval.vb" />
     <Compile Include="CLASSES\FGTASync.vb" />
@@ -149,6 +151,7 @@
     <Compile Include="CLASSES\PromoArguments.vb" />
     <Compile Include="CLASSES\TransbrowserFileCompress.vb" />
     <Compile Include="CLASSES\FGTAWebService.vb" />
+    <Compile Include="CLASSES\Utilities.vb" />
     <Compile Include="CLASSES\VoucherData.vb" />
     <Compile Include="CLASSES\WsResult.vb" />
     <Compile Include="CLASSES\WsVoucherInfoResult.vb" />

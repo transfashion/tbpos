@@ -26,6 +26,8 @@ Public Class Config
 
     Public Shared DevRegionId As String = "00900"
     Public Shared DevBranchId As String = "0000300"
+    Public Shared DevMachineId As String = "DV"
+    Public Shared DevBonType As String = "OUTLET02" 'BAZAR OUTLET01, OUTLET02, OUTLET03
 
     Public Shared ScanMode As String = "" 'TransStore.POS.MODE_BARCODESCAN
 

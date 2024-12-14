@@ -73,6 +73,7 @@ Namespace TransStore
         Private _BolehDiscPayment As Boolean
         Private _AllowedPaymenttype As Collection = New Collection()
         Private _PromoApplied As Boolean = False
+        Private _TaxPercent As Decimal
 
         Private _PosPromo As PosPromo
 
@@ -571,6 +572,9 @@ Namespace TransStore
         End Property
 
 
+
+
+
         Public Property SessionId() As String
             Get
                 Return Me.mSessionId
@@ -663,7 +667,11 @@ Namespace TransStore
 
         Public Property MachineId() As String
             Get
-                Return Me.mMachineID
+                If Me.IsDevelopmentMode Then
+                    Return Config.DevMachineId
+                Else
+                    Return Me.mMachineID
+                End If
             End Get
             Set(ByVal value As String)
                 Me.mMachineID = value
@@ -1281,32 +1289,26 @@ Namespace TransStore
             End Get
         End Property
 
-        'Public Property DefPaymentTypeID() As String
-        '    Get
-        '        Return mDefPaymentTypeID
-        '    End Get
-        '    Set(ByVal value As String)
-        '        mDefPaymentTypeID = value
-        '    End Set
-        'End Property
+        Public ReadOnly Property TaxPercent() As Decimal
+            Get
+                Dim _retval As String
+                Dim dr As DataRow()
+                dr = Me.Setting.Select("setting_id='POSH_TAXPERCENT'")
+                If dr.Length > 0 Then
+                    _retval = dr(0).Item("setting_value").ToString()
+                Else
+                    _retval = "11"
+                End If
+                Dim tp As Decimal
+                tp = CDec(_retval)
 
-        'Public Property DefPaymentTypeName() As String
-        '    Get
-        '        Return mDefPaymentTypeName
-        '    End Get
-        '    Set(ByVal value As String)
-        '        mDefPaymentTypeName = value
-        '    End Set
-        'End Property
+                Return tp
+            End Get
+        End Property
 
-        'Public Property DefPaymentTypeIsChanged() As Boolean
-        '    Get
-        '        Return mDefPaymentTypeIsChanged
-        '    End Get
-        '    Set(ByVal value As Boolean)
-        '        mDefPaymentTypeIsChanged = value
-        '    End Set
-        'End Property
+
+
+
 
 
 
@@ -3550,9 +3552,14 @@ Namespace TransStore
 
         Public Function FormatBon(ByVal objBon As uiTrnPosEN.PosBonData, ByVal reprint As Boolean, ByVal void As Boolean) As String()
             Dim str() As String
-            ' str = FormatBon_137(objBon, reprint)
+            Dim bontype As String = Me.BONTYPE.ToUpper
 
-            Select Case Me.BONTYPE.ToUpper
+            If IsDevelopmentMode Then
+                bontype = Config.DevBonType
+            End If
+
+
+            Select Case bontype
                 Case "OUTLET00"
                     str = FormatBon_Bazar(objBon, reprint, void)
                 Case "OUTLET01"
@@ -3753,14 +3760,14 @@ Namespace TransStore
                 Line &= "   "
                 Line &= CARDNO.PadLeft(19, pad)
                 Line &= " "
-                Line &= CARDHO.PadRight(27, pad)
+                Line &= Trim(CARDHO).PadRight(24, pad)
                 Line &= " "
 
 
                 Select Case i
                     Case 1
                         Dim mVoured As Decimal = objBon.Header.Rows(0).Item("bon_msubtvoucher") + objBon.Header.Rows(0).Item("bon_msubtredeem")
-                        Line &= "SALES NETT".PadLeft(11, pad)
+                        Line &= "SALES NETT".PadLeft(14, pad)
                         Line &= " "
                         Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msalenet")).PadLeft(11, pad)
                         Line &= " "
@@ -3771,7 +3778,11 @@ Namespace TransStore
                         Line &= String.Format("{0:#,##0}", mVoured).PadLeft(11, pad)
 
                     Case 2
-                        Line &= "Inc PPN 11%".PadLeft(11, pad)
+                        Dim tax As Decimal = objBon.Header.Rows(0).Item("bon_msaletax")
+                        Dim netbeforetax As Decimal = objBon.Header.Rows(0).Item("bon_msalenet")
+                        Dim taxprc As Decimal = Math.Round((tax / netbeforetax) * 100, 2)
+
+                        Line &= ("Inc PPN " & CStr(taxprc) & "%").PadLeft(14, pad)
                         Line &= " "
                         Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msaletax")).PadLeft(11, pad)
                         Line &= " "
@@ -3782,7 +3793,7 @@ Namespace TransStore
                         Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msubtdiscadd")).PadLeft(11, pad)
 
                     Case 3
-                        Line &= "GROSS".PadLeft(11, pad)
+                        Line &= "GROSS".PadLeft(14, pad)
                         Line &= " "
                         Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msalegross")).PadLeft(11, pad)
                         Line &= " "
@@ -4057,14 +4068,14 @@ Namespace TransStore
                 Line &= "   "
                 Line &= CARDNO.PadLeft(19, pad)
                 Line &= " "
-                Line &= CARDHO.PadRight(27, pad)
+                Line &= Trim(CARDHO).PadRight(24, pad)
                 Line &= " "
 
 
                 Select Case i
                     Case 1
                         Dim mVoured As Decimal = objBon.Header.Rows(0).Item("bon_msubtvoucher") + objBon.Header.Rows(0).Item("bon_msubtredeem")
-                        Line &= "SALES NETT".PadLeft(11, pad)
+                        Line &= "SALES NETT".PadLeft(14, pad)
                         Line &= " "
                         Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msalenet")).PadLeft(11, pad)
                         Line &= " "
@@ -4075,7 +4086,11 @@ Namespace TransStore
                         Line &= String.Format("{0:#,##0}", mVoured).PadLeft(11, pad)
 
                     Case 2
-                        Line &= "Inc PPN 11%".PadLeft(11, pad)
+                        Dim tax As Decimal = objBon.Header.Rows(0).Item("bon_msaletax")
+                        Dim netbeforetax As Decimal = objBon.Header.Rows(0).Item("bon_msalenet")
+                        Dim taxprc As Decimal = Math.Round((tax / netbeforetax) * 100, 2)
+
+                        Line &= ("Inc PPN " & CStr(taxprc) & "%").PadLeft(14, pad)
                         Line &= " "
                         Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msaletax")).PadLeft(11, pad)
                         Line &= " "
@@ -4088,7 +4103,7 @@ Namespace TransStore
                     Case 3
                         Dim discline = "DISC  (" & Trim(objBon.Header.Rows(0).Item("pospayment_id")) & ")"
 
-                        Line &= "GROSS".PadLeft(11, pad)
+                        Line &= "GROSS".PadLeft(14, pad)
                         Line &= " "
                         Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msalegross")).PadLeft(11, pad)
                         Line &= " "
@@ -4374,8 +4389,11 @@ Namespace TransStore
             Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msalegross")).PadLeft(11, pad)
             sb.AppendText(Line & vbCrLf)
 
+            Dim tax As Decimal = objBon.Header.Rows(0).Item("bon_msaletax")
+            Dim netbeforetax As Decimal = objBon.Header.Rows(0).Item("bon_msalenet")
+            Dim taxprc As Decimal = Math.Round((tax / netbeforetax) * 100, 2)
 
-            Line = "Inc.PPN 11%".PadRight(29)
+            Line = ("Inc.PPN " & CStr(taxprc) & "%").PadRight(29)
             Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msaletax")).PadLeft(11, pad)
             sb.AppendText(Line & vbCrLf)
 
@@ -4646,7 +4664,12 @@ Namespace TransStore
             sb.AppendText(Line & vbCrLf)
 
 
-            Line = "Inc.PPN 11%".PadRight(29)
+            Dim tax As Decimal = objBon.Header.Rows(0).Item("bon_msaletax")
+            Dim netbeforetax As Decimal = objBon.Header.Rows(0).Item("bon_msalenet")
+            Dim taxprc As Decimal = Math.Round((tax / netbeforetax) * 100, 2)
+
+
+            Line = ("Inc.PPN " & CStr(taxprc) & "%").PadRight(29)
             Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msaletax")).PadLeft(27, pad)
             sb.AppendText(Line & vbCrLf)
 
@@ -5624,776 +5647,6 @@ Namespace TransStore
 
     End Class
 
-    Public Class POSItem
-        Private fielddata As DataRow
-        Private POS As POS
-
-#Region " Constructor "
-
-        Public Sub New(ByVal pos As POS)
-            Me.POS = pos
-        End Sub
-
-#End Region
-
-        Public ReadOnly Property Fields(ByVal columnname As String) As Object
-            Get
-                Try
-                    Return fielddata(columnname)
-                Catch ex As Exception
-                    Return Nothing
-                End Try
-            End Get
-        End Property
-
-        'Public Function GetItem(ByVal objItem As POS.PosItemData) As Boolean
-        '    'Dim dsn As String = POS.DSN
-        '    'Dim conn As OleDb.OleDbConnection = New OleDb.OleDbConnection(dsn)
-        '    'Dim sql As String = ""
-        '    'Dim columnname As String = ""
-
-        '    'Try
-        '    '    Dim cmd As OleDb.OleDbCommand
-        '    '    Dim da As OleDb.OleDbDataAdapter
-        '    '    Dim tbl As DataTable = New DataTable()
-
-        '    '    conn.Open()
-        '    '    sql = "select * from master_iteminventory where iteminventory_id='" & id & "'"
-        '    '    cmd = New OleDb.OleDbCommand(sql, conn)
-        '    '    da = New OleDb.OleDbDataAdapter(cmd)
-        '    '    da.Fill(tbl)
-        '    '    If tbl.Rows.Count > 0 Then
-        '    '        Me.fielddata = tbl.Rows(0)
-        '    '    Else
-        '    '        Me.fielddata = Nothing
-        '    '        Return False
-        '    '    End If
-
-        '    '    Return True
-        '    'Catch ex As Exception
-        '    '    Throw ex
-        '    'Finally
-        '    '    conn.Close()
-        '    'End Try
-        'End Function
-
-        Public Function ReadEmbedSql(ByVal filename As String) As String
-
-            Dim path As String = "POS05EN." & filename & ".sql"
-
-            Try
-                Dim assembly As System.Reflection.Assembly = Me.GetType().Assembly
-                Dim stream As System.IO.Stream = assembly.GetManifestResourceStream(path)
-                Dim streamreader As System.IO.StreamReader = New IO.StreamReader(stream)
-                Return streamreader.ReadToEnd()
-            Catch ex As Exception
-                Throw ex
-            End Try
-
-
-        End Function
-
-
-        Public Function ScanItem(ByVal id As String) As DataTable
-            Dim dsn As String = POS.DSN
-            Dim conn As OleDb.OleDbConnection = New OleDb.OleDbConnection(dsn)
-            Dim SQL As String = ""
-            Dim columnname As String = ""
-            Dim tbl As DataTable = New DataTable()
-
-
-            Try
-                Dim temptext As String = Trim(id) & "    "
-                Dim [operator] As String = temptext.Substring(0, 4)
-                Dim [operand] As String = ""
-                Dim cmdScan As OleDb.OleDbCommand
-                Dim da As OleDb.OleDbDataAdapter
-
-                conn.Open()
-
-
-                ' Cek Search shortcut
-                If [operator].ToUpper = "ART:" Then
-
-                    Dim ScanMode As String = Me.POS.SCANMODE
-                    If uiTrnPosEN.StartInfo.EnvironmentVariables("POSENV") = "DEV" Then
-                        ScanMode = Config.ScanMode
-                    End If
-
-                    If ScanMode = POS.MODE_BARCODESCAN Or ScanMode = POS.MODE_ORIGINALBARCODESCAN Then
-                        Return New DataTable()
-                    End If
-
-
-                    [operand] = temptext.Substring(4, Len(temptext) - 4)
-                    'break operand dengan |
-
-                    Dim operands() As String = [operand].Split("|")
-                    If operands.Length > 0 Then
-                        Dim _art As String = ""
-                        Dim _mat As String = ""
-                        Dim _col As String = ""
-
-                        Try
-                            _art = Trim(operands(0))
-                            _mat = Trim(operands(1))
-                            _col = Trim(operands(2))
-                        Catch ex As Exception
-                        End Try
-
-                        Dim criteria As String = ""
-                        Dim SQLCriteria As String = ""
-                        Dim matchlike As Boolean = False
-                        Dim asterixpos As Integer = _art.IndexOf("%")
-                        If asterixpos > 0 Then
-                            matchlike = True
-                        End If
-
-
-                        If _art <> "" Then
-                            If matchlike Then
-                                criteria = String.Format("heinv_art LIKE '{0}'", _art)
-                            Else
-                                criteria = String.Format("heinv_art = '{0}'", _art)
-                            End If
-
-                            If SQLCriteria <> "" Then
-                                SQLCriteria &= " AND " & criteria
-                            Else
-                                SQLCriteria = criteria
-                            End If
-                        Else
-                            Exit Try
-                        End If
-
-
-                        If _mat <> "" Then
-                            criteria = String.Format("heinv_mat = '{0}'", _mat)
-                            If SQLCriteria <> "" Then
-                                SQLCriteria &= " AND " & criteria
-                            Else
-                                SQLCriteria = criteria
-                            End If
-                        End If
-
-                        If _col <> "" Then
-                            criteria = String.Format("heinv_col = '{0}'", _col)
-                            If SQLCriteria <> "" Then
-                                SQLCriteria &= " AND " & criteria
-                            Else
-                                SQLCriteria = criteria
-                            End If
-                        End If
-
-
-                        If SQLCriteria.Contains("DELETE ") Or SQLCriteria.Contains("INSERT ") Or SQLCriteria.Contains("UPDATE ") Or SQLCriteria.Contains("DROP ") Then
-                        Else
-
-                            SQL = Me.ReadEmbedSql("ScanBarcode03")
-                            cmdScan = conn.CreateCommand()
-                            cmdScan.CommandType = CommandType.Text
-                            cmdScan.CommandText = SQL
-                            cmdScan.Parameters.Add(New System.Data.OleDb.OleDbParameter("@criteria", System.Data.OleDb.OleDbType.VarWChar, 255))
-                            cmdScan.Parameters("@criteria").Value = SQLCriteria
-                            da = New OleDb.OleDbDataAdapter(cmdScan)
-                            da.Fill(tbl)
-                        End If
-
-                    End If
-
-
-                ElseIf [operator].ToUpper = "DES:" Then
-                    If Me.POS.SCANMODE = POS.MODE_BARCODESCAN Or Me.POS.SCANMODE = POS.MODE_ORIGINALBARCODESCAN Then
-                        Return New DataTable()
-                    End If
-
-
-                    [operand] = temptext.Substring(4, Len(temptext) - 4)
-                    Dim _des As String = " " & [operand]
-                    Dim criteria As String = ""
-                    Dim SQLCriteria As String = ""
-                    Dim matchlike As Boolean
-                    Dim asterixpos As Integer = _des.IndexOf("%")
-                    If asterixpos > 0 Then
-                        matchlike = True
-                    End If
-
-
-                    _des = Trim(_des)
-                    If _des = "%%" Then
-                        Exit Try
-                    End If
-                    If _des <> "" Then
-                        If matchlike Then
-                            criteria = String.Format("heinv_name LIKE '{0}'", _des)
-                        Else
-                            criteria = String.Format("heinv_name = '{0}'", _des)
-                        End If
-
-                        If SQLCriteria <> "" Then
-                            SQLCriteria &= " AND " & criteria
-                        Else
-                            SQLCriteria = criteria
-                        End If
-                    End If
-
-                    If SQLCriteria.Contains("DELETE ") Or SQLCriteria.Contains("INSERT ") Or SQLCriteria.Contains("UPDATE ") Or SQLCriteria.Contains("DROP ") Then
-                    Else
-                        SQL = Me.ReadEmbedSql("ScanBarcode03")
-                        cmdScan = conn.CreateCommand()
-                        cmdScan.CommandType = CommandType.Text
-                        cmdScan.CommandText = SQL
-                        cmdScan.Parameters.Add(New System.Data.OleDb.OleDbParameter("@criteria", System.Data.OleDb.OleDbType.VarWChar, 255))
-                        cmdScan.Parameters("@criteria").Value = SQLCriteria
-                        da = New OleDb.OleDbDataAdapter(cmdScan)
-                        da.Fill(tbl)
-                    End If
-
-
-                Else
-                    ' Cek apakah Identifiernya TM
-                    If Left(id, 2) = TransStore.POS.ItemIdentifier Then
-                        If Me.POS.SCANMODE = POS.MODE_ORIGINALBARCODESCAN Then
-                            Return New DataTable()
-                        End If
-
-                        ' Identifier TM
-                        SQL = Me.ReadEmbedSql("ScanBarcode01")
-                        cmdScan = conn.CreateCommand()
-                        cmdScan.CommandType = CommandType.Text
-                        cmdScan.CommandText = SQL
-                        cmdScan.Parameters.Add(New System.Data.OleDb.OleDbParameter("@id", System.Data.OleDb.OleDbType.VarWChar, 13))
-                        cmdScan.Parameters("@id").Value = id
-                        da = New OleDb.OleDbDataAdapter(cmdScan)
-                        da.Fill(tbl)
-                    Else
-                        ' Identifier bukan TM
-                        SQL = Me.ReadEmbedSql("ScanBarcode02")
-                        cmdScan = conn.CreateCommand()
-                        cmdScan.CommandType = CommandType.Text
-                        cmdScan.CommandText = SQL
-                        cmdScan.Parameters.Add(New System.Data.OleDb.OleDbParameter("@id", System.Data.OleDb.OleDbType.VarWChar, 13))
-                        cmdScan.Parameters("@id").Value = id
-                        da = New OleDb.OleDbDataAdapter(cmdScan)
-                        da.Fill(tbl)
-                    End If
-                End If
-
-
-                'Hasilnya tbl
-                Dim t As DataTable = tbl
-
-
-                ' Cek Promo
-
-
-            Catch ex As Exception
-                Throw ex
-            Finally
-                conn.Close()
-            End Try
-
-            Return tbl
-
-        End Function
-
-
-
-
-
-    End Class
-
-    Public Class Utilities
-
-        Public Shared Function OpenBrowseDialog(ByRef owner As System.Windows.Forms.IWin32Window, ByRef objid As TextBox, ByRef objname As Label, ByVal ParamValue As PosDataBrowseParamValue) As PosDataBrowseReturnValue
-            Dim args As Object
-            Dim f As dlgTrnPosDataBrowse = New dlgTrnPosDataBrowse
-            Dim result As Object
-            Dim fmask As Form = uiTrnPosEN.CreateMask(0.75)
-            Dim ReturnValue As TransStore.PosDataBrowseReturnValue = Nothing
-
-            With ParamValue
-                .id = objid.Text
-                .name = objname.Text
-            End With
-
-            args = New Object() {ParamValue}
-            fmask.SuspendLayout()
-            f.FormBorderStyle = Windows.Forms.FormBorderStyle.None
-            fmask.Show(owner)
-            result = f.OpenDialog(fmask, args)
-            fmask.Close()
-            fmask.Dispose()
-            f.Dispose()
-            f = Nothing
-
-            If result IsNot Nothing Then
-                ReturnValue = CType(result(0), PosDataBrowseReturnValue)
-                objid.Text = ReturnValue.id
-                objname.Text = ReturnValue.name
-            End If
-
-            Return ReturnValue
-        End Function
-
-        Public Shared Function PosVoucherDiscountCalculate(ByVal item_pricegross As Decimal, ByVal item_qty As Decimal, ByVal item_discpercent As Decimal, ByVal item_flag As Boolean, ByVal vou01type As String, ByVal vou01method As String, ByVal vou01discpercent As Decimal, ByVal customertype As String, ByVal customerdisc As Decimal) As TransStore.PosItemPrice
-            Dim obj As TransStore.PosItemPrice = New TransStore.PosItemPrice
-            Dim discpstd01, discrstd01, pricenettstd01 As Decimal
-            Dim discpvou01, discrvou01, pricenettvou01 As Decimal
-
-
-            '' Discount Standart
-            discpstd01 = item_discpercent
-            discrstd01 = item_pricegross * (item_discpercent / 100)
-            pricenettstd01 = item_pricegross * ((100 - item_discpercent) / 100)
-
-            '' Discount Tambahan Voucher, hitung berdasar Type Voucher
-            Select Case UCase(vou01type)
-                Case "NONE"
-                    discpvou01 = 0
-
-                Case "ALL"
-                    discpvou01 = vou01discpercent
-
-                Case "FLAG"
-                    If item_flag Then
-                        discpvou01 = vou01discpercent
-                    Else
-                        discpvou01 = 0
-                    End If
-
-                Case "FULL"
-                    If item_discpercent = 0 Then
-                        discpvou01 = vou01discpercent
-                    Else
-                        discpvou01 = 0
-                    End If
-
-                Case "NONFULL"
-                    If item_discpercent > 0 Then
-                        discpvou01 = vou01discpercent
-                    Else
-                        discpvou01 = 0
-                    End If
-
-                Case Else
-                    discpvou01 = 0
-            End Select
-
-
-            '' Metode Perhitungan discount
-            Select Case vou01method
-                Case "ADD"  ' Tambahkan discount 30% + 20%
-                    discrvou01 = item_pricegross * (discpvou01 / 100)
-                    pricenettvou01 = item_pricegross * ((100 - (item_discpercent + discpvou01)) / 100)
-
-
-                Case "FPONLY"
-                    ' Discount hanya berlaku untuk barang yang fullprice
-                    If item_discpercent = 0 Then
-                        discpvou01 = vou01discpercent
-                        discrvou01 = item_pricegross * (discpvou01 / 100)
-                        pricenettvou01 = item_pricegross - discrvou01
-                    Else
-                        discpvou01 = 0
-                        discrvou01 = 0
-                        pricenettvou01 = item_pricegross
-                    End If
-
-
-                Case "REPIFLESS"  ' Pilih Discount yang paling besar
-                    If discpvou01 > item_discpercent Then
-                        discrvou01 = item_pricegross * ((discpvou01 - item_discpercent) / 100)
-                        pricenettvou01 = item_pricegross * ((100 - (discpvou01)) / 100)
-                    Else
-                        discrvou01 = 0
-                        pricenettvou01 = item_pricegross * ((100 - (item_discpercent)) / 100)
-                    End If
-
-
-
-                Case "REPLACE"
-                    discrvou01 = item_pricegross * ((discpvou01 - item_discpercent) / 100)
-                    pricenettvou01 = item_pricegross * ((100 - (discpvou01)) / 100)
-
-                Case Else ' MUL, dan yang lainnya Gunakan Perkalian
-                    discrvou01 = pricenettstd01 * (discpvou01 / 100)
-                    pricenettvou01 = pricenettstd01 * ((100 - discpvou01) / 100)
-
-
-            End Select
-
-
-
-            With obj
-                .discpstd01 = discpstd01
-                .discrstd01 = discrstd01
-                .pricenettstd01 = pricenettstd01
-                .discpvou01 = discpvou01
-                .discrvou01 = discrvou01
-                .pricenettvou01 = pricenettvou01
-            End With
-
-
-            Return obj
-        End Function
-
-        Public Shared Function StandartDiscount(ByVal price As Decimal, ByVal discpercent As Decimal, ByRef discvalue As Decimal, ByRef nettvalue As Decimal) As Decimal
-            discvalue = price * (discpercent / 100)
-            nettvalue = price * ((100 - discpercent) / 100)
-        End Function
-
-        Public Shared Function CreatePassword(ByVal region_id As String, ByVal branch_id As String, ByVal dt As Date) As String
-            Dim str As String = region_id & dt.Day().ToString.PadLeft(2, "0") & dt.Month().ToString.PadLeft(2, "0") & dt.Year().ToString.PadLeft(2, "0") & branch_id
-            Dim i As Integer
-            Dim ch As String
-            Dim num As Integer
-            Dim tot As Integer
-            Dim p1, p2, p3, p4 As Integer
-
-            tot = 0
-            For i = 1 To 6
-                ch = str.Substring(i - 1, 1)
-                num = CInt((CInt(ch) ^ 2) / 2)
-                tot = tot + num
-            Next
-            p1 = CInt(Math.Sqrt(tot))
-
-            tot = 0
-            For i = 7 To 10
-                ch = str.Substring(i - 1, 1)
-                num = CInt(ch)
-                tot = tot + num
-            Next
-            p2 = tot
-
-            tot = 0
-            For i = 11 To 14
-                ch = str.Substring(i - 1, 1)
-                num = CInt(ch)
-                tot = tot + num
-            Next
-            p3 = tot
-
-
-            tot = 0
-            For i = 15 To 20
-                ch = str.Substring(i - 1, 1)
-                num = (CInt(ch) * 3) ^ 2
-                tot = tot + num
-            Next
-            p4 = CInt(Math.Sqrt(tot))
-
-            str = p1.ToString & p2.ToString & p3.ToString & p4.ToString
-            Return str
-        End Function
-
-    End Class
-
-    Public Class DataExporter
-
-#Region "      Structure "
-
-        Public Structure FieldDefinition
-            Dim fieldname As String
-            Dim fieldtype As String
-        End Structure
-
-        Public Structure TableQueue
-            Dim name As String
-            Dim tablename As String
-            Dim method As String
-            Dim keys As String()
-            Dim SQL As String
-            Dim fields As FieldDefinition()
-            Dim DEFSQL As String
-            Dim msg As String
-        End Structure
-
-#End Region
-
-        Public Shared Function CreateFieldDefinition(ByVal fieldname As String, ByVal fieldtype As String) As DataExporter.FieldDefinition
-            Dim obj As DataExporter.FieldDefinition = New DataExporter.FieldDefinition
-            obj.fieldname = fieldname
-            obj.fieldtype = fieldtype
-            Return obj
-        End Function
-
-        Public Shared Function CreateTableQueue(ByVal name As String, ByVal tablename As String, ByVal SQL As String, ByVal method As String, ByVal keys As String(), ByVal fields As DataExporter.FieldDefinition(), ByVal DEFSQL As String) As TransStore.DataExporter.TableQueue
-            Dim obj As TransStore.DataExporter.TableQueue = New TransStore.DataExporter.TableQueue
-            With obj
-                .name = name
-                .tablename = tablename
-                .SQL = SQL
-                .method = method
-                .keys = keys
-                .fields = fields
-                .DEFSQL = DEFSQL
-            End With
-            Return obj
-        End Function
-
-        Public Shared Function CreateDEFSQL(ByVal tablename As String, ByVal fields As DataExporter.FieldDefinition()) As String
-            Dim defsql As String = ""
-            Dim field As DataExporter.FieldDefinition
-            Dim line As String
-            Dim lines As String() = {}
-
-            defsql = "CREATE TABLE " & tablename & " ( " & vbCrLf
-            For Each field In fields
-                line = field.fieldname & " " & field.fieldtype
-                Array.Resize(lines, lines.Length + 1)
-                lines(lines.Length - 1) = line
-            Next
-            defsql &= String.Join(", " & vbCrLf, lines) & vbCrLf
-            defsql &= ") "
-
-            Return defsql
-        End Function
-
-        Public Shared Function CreateInsertSQLFromDatarow(ByVal tablename As String, ByVal dr As DataRow) As String
-            Dim sql As String = ""
-            Dim i As Integer
-            Dim fieldname As String = ""
-            Dim value As String = ""
-            Dim fields As String() = {}
-            Dim values As String() = {}
-            Dim linefield As String = ""
-            Dim linevalue As String = ""
-
-
-            For i = 0 To dr.Table.Columns.Count - 1
-                fieldname = dr.Table.Columns(i).ColumnName
-                linefield = "[" & fieldname & "]"
-                Array.Resize(fields, fields.Length + 1)
-                fields(fields.Length - 1) = linefield
-
-                'If fieldname = "customer_id" Then
-                '    Dim t = 0
-                'End If
-
-                If dr(fieldname) IsNot DBNull.Value Then
-                    value = dr(fieldname)
-                    linevalue = "'" & value.Replace("'", "") & "'"
-                Else
-                    value = "NULL"
-                    linevalue = value
-                End If
-                Array.Resize(values, values.Length + 1)
-                values(values.Length - 1) = linevalue
-            Next
-
-            sql = "INSERT INTO " & tablename & " " & vbCrLf
-            sql &= "(" & String.Join(", ", fields) & ") " & vbCrLf
-            sql &= "VALUES " & vbCrLf
-            sql &= "(" & String.Join(", ", values) & ") " & vbCrLf
-
-            Return sql
-        End Function
-
-
-#Region "     Table Definion "
-
-        Public Function __Create_transaksi_hepos(ByVal param As TransStore.PosDataUpdaterParam, ByVal updatemethod As String, ByVal keys As String()) As TransStore.DataExporter.TableQueue
-            Dim obj As TransStore.DataExporter.TableQueue = New TransStore.DataExporter.TableQueue
-            Dim tablename As String
-            Dim SQL As String
-            Dim fields As DataExporter.FieldDefinition()
-            Dim DEFSQL As String
-            Dim dt As Date = param.dt
-            Dim dtSQL As String = dt.Year.ToString & "-" & dt.Month.ToString.PadLeft(2, "0") & "-" & dt.Day.ToString.PadLeft(2, "0")
-
-            tablename = "transaksi_hepos"
-            SQL = "DECLARE @date AS smalldatetime; " & vbCrLf
-            SQL &= "SET @date='" & dtSQL & "'; " & vbCrLf
-
-            If param.SENDDATAMODE = "UNSENT" Then
-                SQL &= "SELECT  * FROM " & tablename & " A WHERE  A.syncode IS NULL OR A.syncode='' "
-            Else
-                SQL &= "SELECT  * FROM " & tablename & " A WHERE (convert(varchar(10),A.bon_date,120)=convert(varchar(10),@date,120)) OR A.syncode IS NULL OR A.syncode='' "
-            End If
-
-            fields = New DataExporter.FieldDefinition() { _
-                                    CreateFieldDefinition("bon_id", "varchar(40)"), _
-                                    CreateFieldDefinition("bon_idext", "varchar(50)"), _
-                                    CreateFieldDefinition("bon_event", "varchar(30)"), _
-                                    CreateFieldDefinition("bon_date", "smalldatetime"), _
-                                    CreateFieldDefinition("bon_createby", "varchar(30)"), _
-                                    CreateFieldDefinition("bon_createdate", "smalldatetime"), _
-                                    CreateFieldDefinition("bon_modifyby", "varchar(30)"), _
-                                    CreateFieldDefinition("bon_modifydate", "smalldatetime"), _
-                                    CreateFieldDefinition("bon_isvoid", "int"), _
-                                    CreateFieldDefinition("bon_voidby", "varchar(30)"), _
-                                    CreateFieldDefinition("bon_voiddate", "smalldatetime"), _
-                                    CreateFieldDefinition("bon_replacefromvoid", "varchar(40)"), _
-                                    CreateFieldDefinition("bon_msubtotal", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bon_msubtvoucher", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bon_msubtdiscadd", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bon_msubtredeem", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bon_msubtracttotal", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bon_msubtotaltobedisc", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bon_mdiscpaympercent", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bon_mdiscpayment", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bon_mtotal", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bon_mpayment", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bon_mrefund", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bon_msalegross", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bon_msaletax", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bon_msalenet", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bon_itemqty", "int"), _
-                                    CreateFieldDefinition("bon_rowitem", "int"), _
-                                    CreateFieldDefinition("bon_rowpayment", "int"), _
-                                    CreateFieldDefinition("bon_npwp", "varchar(50)"), _
-                                    CreateFieldDefinition("bon_fakturpajak", "varchar(50)"), _
-                                    CreateFieldDefinition("bon_adddisc_authusername", "varchar(50)"), _
-                                    CreateFieldDefinition("bon_disctype", "varchar(30)"), _
-                                    CreateFieldDefinition("customer_id", "varchar(30) NOT NULL DEFAULT '0' "), _
-                                    CreateFieldDefinition("customer_name", "varchar(30)"), _
-                                    CreateFieldDefinition("customer_telp", "varchar(30)"), _
-                                    CreateFieldDefinition("customer_npwp", "varchar(30)"), _
-                                    CreateFieldDefinition("customer_ageid", "varchar(30)"), _
-                                    CreateFieldDefinition("customer_agename", "varchar(30)"), _
-                                    CreateFieldDefinition("customer_genderid", "varchar(30)"), _
-                                    CreateFieldDefinition("customer_gendername", "varchar(30)"), _
-                                    CreateFieldDefinition("customer_nationalityid", "varchar(30)"), _
-                                    CreateFieldDefinition("customer_nationalityname", "varchar(30)"), _
-                                    CreateFieldDefinition("customer_typename", "varchar(30)"), _
-                                    CreateFieldDefinition("customer_passport", "varchar(30)"), _
-                                    CreateFieldDefinition("customer_disc", "varchar(30)"), _
-                                    CreateFieldDefinition("voucher01_id", "varchar(30)"), _
-                                    CreateFieldDefinition("voucher01_name", "varchar(30)"), _
-                                    CreateFieldDefinition("voucher01_codenum", "varchar(30)"), _
-                                    CreateFieldDefinition("voucher01_method", "varchar(30)"), _
-                                    CreateFieldDefinition("voucher01_type", "varchar(30)"), _
-                                    CreateFieldDefinition("voucher01_discp", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("salesperson_id", "varchar(10)"), _
-                                    CreateFieldDefinition("salesperson_name", "varchar(30)"), _
-                                    CreateFieldDefinition("pospayment_id", "varchar(10) NOT NULL DEFAULT '0' "), _
-                                    CreateFieldDefinition("pospayment_name", "varchar(30) NOT NULL DEFAULT '0' "), _
-                                    CreateFieldDefinition("posedc_id", "varchar(10)"), _
-                                    CreateFieldDefinition("posedc_name", "varchar(30)"), _
-                                    CreateFieldDefinition("machine_id", "varchar(10)"), _
-                                    CreateFieldDefinition("region_id", "varchar(5)"), _
-                                    CreateFieldDefinition("branch_id", "varchar(7)"), _
-                                    CreateFieldDefinition("syncode", "varchar(50)"), _
-                                    CreateFieldDefinition("syndate", "smalldatetime"), _
-                                    CreateFieldDefinition("rowid", "varchar(50)"), _
-                                    CreateFieldDefinition("site_id_from", "varchar(20)") _
-                      }
-            DEFSQL = CreateDEFSQL(tablename, fields)
-            obj = DataExporter.CreateTableQueue("pos", tablename, SQL, updatemethod, keys, fields, DEFSQL)
-            Return obj
-        End Function
-
-        Public Function __Create_transaksi_heposdetil(ByVal param As TransStore.PosDataUpdaterParam, ByVal updatemethod As String, ByVal keys As String()) As TransStore.DataExporter.TableQueue
-            Dim obj As TransStore.DataExporter.TableQueue = New TransStore.DataExporter.TableQueue
-            Dim tablename As String
-            Dim SQL As String
-            Dim fields As DataExporter.FieldDefinition()
-            Dim DEFSQL As String
-            Dim dt As Date = param.dt
-            Dim dtSQL As String = dt.Year.ToString & "-" & dt.Month.ToString.PadLeft(2, "0") & "-" & dt.Day.ToString.PadLeft(2, "0")
-
-            tablename = "transaksi_heposdetil"
-            SQL = "DECLARE @date AS smalldatetime; " & vbCrLf
-            SQL &= "SET @date='" & dtSQL & "'; " & vbCrLf
-
-            If param.SENDDATAMODE = "UNSENT" Then
-                SQL &= "SELECT B.* FROM transaksi_hepos A INNER JOIN " & tablename & " B ON A.bon_id=B.bon_id WHERE  A.syncode IS NULL "
-            Else
-                SQL &= "SELECT B.* FROM transaksi_hepos A INNER JOIN " & tablename & " B ON A.bon_id=B.bon_id WHERE (convert(varchar(10),A.bon_date,120)=convert(varchar(10),@date,120)) OR A.syncode IS NULL "
-            End If
-
-            fields = New DataExporter.FieldDefinition() { _
-                                    CreateFieldDefinition("bon_id", "varchar(40)"), _
-                                    CreateFieldDefinition("bondetil_line", "int"), _
-                                    CreateFieldDefinition("bondetil_gro", "varchar(10)"), _
-                                    CreateFieldDefinition("bondetil_ctg", "varchar(10)"), _
-                                    CreateFieldDefinition("bondetil_art", "varchar(30)"), _
-                                    CreateFieldDefinition("bondetil_mat", "varchar(30)"), _
-                                    CreateFieldDefinition("bondetil_col", "varchar(30)"), _
-                                    CreateFieldDefinition("bondetil_size", "varchar(30)"), _
-                                    CreateFieldDefinition("bondetil_descr", "varchar(50)"), _
-                                    CreateFieldDefinition("bondetil_qty", "int"), _
-                                    CreateFieldDefinition("bondetil_mpricegross", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bondetil_mdiscpstd01", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bondetil_mdiscrstd01", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bondetil_mpricenettstd01", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bondetil_mdiscpvou01", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bondetil_mdiscrvou01", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bondetil_mpricecettvou01", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bondetil_vou01id", "varchar(10)"), _
-                                    CreateFieldDefinition("bondetil_vou01codenum", "varchar(30)"), _
-                                    CreateFieldDefinition("bondetil_vou01type", "varchar(10)"), _
-                                    CreateFieldDefinition("bondetil_vou01method", "varchar(50)"), _
-                                    CreateFieldDefinition("bondetil_vou01discp", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bondetil_mpricenett", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bondetil_msubtotal", "decimal(18, 0)"), _
-                                    CreateFieldDefinition("bondetil_rule", "varchar(2)"), _
-                                    CreateFieldDefinition("heinv_id", "varchar(13)"), _
-                                    CreateFieldDefinition("heinvitem_id", "varchar(13)"), _
-                                    CreateFieldDefinition("heinvitem_barcode", "varchar(30)"), _
-                                    CreateFieldDefinition("region_id", "varchar(5)"), _
-                                    CreateFieldDefinition("region_nameshort", "varchar(30)"), _
-                                    CreateFieldDefinition("colname", "varchar(50)"), _
-                                    CreateFieldDefinition("sizetag", "varchar(50)"), _
-                                    CreateFieldDefinition("[proc]", "varchar(50)"), _
-                                    CreateFieldDefinition("bon_idext", "varchar(50)"), _
-                                    CreateFieldDefinition("rowid", "varchar(50)") _
-                    }
-
-
-            DEFSQL = CreateDEFSQL(tablename, fields)
-            obj = DataExporter.CreateTableQueue("pos items", tablename, SQL, updatemethod, keys, fields, DEFSQL)
-            Return obj
-        End Function
-
-        Public Function __Create_transaksi_hepospayment(ByVal param As TransStore.PosDataUpdaterParam, ByVal updatemethod As String, ByVal keys As String()) As TransStore.DataExporter.TableQueue
-            Dim obj As TransStore.DataExporter.TableQueue = New TransStore.DataExporter.TableQueue
-            Dim tablename As String
-            Dim SQL As String
-            Dim fields As DataExporter.FieldDefinition()
-            Dim DEFSQL As String
-            Dim dt As Date = param.dt
-            Dim dtSQL As String = dt.Year.ToString & "-" & dt.Month.ToString.PadLeft(2, "0") & "-" & dt.Day.ToString.PadLeft(2, "0")
-
-            tablename = "transaksi_hepospayment"
-            SQL = "DECLARE @date AS smalldatetime; " & vbCrLf
-            SQL &= "SET @date='" & dtSQL & "'; " & vbCrLf
-
-            If param.SENDDATAMODE = "UNSENT" Then
-                SQL &= "SELECT B.* FROM transaksi_hepos A INNER JOIN " & tablename & " B ON A.bon_id=B.bon_id WHERE  A.syncode IS NULL "
-            Else
-                SQL &= "SELECT B.* FROM transaksi_hepos A INNER JOIN " & tablename & " B ON A.bon_id=B.bon_id WHERE (convert(varchar(10),A.bon_date,120)=convert(varchar(10),@date,120)) OR A.syncode IS NULL "
-            End If
-
-            fields = New DataExporter.FieldDefinition() { _
-                                CreateFieldDefinition("bon_id", "varchar(40)"), _
-                                CreateFieldDefinition("payment_line", "int"), _
-                                CreateFieldDefinition("payment_cardnumber", "varchar(40)"), _
-                                CreateFieldDefinition("payment_cardholder", "varchar(40)"), _
-                                CreateFieldDefinition("payment_mvalue", "decimal(18, 0)"), _
-                                CreateFieldDefinition("payment_mcash", "decimal(18, 0)"), _
-                                CreateFieldDefinition("payment_installment", "int"), _
-                                CreateFieldDefinition("pospayment_id", "varchar(10)"), _
-                                CreateFieldDefinition("pospayment_name", "varchar(30)"), _
-                                CreateFieldDefinition("pospayment_bank", "varchar(30)"), _
-                                CreateFieldDefinition("posedc_id", "varchar(10)"), _
-                                CreateFieldDefinition("posedc_name", "varchar(30)"), _
-                                CreateFieldDefinition("posedc_approval", "varchar(30)"), _
-                                CreateFieldDefinition("bon_idext", "varchar(50)"), _
-                                CreateFieldDefinition("rowid", "varchar(50)") _
-                    }
-
-
-            DEFSQL = CreateDEFSQL(tablename, fields)
-            obj = DataExporter.CreateTableQueue("pos payments", tablename, SQL, updatemethod, keys, fields, DEFSQL)
-            Return obj
-        End Function
-
-#End Region
-
-    End Class
 
 
 

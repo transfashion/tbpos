@@ -1039,7 +1039,9 @@ Public Class dlgTrnPosPayment
 
     Public Function SaveData() As TransStore.POS.PosHeader
         Dim bon_id As String = ""
-        Dim objBonHeaderData As TransStore.POS.PosHeader = New TransStore.POS.PosHeader
+        Dim objBonHeaderData As New TransStore.POS.PosHeader
+        Dim taxPercent As Decimal = Me.POS.TaxPercent
+
 
         Dim bonevent As String = ""
         If Trim(Me.NewTransactionParamValue.BonEvent) <> "" Then
@@ -1100,7 +1102,7 @@ Public Class dlgTrnPosPayment
 
             ' Perhitungan Pajak Gross Up
             .bon_msalegross = CDec(.bon_mtotal) + .bon_msubtvoucher + .bon_msubtredeem
-            .bon_msalenet = (100 / 111) * .bon_msalegross
+            .bon_msalenet = (100 / (100 + taxPercent)) * .bon_msalegross
             .bon_msaletax = .bon_msalegross - .bon_msalenet
             .bon_npwp = POS.NPWP
             .bon_fakturpajak = "(auto)"
@@ -1136,7 +1138,15 @@ Public Class dlgTrnPosPayment
             End If
 
 
-            If Me.POS.CUSTOMERINFO_IS_MANDATORY Then
+
+            Dim CustomerInfoIsMandatory As Boolean = Me.POS.CUSTOMERINFO_IS_MANDATORY
+            If Me.POS.IsDevelopmentMode Then
+                CustomerInfoIsMandatory = Config.CustomerInfoIsMandatory
+            End If
+
+
+
+            If CustomerInfoIsMandatory Then
                 If objBonHeaderData.customer_name = "" Then
                     Throw New Exception("SaveData Error." & vbCrLf & "Nama Customer Kosong")
                 End If
