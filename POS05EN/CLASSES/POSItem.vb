@@ -96,7 +96,7 @@ Namespace TransStore
 
                     Dim ScanMode As String = Me.POS.SCANMODE
                     If uiTrnPosEN.StartInfo.EnvironmentVariables("POSENV") = "DEV" Then
-                        ScanMode = Config.ScanMode
+                        ScanMode = Config.DevScanMode
                     End If
 
                     If ScanMode = POS.MODE_BARCODESCAN Or ScanMode = POS.MODE_ORIGINALBARCODESCAN Then

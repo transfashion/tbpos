@@ -1141,7 +1141,7 @@ Public Class dlgTrnPosPayment
 
             Dim CustomerInfoIsMandatory As Boolean = Me.POS.CUSTOMERINFO_IS_MANDATORY
             If Me.POS.IsDevelopmentMode Then
-                CustomerInfoIsMandatory = Config.CustomerInfoIsMandatory
+                CustomerInfoIsMandatory = Config.DevCustomerInfoIsMandatory
             End If
 
 

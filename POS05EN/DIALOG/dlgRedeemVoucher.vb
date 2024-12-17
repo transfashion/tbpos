@@ -101,6 +101,10 @@ Public Class dlgRedeemVoucher
                 Throw New Exception(result.ErrorMessage)
             End If
 
+            If result.VoucherInfo Is Nothing Then
+                Throw New Exception("Voucher tidak ditemukan")
+            End If
+
 
             'Me.obj_txt_voucher_id.Text = result.VoucherInfo.Id
             'Me.obj_txt_descr.Text = result.VoucherInfo.Descr

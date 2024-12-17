@@ -494,9 +494,9 @@ Public Class dlgTrnPosNew
 
         ' Untuk mode development, gak perlu input SalesPerson, ExternalId dan Customer Info
         If uiTrnPosEN.StartInfo.EnvironmentVariables("POSENV") = "DEV" Then
-            SALESPERSON_IS_MANDATORY = Config.SalesPersonIsMandatory
-            EXTID_IS_ENABLED = Config.ExtIdIsEnabled
-            CUSTOMERINFO_IS_MANDATORY = Config.CustomerInfoIsMandatory
+            SALESPERSON_IS_MANDATORY = Config.DevSalesPersonIsMandatory
+            EXTID_IS_ENABLED = Config.DevExtIdIsEnabled
+            CUSTOMERINFO_IS_MANDATORY = Config.DevCustomerInfoIsMandatory
         End If
 
 

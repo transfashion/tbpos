@@ -87,6 +87,8 @@ namespace MINIFRAME
             // 
             // pnl_Main
             // 
+            this.pnl_Main.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pnl_Main.BackgroundImage")));
+            this.pnl_Main.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pnl_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnl_Main.Location = new System.Drawing.Point(0, 0);
             this.pnl_Main.Name = "pnl_Main";

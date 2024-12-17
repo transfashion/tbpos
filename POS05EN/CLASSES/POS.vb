@@ -668,7 +668,11 @@ Namespace TransStore
         Public Property MachineId() As String
             Get
                 If Me.IsDevelopmentMode Then
-                    Return Config.DevMachineId
+                    If Config.DevMachineId <> "" Then
+                        Return Config.DevMachineId
+                    Else
+                        Return Me.mMachineID
+                    End If
                 Else
                     Return Me.mMachineID
                 End If
@@ -681,7 +685,11 @@ Namespace TransStore
         Public Property BranchId() As String
             Get
                 If Me.IsDevelopmentMode Then
-                    Return Config.DevBranchId
+                    If Config.DevBranchId <> "" Then
+                        Return Config.DevBranchId
+                    Else
+                        Return Me.mBranchId
+                    End If
                 Else
                     Return Me.mBranchId
                 End If
@@ -694,7 +702,12 @@ Namespace TransStore
         Public Property RegionId() As String
             Get
                 If Me.IsDevelopmentMode Then
-                    Return Config.DevRegionId
+                    If Config.DevRegionId <> "" Then
+                        Return Config.DevRegionId
+                    Else
+                        Return Me.mRegionId
+                    End If
+
                 Else
                     Return Me.mRegionId
                 End If

@@ -40,7 +40,7 @@ Public Class PosPromo
         End Get
     End Property
 
-    Public Sub setPOS(ByVal pos As TransStore.POS)
+    Public Sub SetPOS(ByVal pos As TransStore.POS)
         Me.POS = pos
     End Sub
 
@@ -121,9 +121,6 @@ Public Class PosPromo
             Exit Sub
         End If
 
-        'Dim dv As DataView = dtitem.DefaultView
-        'dv.Sort = "bondetil_pricenettstd01"
-
 
         Me.POS.PromoApplied = False
         Me.POS.BolehDiscPayment = True
@@ -139,7 +136,9 @@ Public Class PosPromo
                 Exit Sub
             End If
 
+            ' Commit Change sebelum diproses
             dtitem.AcceptChanges()
+
             Dim promoapplied As Boolean = False
             If Me.PromoRule.Contains(pd.Rule) Then
                 Dim rulename As String = Me.PromoRule.Item(pd.Rule)
@@ -231,7 +230,8 @@ Public Class PosPromo
         Dim itemPrev As List(Of String) = New List(Of String)
 
 
-        dtitem.DefaultView.Sort = "bondetil_pricenettstd01 DESC"
+        ' Urutkan item sesuai harga termahal
+        dtitem.DefaultView.Sort = "bondetil_pricegross DESC"
 
         For Each itemview As DataRowView In dtitem.DefaultView
             Dim rowbasket As DataRow = itemview.Row
@@ -444,7 +444,7 @@ Public Class PosPromo
 
         Try
             Dim applynextgrouppromo As Boolean = False
-            Dim dv As DataView = Nothing
+            'Dim dv As DataView =
 
             Dim imax As Integer = dr.Count
             Dim i As Integer = 0

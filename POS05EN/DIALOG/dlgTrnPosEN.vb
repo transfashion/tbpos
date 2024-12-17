@@ -237,7 +237,7 @@ Public Class dlgTrnPosEN
 
                 Dim ScanMode As String = Me.POS.SCANMODE
                 If uiTrnPosEN.StartInfo.EnvironmentVariables("POSENV") = "DEV" Then
-                    ScanMode = Config.ScanMode
+                    ScanMode = Config.DevScanMode
                 End If
 
                 If (ScanMode = TransStore.POS.MODE_BARCODESCAN Or ScanMode = TransStore.POS.MODE_ORIGINALBARCODESCAN) And searchArt Then
@@ -1594,8 +1594,8 @@ Public Class dlgTrnPosEN
 
 
         Me.lineItemDisplay.BackColor = Color.DarkGray
-        'Me.BackgroundImage = My.Resources.tbbg
-        Me.BackColor = Color.DarkGray
+        ' Me.BackgroundImage = My.Resources.tbbg
+        ' Me.BackColor = Color.DarkGray
 
         Me.PnlPosMain.Dock = DockStyle.Fill
         Me.PnlPosMainCenter.Dock = DockStyle.Fill
@@ -1657,7 +1657,7 @@ Public Class dlgTrnPosEN
 
         ' READ AVAILABLE PROMO
         ' Tamabahkan ke Container Available Promo List
-        Me.POS.PosPromo.setPOS(Me.POS)
+        Me.POS.PosPromo.SetPOS(Me.POS)
         Me.POS.PosPromo.setTrnPOSEN(Me)
         Me.POS.PosPromo.setItemGrid(Me.DgvPOSItem)
         Me.POS.PosPromo.InitializeActivePromo(Me.CurrentRegionId, Me.CurrentBranchId)
