@@ -125,6 +125,8 @@ Public Class PosPromo
         Me.POS.PromoApplied = False
         Me.POS.BolehDiscPayment = True
 
+
+
         Try
             'For Each pd As PosPromoData In Me.CurrentActivePromo
 
@@ -177,6 +179,69 @@ Public Class PosPromo
         End Try
     End Sub
 
+
+    Public Sub ClearPromo()
+        If Me.POS Is Nothing Then
+            Return
+        End If
+
+        Dim dtitem As DataTable = Me.itemGrid.DataSource 'bondetil_pricenettstd01
+        If dtitem Is Nothing Then
+            Exit Sub
+        End If
+
+
+        Me.POS.PromoApplied = False
+        Me.POS.BolehDiscPayment = True
+
+        For Each row As DataRow In dtitem.Rows
+            Dim bondetil_qty As Integer = row("bondetil_qty")
+            Dim bondetil_pricegross As Decimal = row("bondetil_pricegross")
+            Dim bondetil_discpstd01 As Decimal = row("bondetil_discpstd01")
+            Dim bondetil_discrstd01 As Decimal = row("bondetil_discrstd01")
+            Dim bondetil_pricenettstd01 As Decimal = row("bondetil_pricenettstd01") 'bondetil_pricegross
+            Dim pricing_disc = row("pricing_disc")
+
+            Dim bondetil_discpvou01 As Decimal = 0
+            Dim bondetil_discrvou01 As Decimal = 0
+            Dim bondetil_pricenettvou01 As Decimal = 0
+
+            Dim bondetil_vou01type As String = row("bondetil_vou01type")
+
+            If bondetil_vou01type = "BONUS" Then
+                Exit Sub
+            End If
+
+
+            ' Normalkan Harga
+            bondetil_discpstd01 = pricing_disc
+            bondetil_discrstd01 = (pricing_disc / 100) * bondetil_pricegross
+            bondetil_pricenettstd01 = bondetil_pricegross - bondetil_discrstd01
+            bondetil_discpvou01 = 0
+            bondetil_discrvou01 = 0
+            bondetil_pricenettvou01 = bondetil_pricenettstd01
+
+            Dim bondetil_pricenet As Decimal = bondetil_pricenettstd01
+            Dim bondetil_subtotal As Decimal = bondetil_qty * bondetil_pricenet
+
+            row("bondetil_discpstd01") = bondetil_discpstd01
+            row("bondetil_discrstd01") = bondetil_discrstd01
+            row("bondetil_pricenettstd01") = bondetil_pricenettstd01
+            row("bondetil_vou01id") = ""
+            row("bondetil_vou01codenum") = ""
+            row("bondetil_vou01type") = ""
+            row("bondetil_vou01method") = ""
+            row("bondetil_discpvou01") = bondetil_discpvou01
+            row("bondetil_discrvou01") = bondetil_discrvou01
+            row("bondetil_pricenettvou01") = bondetil_pricenettvou01
+            row("bondetil_pricenet") = bondetil_pricenet
+            row("bondetil_subtotal") = bondetil_subtotal
+            row("proc") = "01"
+        Next
+
+    End Sub
+
+
     Public Sub ResetAppliedromo(ByVal dtitem As DataTable, ByVal promo_id As String)
         Dim dr() As DataRow
         dr = dtitem.Select(String.Format("bondetil_vou01id='{0}'", promo_id))
@@ -197,7 +262,6 @@ Public Class PosPromo
             If bondetil_vou01type = "BONUS" Then
                 Exit Sub
             End If
-
 
             ' Normalkan Harga
             bondetil_discpstd01 = pricing_disc

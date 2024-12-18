@@ -611,9 +611,7 @@ Public Class dlgTrnPosEN
     End Function
 
     Private Function Key_F6(ByVal keycode As System.Windows.Forms.Keys, ByVal ctrl As Boolean, ByRef SuppressKeyPress As Boolean) As Boolean
-        'If Not Me.POS.PROMO_BUTTON Then
-        '    Return False
-        'End If
+
 
         If (Me.PromoListContainer.Controls.Count > 0) Then
             Dim lbl As Label = TryCast(Me.PromoListContainer.GetNextControl(dlgTrnPosEN.CurrentSelectedPromoLabel, True), Label)
@@ -621,16 +619,23 @@ Public Class dlgTrnPosEN
                 SetActivePromoLabel(lbl)
             Else
                 ' pilih label yang pertama
-                lbl = Me.PromoListContainer.Controls.Item(0)
-                SetActivePromoLabel(lbl)
+                ' lbl = Me.PromoListContainer.Controls.Item(0)
+                SetActivePromoLabel(Nothing)
             End If
 
             Me.RecalculateTotal()
-            Dim pd As PosPromoData = TryCast(lbl.Tag, PosPromoData)
-            If pd IsNot Nothing Then
-                Dim ci As PosPromo.CustomerInfo = Me.getCurrentCustomerInfo()
-                Me.POS.PosPromo.CalculateCurrentActivePromo(pd, ci)
+            If (lbl Is Nothing) Then
+                Me.POS.PosPromo.ClearPromo()
+                Me.POS.PosItems.AcceptChanges()
+                Me.RecalculateTotal()
+            Else
+                Dim pd As PosPromoData = TryCast(lbl.Tag, PosPromoData)
+                If pd IsNot Nothing Then
+                    Dim ci As PosPromo.CustomerInfo = Me.getCurrentCustomerInfo()
+                    Me.POS.PosPromo.CalculateCurrentActivePromo(pd, ci)
+                End If
             End If
+
         End If
     End Function
 
@@ -1022,11 +1027,18 @@ Public Class dlgTrnPosEN
 
         ' Ambil Promo yang saat ini dipilih
         Dim lbl As Label = dlgTrnPosEN.CurrentSelectedPromoLabel
-        Dim pd As PosPromoData = TryCast(lbl.Tag, PosPromoData)
-        If pd IsNot Nothing Then
-            Dim ci As PosPromo.CustomerInfo = Me.getCurrentCustomerInfo()
-            Me.POS.PosPromo.CalculateCurrentActivePromo(pd, ci)
+        If lbl Is Nothing Then
+            Me.POS.PosPromo.ClearPromo()
+            Me.POS.PosItems.AcceptChanges()
+            Me.RecalculateTotal()
+        Else
+            Dim pd As PosPromoData = TryCast(lbl.Tag, PosPromoData)
+            If pd IsNot Nothing Then
+                Dim ci As PosPromo.CustomerInfo = Me.getCurrentCustomerInfo()
+                Me.POS.PosPromo.CalculateCurrentActivePromo(pd, ci)
+            End If
         End If
+
 
 
         Me.POS_SecondMonitorDisplaySyncValue()
@@ -1197,6 +1209,9 @@ Public Class dlgTrnPosEN
             Me.POS.PosPromo.CURRENT_DISCOUNT = pospayment_disc
             Me.POS.PosPromo.CURRENT_TOTAL = totalvalue
 
+
+            Me.txtSubtotal.Text = String.Format("{0:#,##0}", CDec(totalvalue))
+
         End If
     End Sub
 
@@ -1204,322 +1219,322 @@ Public Class dlgTrnPosEN
 #End Region
 
 
-#Region " Deprecated PromoModel "
+    '#Region " Deprecated PromoModel "
 
-    Private Function SetPromo_Voucher(ByVal promoargs As PromoArguments) As Boolean
-        Dim PromoItem As DataTable = CType(Me.DgvPOSItem.DataSource, DataTable).Copy()
+    '    Private Function SetPromo_Voucher(ByVal promoargs As PromoArguments) As Boolean
+    '        Dim PromoItem As DataTable = CType(Me.DgvPOSItem.DataSource, DataTable).Copy()
 
-        ' Buy 2 or more disc 30%
-        Dim disc_A_threshold As Integer = promoargs.qty_threshold_A
-        Dim disc_A_percent As Decimal = promoargs.percent_discount_A
-        Dim disc_A = disc_A_percent / 100
+    '        ' Buy 2 or more disc 30%
+    '        Dim disc_A_threshold As Integer = promoargs.qty_threshold_A
+    '        Dim disc_A_percent As Decimal = promoargs.percent_discount_A
+    '        Dim disc_A = disc_A_percent / 100
 
-        Dim disc_B_threshold As Integer = promoargs.qty_threshold_B
-        Dim disc_B_percent As Decimal = promoargs.percent_discount_B
-        Dim disc_B = disc_B_percent / 100
+    '        Dim disc_B_threshold As Integer = promoargs.qty_threshold_B
+    '        Dim disc_B_percent As Decimal = promoargs.percent_discount_B
+    '        Dim disc_B = disc_B_percent / 100
 
-        Dim payment_disc_Allowed = promoargs.payment_disc_Allowed  ' Apakah diperbolehkan tambahan disc payment lagi ?
+    '        Dim payment_disc_Allowed = promoargs.payment_disc_Allowed  ' Apakah diperbolehkan tambahan disc payment lagi ?
 
 
-        Dim startdate As Date = promoargs.startdate
-        Dim enddate As Date = promoargs.enddate
+    '        Dim startdate As Date = promoargs.startdate
+    '        Dim enddate As Date = promoargs.enddate
 
-        If (Now.Date >= startdate And Now.Date <= enddate) Then
-        Else
-            ' Kalau tanggal tidak cocok
-            Exit Function
-        End If
+    '        If (Now.Date >= startdate And Now.Date <= enddate) Then
+    '        Else
+    '            ' Kalau tanggal tidak cocok
+    '            Exit Function
+    '        End If
 
-        Dim dr() As DataRow = {}
+    '        Dim dr() As DataRow = {}
 
-        Dim dr2_A() As DataRow = {}
-        Dim dr2_B() As DataRow = {}
+    '        Dim dr2_A() As DataRow = {}
+    '        Dim dr2_B() As DataRow = {}
 
 
-        ' Cek data basket apakah ada di list promo
-        Dim nA As Integer = 0
-        Dim nB As Integer = 0
+    '        ' Cek data basket apakah ada di list promo
+    '        Dim nA As Integer = 0
+    '        Dim nB As Integer = 0
 
 
-        ' Me.POS.PromoApplied = False
+    '        ' Me.POS.PromoApplied = False
 
 
 
-        Dim dtitem As DataTable = Me.DgvPOSItem.DataSource
-        For Each rowbasket As DataRow In dtitem.Rows
-            Dim heinv_id = rowbasket("heinv_id")
-            Dim qty As Integer = rowbasket("bondetil_qty")
+    '        Dim dtitem As DataTable = Me.DgvPOSItem.DataSource
+    '        For Each rowbasket As DataRow In dtitem.Rows
+    '            Dim heinv_id = rowbasket("heinv_id")
+    '            Dim qty As Integer = rowbasket("bondetil_qty")
 
-            Dim ada_di_listpromo_A As Boolean = False
-            Dim ada_di_listpromo_B As Boolean = False
+    '            Dim ada_di_listpromo_A As Boolean = False
+    '            Dim ada_di_listpromo_B As Boolean = False
 
-            Dim dr_promoexist_A() As DataRow = PromoItem.Select(String.Format("heinv_id='{0}' AND bondetil_pricenettstd01<>0 ", heinv_id))
-            Dim dr_promoexist_B() As DataRow = PromoItem.Select(String.Format("heinv_id='{0}' AND bondetil_pricenettstd01<>0 ", heinv_id))
+    '            Dim dr_promoexist_A() As DataRow = PromoItem.Select(String.Format("heinv_id='{0}' AND bondetil_pricenettstd01<>0 ", heinv_id))
+    '            Dim dr_promoexist_B() As DataRow = PromoItem.Select(String.Format("heinv_id='{0}' AND bondetil_pricenettstd01<>0 ", heinv_id))
 
-            If dr_promoexist_A.Length > 0 Then
-                ada_di_listpromo_A = True
-            End If
+    '            If dr_promoexist_A.Length > 0 Then
+    '                ada_di_listpromo_A = True
+    '            End If
 
 
-            If dr_promoexist_B.Length > 0 Then
-                ada_di_listpromo_B = True
-            End If
+    '            If dr_promoexist_B.Length > 0 Then
+    '                ada_di_listpromo_B = True
+    '            End If
 
-            If ada_di_listpromo_A Then
-                nA = nA + qty
+    '            If ada_di_listpromo_A Then
+    '                nA = nA + qty
 
-                'Tambahkan ke dr, barang2 yang masuk kategori
-                Array.Resize(dr, dr.Length + 1)
-                dr(dr.Length - 1) = rowbasket
+    '                'Tambahkan ke dr, barang2 yang masuk kategori
+    '                Array.Resize(dr, dr.Length + 1)
+    '                dr(dr.Length - 1) = rowbasket
 
-                Array.Resize(dr2_A, dr2_A.Length + 1)
-                dr2_A(dr2_A.Length - 1) = rowbasket
+    '                Array.Resize(dr2_A, dr2_A.Length + 1)
+    '                dr2_A(dr2_A.Length - 1) = rowbasket
 
-            End If
+    '            End If
 
-            If ada_di_listpromo_B Then
-                nB = nB + qty
+    '            If ada_di_listpromo_B Then
+    '                nB = nB + qty
 
-                'Tambahkan ke dr, barang2 yang masuk kategori
-                Array.Resize(dr, dr.Length + 1)
-                dr(dr.Length - 1) = rowbasket
+    '                'Tambahkan ke dr, barang2 yang masuk kategori
+    '                Array.Resize(dr, dr.Length + 1)
+    '                dr(dr.Length - 1) = rowbasket
 
-                Array.Resize(dr2_B, dr2_B.Length + 1)
-                dr2_B(dr2_B.Length - 1) = rowbasket
+    '                Array.Resize(dr2_B, dr2_B.Length + 1)
+    '                dr2_B(dr2_B.Length - 1) = rowbasket
 
-            End If
-        Next
+    '            End If
+    '        Next
 
 
-        'Normalkan dulu discount yang masuk di list
-        For Each row As DataRow In dr
-            Dim bondetil_qty As Integer = row("bondetil_qty")
-            Dim bondetil_pricegross As Decimal = row("bondetil_pricegross")
-            Dim bondetil_discpstd01 As Decimal = row("bondetil_discpstd01")
-            Dim bondetil_discrstd01 As Decimal = row("bondetil_discrstd01")
-            Dim bondetil_pricenettstd01 As Decimal = row("bondetil_pricenettstd01") 'bondetil_pricegross
-            Dim bondetil_discpvou01 As Decimal = 0
-            Dim bondetil_discrvou01 As Decimal
-            Dim bondetil_pricenettvou01 As Decimal
+    '        'Normalkan dulu discount yang masuk di list
+    '        For Each row As DataRow In dr
+    '            Dim bondetil_qty As Integer = row("bondetil_qty")
+    '            Dim bondetil_pricegross As Decimal = row("bondetil_pricegross")
+    '            Dim bondetil_discpstd01 As Decimal = row("bondetil_discpstd01")
+    '            Dim bondetil_discrstd01 As Decimal = row("bondetil_discrstd01")
+    '            Dim bondetil_pricenettstd01 As Decimal = row("bondetil_pricenettstd01") 'bondetil_pricegross
+    '            Dim bondetil_discpvou01 As Decimal = 0
+    '            Dim bondetil_discrvou01 As Decimal
+    '            Dim bondetil_pricenettvou01 As Decimal
 
 
-            Dim pricing_disc = row("pricing_disc")
+    '            Dim pricing_disc = row("pricing_disc")
 
-            ' Normalkan Harga
-            bondetil_discpstd01 = pricing_disc
-            bondetil_discrstd01 = (pricing_disc / 100) * bondetil_pricegross
-            bondetil_pricenettstd01 = bondetil_pricegross - bondetil_discrstd01
-            bondetil_discpvou01 = 0
-            bondetil_discrvou01 = 0
-            bondetil_pricenettvou01 = bondetil_pricenettstd01
+    '            ' Normalkan Harga
+    '            bondetil_discpstd01 = pricing_disc
+    '            bondetil_discrstd01 = (pricing_disc / 100) * bondetil_pricegross
+    '            bondetil_pricenettstd01 = bondetil_pricegross - bondetil_discrstd01
+    '            bondetil_discpvou01 = 0
+    '            bondetil_discrvou01 = 0
+    '            bondetil_pricenettvou01 = bondetil_pricenettstd01
 
-            Dim bondetil_pricenet As Decimal = bondetil_pricenettstd01
-            Dim bondetil_subtotal As Decimal = bondetil_qty * bondetil_pricenet
-
-            row("bondetil_discpstd01") = bondetil_discpstd01
-            row("bondetil_discrstd01") = bondetil_discrstd01
-            row("bondetil_pricenettstd01") = bondetil_pricenettstd01
-            row("bondetil_vou01type") = ""
-            row("bondetil_vou01method") = ""
-            row("bondetil_discpvou01") = bondetil_discpvou01
-            row("bondetil_discrvou01") = bondetil_discrvou01
-            row("bondetil_pricenettvou01") = bondetil_pricenettvou01
-            row("bondetil_pricenet") = bondetil_pricenet
-            row("bondetil_subtotal") = bondetil_subtotal
+    '            Dim bondetil_pricenet As Decimal = bondetil_pricenettstd01
+    '            Dim bondetil_subtotal As Decimal = bondetil_qty * bondetil_pricenet
+
+    '            row("bondetil_discpstd01") = bondetil_discpstd01
+    '            row("bondetil_discrstd01") = bondetil_discrstd01
+    '            row("bondetil_pricenettstd01") = bondetil_pricenettstd01
+    '            row("bondetil_vou01type") = ""
+    '            row("bondetil_vou01method") = ""
+    '            row("bondetil_discpvou01") = bondetil_discpvou01
+    '            row("bondetil_discrvou01") = bondetil_discrvou01
+    '            row("bondetil_pricenettvou01") = bondetil_pricenettvou01
+    '            row("bondetil_pricenet") = bondetil_pricenet
+    '            row("bondetil_subtotal") = bondetil_subtotal
 
-        Next
+    '        Next
 
 
 
-        Dim SaatIniBolehDiscPayment As Boolean = Me.POS.BolehDiscPayment
+    '        Dim SaatIniBolehDiscPayment As Boolean = Me.POS.BolehDiscPayment
 
-        'If dr.Length >= disc_20_threshold Or n >= disc_20_threshold Then
-        If nA >= disc_A_threshold Then
-            Dim i As Integer = 0
-            For Each row As DataRow In dr2_A
-                ' LEveling Discount
-                Dim pricing_disc = row("pricing_disc")
+    '        'If dr.Length >= disc_20_threshold Or n >= disc_20_threshold Then
+    '        If nA >= disc_A_threshold Then
+    '            Dim i As Integer = 0
+    '            For Each row As DataRow In dr2_A
+    '                ' LEveling Discount
+    '                Dim pricing_disc = row("pricing_disc")
 
 
-                Dim disc_additional = 0
-                disc_additional = IIf(nA >= disc_A_threshold, disc_A, 0)
-
-                i = i + 1
-                If promoargs.ForSecondItem_A Then
-                    If i Mod 2 <> 0 Then
-                        Continue For
-                    End If
-                End If
-
-
-                Dim bondetil_qty As Integer = row("bondetil_qty")
-                Dim bondetil_pricegross As Decimal = row("bondetil_pricegross")
-                Dim bondetil_discpstd01 As Decimal = row("bondetil_discpstd01")
-                Dim bondetil_discrstd01 As Decimal = row("bondetil_discrstd01")
-                Dim bondetil_pricenettstd01 As Decimal = row("bondetil_pricenettstd01") 'bondetil_pricegross
-                Dim bondetil_discpvou01 As Decimal = 0
-                Dim bondetil_discrvou01 As Decimal
-                Dim bondetil_pricenettvou01 As Decimal
-
-
-
-                If promoargs.replace_discount_A Then
-                    ' Pricing standart
-                    bondetil_discpstd01 = pricing_disc
-                    bondetil_discrstd01 = (pricing_disc / 100) * bondetil_pricegross
-                    bondetil_pricenettstd01 = bondetil_pricegross - bondetil_discrstd01
-                    ' Replace Pricing
-                    bondetil_discpvou01 = disc_additional * 100
-                    bondetil_discrvou01 = disc_additional * bondetil_pricegross
-                    bondetil_pricenettvou01 = bondetil_pricegross - bondetil_discrvou01
-
-                Else
-                    ' Pricing discount bertingkat
-                    bondetil_discpstd01 = pricing_disc
-                    bondetil_discrstd01 = (pricing_disc / 100) * bondetil_pricegross
-                    bondetil_pricenettstd01 = bondetil_pricegross - bondetil_discrstd01
-                    bondetil_discpvou01 = disc_additional * 100
-                    bondetil_discrvou01 = disc_additional * bondetil_pricenettstd01
-                    bondetil_pricenettvou01 = bondetil_pricenettstd01 - bondetil_discrvou01
-
-                End If
-
-
-
-
-                Dim bondetil_pricenet As Decimal = bondetil_pricenettvou01
-                Dim bondetil_subtotal As Decimal = bondetil_qty * bondetil_pricenet
-
-                row("bondetil_discpstd01") = bondetil_discpstd01
-                row("bondetil_discrstd01") = bondetil_discrstd01
-                row("bondetil_pricenettstd01") = bondetil_pricenettstd01
-                row("bondetil_vou01type") = "BUNDL-02"
-                row("bondetil_vou01method") = "ALL"
-                row("bondetil_discpvou01") = bondetil_discpvou01
-                row("bondetil_discrvou01") = bondetil_discrvou01
-                row("bondetil_pricenettvou01") = bondetil_pricenettvou01
-                row("bondetil_pricenet") = bondetil_pricenet
-                row("bondetil_subtotal") = bondetil_subtotal
-
-            Next
-
-            Me.POS.PromoApplied = Me.POS.PromoApplied Or True
-            If Not payment_disc_Allowed Then
-                Me.POS.BolehDiscPayment = False
-            Else
-                Me.POS.BolehDiscPayment = True
-            End If
-
-        Else
-
-            Me.POS.PromoApplied = Me.POS.PromoApplied Or False
-            SaatIniBolehDiscPayment = True
-            Me.POS.BolehDiscPayment = True
-        End If
-
-
-        If nB >= disc_B_threshold Then
-            Dim i As Integer = 0
-            For Each row As DataRow In dr2_B
-                ' LEveling Discount
-                Dim pricing_disc = row("pricing_disc")
-
-
-                Dim disc_additional = 0
-                disc_additional = IIf(nB >= disc_B_threshold, disc_B, 0)
-
-                i = i + 1
-                If promoargs.ForSecondItem_B Then
-                    If i Mod 2 <> 0 Then
-                        Continue For
-                    End If
-                End If
-
-
-                Dim bondetil_qty As Integer = row("bondetil_qty")
-                Dim bondetil_pricegross As Decimal = row("bondetil_pricegross")
-                Dim bondetil_discpstd01 As Decimal = row("bondetil_discpstd01")
-                Dim bondetil_discrstd01 As Decimal = row("bondetil_discrstd01")
-                Dim bondetil_pricenettstd01 As Decimal = row("bondetil_pricenettstd01") 'bondetil_pricegross
-                Dim bondetil_discpvou01 As Decimal = 0
-                Dim bondetil_discrvou01 As Decimal
-                Dim bondetil_pricenettvou01 As Decimal
-
-
-                If promoargs.replace_discount_B Then
-                    ' Pricing standart
-                    bondetil_discpstd01 = pricing_disc
-                    bondetil_discrstd01 = (pricing_disc / 100) * bondetil_pricegross
-                    bondetil_pricenettstd01 = bondetil_pricegross - bondetil_discrstd01
-                    ' Replace Pricing
-                    bondetil_discpvou01 = disc_additional * 100
-                    bondetil_discrvou01 = disc_additional * bondetil_pricegross
-                    bondetil_pricenettvou01 = bondetil_pricegross - bondetil_discrvou01
-                Else
-                    ' Discount bertingkat
-                    ' Pricing standart
-                    bondetil_discpstd01 = pricing_disc
-                    bondetil_discrstd01 = (pricing_disc / 100) * bondetil_pricegross
-                    bondetil_pricenettstd01 = bondetil_pricegross - bondetil_discrstd01
-                    ' Tambahan Discount
-                    bondetil_discpvou01 = disc_additional * 100
-                    bondetil_discrvou01 = disc_additional * bondetil_pricenettstd01
-                    bondetil_pricenettvou01 = bondetil_pricenettstd01 - bondetil_discrvou01
-                End If
-
-
-
-
-                Dim bondetil_pricenet As Decimal = bondetil_pricenettvou01
-                Dim bondetil_subtotal As Decimal = bondetil_qty * bondetil_pricenet
-
-                row("bondetil_discpstd01") = bondetil_discpstd01
-                row("bondetil_discrstd01") = bondetil_discrstd01
-                row("bondetil_pricenettstd01") = bondetil_pricenettstd01
-                row("bondetil_vou01type") = "BUNDL-02"
-                row("bondetil_vou01method") = "ALL"
-                row("bondetil_discpvou01") = bondetil_discpvou01
-                row("bondetil_discrvou01") = bondetil_discrvou01
-                row("bondetil_pricenettvou01") = bondetil_pricenettvou01
-                row("bondetil_pricenet") = bondetil_pricenet
-                row("bondetil_subtotal") = bondetil_subtotal
-
-            Next
-
-            Me.POS.PromoApplied = Me.POS.PromoApplied Or True
-            If Not payment_disc_Allowed Then
-                Me.POS.BolehDiscPayment = False
-            Else
-                Me.POS.BolehDiscPayment = True
-            End If
-
-        Else
-            Me.POS.PromoApplied = Me.POS.PromoApplied Or False
-            SaatIniBolehDiscPayment = True
-            Me.POS.BolehDiscPayment = True
-        End If
-
-
-
-        Me.POS.BolehDiscPayment = Me.POS.BolehDiscPayment And SaatIniBolehDiscPayment
-        If (Me.POS.BolehDiscPayment) Then
-            Me.POS.AllowedPaymenttype = promoargs.paymenttype_allowed
-        Else
-            Me.POS.AllowedPaymenttype = Nothing
-        End If
-
-
-        Me.POS.PosItems.AcceptChanges()
-
-        Dim sum_qty = Me.POS.Count
-        Dim sum_subtotal = Me.POS.Subtotal
-
-        Me.txtSubtotal.Text = String.Format("{0:#,##0}", CDec(sum_subtotal))
-        Me.txtCount.Text = String.Format("{0:#,##0}", CDec(sum_qty))
-
-    End Function
-
-#End Region
+    '                Dim disc_additional = 0
+    '                disc_additional = IIf(nA >= disc_A_threshold, disc_A, 0)
+
+    '                i = i + 1
+    '                If promoargs.ForSecondItem_A Then
+    '                    If i Mod 2 <> 0 Then
+    '                        Continue For
+    '                    End If
+    '                End If
+
+
+    '                Dim bondetil_qty As Integer = row("bondetil_qty")
+    '                Dim bondetil_pricegross As Decimal = row("bondetil_pricegross")
+    '                Dim bondetil_discpstd01 As Decimal = row("bondetil_discpstd01")
+    '                Dim bondetil_discrstd01 As Decimal = row("bondetil_discrstd01")
+    '                Dim bondetil_pricenettstd01 As Decimal = row("bondetil_pricenettstd01") 'bondetil_pricegross
+    '                Dim bondetil_discpvou01 As Decimal = 0
+    '                Dim bondetil_discrvou01 As Decimal
+    '                Dim bondetil_pricenettvou01 As Decimal
+
+
+
+    '                If promoargs.replace_discount_A Then
+    '                    ' Pricing standart
+    '                    bondetil_discpstd01 = pricing_disc
+    '                    bondetil_discrstd01 = (pricing_disc / 100) * bondetil_pricegross
+    '                    bondetil_pricenettstd01 = bondetil_pricegross - bondetil_discrstd01
+    '                    ' Replace Pricing
+    '                    bondetil_discpvou01 = disc_additional * 100
+    '                    bondetil_discrvou01 = disc_additional * bondetil_pricegross
+    '                    bondetil_pricenettvou01 = bondetil_pricegross - bondetil_discrvou01
+
+    '                Else
+    '                    ' Pricing discount bertingkat
+    '                    bondetil_discpstd01 = pricing_disc
+    '                    bondetil_discrstd01 = (pricing_disc / 100) * bondetil_pricegross
+    '                    bondetil_pricenettstd01 = bondetil_pricegross - bondetil_discrstd01
+    '                    bondetil_discpvou01 = disc_additional * 100
+    '                    bondetil_discrvou01 = disc_additional * bondetil_pricenettstd01
+    '                    bondetil_pricenettvou01 = bondetil_pricenettstd01 - bondetil_discrvou01
+
+    '                End If
+
+
+
+
+    '                Dim bondetil_pricenet As Decimal = bondetil_pricenettvou01
+    '                Dim bondetil_subtotal As Decimal = bondetil_qty * bondetil_pricenet
+
+    '                row("bondetil_discpstd01") = bondetil_discpstd01
+    '                row("bondetil_discrstd01") = bondetil_discrstd01
+    '                row("bondetil_pricenettstd01") = bondetil_pricenettstd01
+    '                row("bondetil_vou01type") = "BUNDL-02"
+    '                row("bondetil_vou01method") = "ALL"
+    '                row("bondetil_discpvou01") = bondetil_discpvou01
+    '                row("bondetil_discrvou01") = bondetil_discrvou01
+    '                row("bondetil_pricenettvou01") = bondetil_pricenettvou01
+    '                row("bondetil_pricenet") = bondetil_pricenet
+    '                row("bondetil_subtotal") = bondetil_subtotal
+
+    '            Next
+
+    '            Me.POS.PromoApplied = Me.POS.PromoApplied Or True
+    '            If Not payment_disc_Allowed Then
+    '                Me.POS.BolehDiscPayment = False
+    '            Else
+    '                Me.POS.BolehDiscPayment = True
+    '            End If
+
+    '        Else
+
+    '            Me.POS.PromoApplied = Me.POS.PromoApplied Or False
+    '            SaatIniBolehDiscPayment = True
+    '            Me.POS.BolehDiscPayment = True
+    '        End If
+
+
+    '        If nB >= disc_B_threshold Then
+    '            Dim i As Integer = 0
+    '            For Each row As DataRow In dr2_B
+    '                ' LEveling Discount
+    '                Dim pricing_disc = row("pricing_disc")
+
+
+    '                Dim disc_additional = 0
+    '                disc_additional = IIf(nB >= disc_B_threshold, disc_B, 0)
+
+    '                i = i + 1
+    '                If promoargs.ForSecondItem_B Then
+    '                    If i Mod 2 <> 0 Then
+    '                        Continue For
+    '                    End If
+    '                End If
+
+
+    '                Dim bondetil_qty As Integer = row("bondetil_qty")
+    '                Dim bondetil_pricegross As Decimal = row("bondetil_pricegross")
+    '                Dim bondetil_discpstd01 As Decimal = row("bondetil_discpstd01")
+    '                Dim bondetil_discrstd01 As Decimal = row("bondetil_discrstd01")
+    '                Dim bondetil_pricenettstd01 As Decimal = row("bondetil_pricenettstd01") 'bondetil_pricegross
+    '                Dim bondetil_discpvou01 As Decimal = 0
+    '                Dim bondetil_discrvou01 As Decimal
+    '                Dim bondetil_pricenettvou01 As Decimal
+
+
+    '                If promoargs.replace_discount_B Then
+    '                    ' Pricing standart
+    '                    bondetil_discpstd01 = pricing_disc
+    '                    bondetil_discrstd01 = (pricing_disc / 100) * bondetil_pricegross
+    '                    bondetil_pricenettstd01 = bondetil_pricegross - bondetil_discrstd01
+    '                    ' Replace Pricing
+    '                    bondetil_discpvou01 = disc_additional * 100
+    '                    bondetil_discrvou01 = disc_additional * bondetil_pricegross
+    '                    bondetil_pricenettvou01 = bondetil_pricegross - bondetil_discrvou01
+    '                Else
+    '                    ' Discount bertingkat
+    '                    ' Pricing standart
+    '                    bondetil_discpstd01 = pricing_disc
+    '                    bondetil_discrstd01 = (pricing_disc / 100) * bondetil_pricegross
+    '                    bondetil_pricenettstd01 = bondetil_pricegross - bondetil_discrstd01
+    '                    ' Tambahan Discount
+    '                    bondetil_discpvou01 = disc_additional * 100
+    '                    bondetil_discrvou01 = disc_additional * bondetil_pricenettstd01
+    '                    bondetil_pricenettvou01 = bondetil_pricenettstd01 - bondetil_discrvou01
+    '                End If
+
+
+
+
+    '                Dim bondetil_pricenet As Decimal = bondetil_pricenettvou01
+    '                Dim bondetil_subtotal As Decimal = bondetil_qty * bondetil_pricenet
+
+    '                row("bondetil_discpstd01") = bondetil_discpstd01
+    '                row("bondetil_discrstd01") = bondetil_discrstd01
+    '                row("bondetil_pricenettstd01") = bondetil_pricenettstd01
+    '                row("bondetil_vou01type") = "BUNDL-02"
+    '                row("bondetil_vou01method") = "ALL"
+    '                row("bondetil_discpvou01") = bondetil_discpvou01
+    '                row("bondetil_discrvou01") = bondetil_discrvou01
+    '                row("bondetil_pricenettvou01") = bondetil_pricenettvou01
+    '                row("bondetil_pricenet") = bondetil_pricenet
+    '                row("bondetil_subtotal") = bondetil_subtotal
+
+    '            Next
+
+    '            Me.POS.PromoApplied = Me.POS.PromoApplied Or True
+    '            If Not payment_disc_Allowed Then
+    '                Me.POS.BolehDiscPayment = False
+    '            Else
+    '                Me.POS.BolehDiscPayment = True
+    '            End If
+
+    '        Else
+    '            Me.POS.PromoApplied = Me.POS.PromoApplied Or False
+    '            SaatIniBolehDiscPayment = True
+    '            Me.POS.BolehDiscPayment = True
+    '        End If
+
+
+
+    '        Me.POS.BolehDiscPayment = Me.POS.BolehDiscPayment And SaatIniBolehDiscPayment
+    '        If (Me.POS.BolehDiscPayment) Then
+    '            Me.POS.AllowedPaymenttype = promoargs.paymenttype_allowed
+    '        Else
+    '            Me.POS.AllowedPaymenttype = Nothing
+    '        End If
+
+
+    '        Me.POS.PosItems.AcceptChanges()
+
+    '        Dim sum_qty = Me.POS.Count
+    '        Dim sum_subtotal = Me.POS.Subtotal
+
+    '        Me.txtSubtotal.Text = String.Format("{0:#,##0}", CDec(sum_subtotal))
+    '        Me.txtCount.Text = String.Format("{0:#,##0}", CDec(sum_qty))
+
+    '    End Function
+
+    '#End Region
 
 
 
@@ -1686,6 +1701,8 @@ Public Class dlgTrnPosEN
 
 
     Private Sub SetActivePromoLabel(lbl As Label)
+
+
         Dim currentLabel As Label = dlgTrnPosEN.CurrentSelectedPromoLabel
         If currentLabel IsNot Nothing Then
             currentLabel.Font = DefaultFont
@@ -1693,10 +1710,15 @@ Public Class dlgTrnPosEN
             currentLabel.ForeColor = DefaultForeColor
         End If
 
-        dlgTrnPosEN.CurrentSelectedPromoLabel = lbl
-        lbl.Font = New Font(lbl.Font, FontStyle.Bold)
-        lbl.BackColor = Color.Black
-        lbl.ForeColor = Color.White
+        If lbl IsNot Nothing Then
+            dlgTrnPosEN.CurrentSelectedPromoLabel = lbl
+            lbl.Font = New Font(lbl.Font, FontStyle.Bold)
+            lbl.BackColor = Color.Black
+            lbl.ForeColor = Color.White
+        Else
+            dlgTrnPosEN.CurrentSelectedPromoLabel = Nothing
+        End If
+
     End Sub
 
 
