@@ -2,8 +2,8 @@ Public Class dlgQRTest
 
     Private WithEvents POS As TransStore.POS
 
-    Public Sub SetParameter(ByVal objPOS As TransStore.POS)
-        Me.POS = objPOS
+    Public Sub SetPOS(ByVal pos As TransStore.POS)
+        Me.POS = pos
     End Sub
 
 
@@ -33,6 +33,11 @@ Public Class dlgQRTest
     End Sub
 
     Private Sub dlgQRTest_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        If Me.POS Is Nothing Then
+            ' Me.POS = uiTrnPosEN.GetCurrentPOS()
+        End If
+
+
         Me.TabControl1.Dock = DockStyle.Fill
 
         Dim wsaddress As String = Me.POS.QrisProxy

@@ -36,6 +36,7 @@ Partial Class uiTrnPosEN
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.groupTransaction = New System.Windows.Forms.GroupBox()
+        Me.Label13 = New System.Windows.Forms.Label()
         Me.btnOpenPOSReturNote = New System.Windows.Forms.Button()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.btnViewDetil = New System.Windows.Forms.Button()
@@ -43,6 +44,7 @@ Partial Class uiTrnPosEN
         Me.Label3 = New System.Windows.Forms.Label()
         Me.btnSignOff = New System.Windows.Forms.Button()
         Me.groupSalesSend = New System.Windows.Forms.GroupBox()
+        Me.Label15 = New System.Windows.Forms.Label()
         Me.obj_txt_senddatamode = New System.Windows.Forms.Label()
         Me.lblAutosendStatus = New System.Windows.Forms.Label()
         Me.LabelDataSend = New System.Windows.Forms.Label()
@@ -81,15 +83,13 @@ Partial Class uiTrnPosEN
         Me.LabelUpdateBin = New System.Windows.Forms.Label()
         Me.ProgressBarUpdatebin = New System.Windows.Forms.ProgressBar()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.Label12 = New System.Windows.Forms.Label()
         Me.btn_TestQris = New System.Windows.Forms.Button()
         Me.btn_testVoucher = New System.Windows.Forms.Button()
         Me.btnShowParameter = New System.Windows.Forms.LinkLabel()
         Me.btnUpdateManual = New System.Windows.Forms.Button()
         Me.TimerAutosendData = New System.Windows.Forms.Timer(Me.components)
-        Me.Label12 = New System.Windows.Forms.Label()
-        Me.Label13 = New System.Windows.Forms.Label()
-        Me.Label14 = New System.Windows.Forms.Label()
-        Me.Label15 = New System.Windows.Forms.Label()
         CType(Me.dsMaster, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.groupClossing.SuspendLayout()
         Me.groupTransaction.SuspendLayout()
@@ -331,6 +331,15 @@ Partial Class uiTrnPosEN
         Me.groupTransaction.TabStop = False
         Me.groupTransaction.Text = "Transaction"
         '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(5, -1)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(63, 13)
+        Me.Label13.TabIndex = 38
+        Me.Label13.Text = "Transaction"
+        '
         'btnOpenPOSReturNote
         '
         Me.btnOpenPOSReturNote.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
@@ -408,6 +417,15 @@ Partial Class uiTrnPosEN
         Me.groupSalesSend.TabIndex = 13
         Me.groupSalesSend.TabStop = False
         Me.groupSalesSend.Text = "Data Sales"
+        '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Location = New System.Drawing.Point(6, -1)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(59, 13)
+        Me.Label15.TabIndex = 40
+        Me.Label15.Text = "Data Sales"
         '
         'obj_txt_senddatamode
         '
@@ -560,7 +578,7 @@ Partial Class uiTrnPosEN
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(359, 13)
         Me.Label10.TabIndex = 35
-        Me.Label10.Text = "Migrate ke .NET 4.8"
+        Me.Label10.Text = "tax 12% at 1st jan 25"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'LabelVersion
@@ -824,6 +842,24 @@ Partial Class uiTrnPosEN
         Me.Panel1.Size = New System.Drawing.Size(764, 547)
         Me.Panel1.TabIndex = 33
         '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(12, 173)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(41, 13)
+        Me.Label14.TabIndex = 39
+        Me.Label14.Text = "Closing"
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(387, 23)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(66, 13)
+        Me.Label12.TabIndex = 37
+        Me.Label12.Text = "Pos Console"
+        '
         'btn_TestQris
         '
         Me.btn_TestQris.ForeColor = System.Drawing.Color.Black
@@ -869,42 +905,6 @@ Partial Class uiTrnPosEN
         '
         'TimerAutosendData
         '
-        '
-        'Label12
-        '
-        Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(387, 23)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(66, 13)
-        Me.Label12.TabIndex = 37
-        Me.Label12.Text = "Pos Console"
-        '
-        'Label13
-        '
-        Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(5, -1)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(63, 13)
-        Me.Label13.TabIndex = 38
-        Me.Label13.Text = "Transaction"
-        '
-        'Label14
-        '
-        Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(12, 173)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(41, 13)
-        Me.Label14.TabIndex = 39
-        Me.Label14.Text = "Closing"
-        '
-        'Label15
-        '
-        Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(6, -1)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(59, 13)
-        Me.Label15.TabIndex = 40
-        Me.Label15.Text = "Data Sales"
         '
         'uiTrnPosEN
         '

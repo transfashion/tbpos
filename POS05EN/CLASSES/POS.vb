@@ -1310,7 +1310,14 @@ Namespace TransStore
                 If dr.Length > 0 Then
                     _retval = dr(0).Item("setting_value").ToString()
                 Else
-                    _retval = "11"
+                    ' cek tahun 2025
+                    Dim ye As Integer = Year(Now())
+                    If ye >= 2025 Then
+                        _retval = "12"
+                    Else
+                        _retval = "11"
+                    End If
+                    ' end cek tahun
                 End If
                 Dim tp As Decimal
                 tp = CDec(_retval)
@@ -1350,9 +1357,13 @@ Namespace TransStore
         Public Sub InitialiseSecondDisplay()
             Me.mSecondDisplay = New dlgSecondDisplay()
 
-            If uiTrnPosEN.StartInfo.EnvironmentVariables("POSENV") = "DEV" Then
+
+            ' If uiTrnPosEN.StartInfo.EnvironmentVariables("POSENV") = "DEV" Then
+            If Me.IsDevelopmentMode Then
+
+
                 ' DEVELOMENT
-                Me.mSecondDisplay.Text = "wndow do from kedua"
+                Me.mSecondDisplay.Text = "Display"
                 Me.mSecondDisplay.ShowInTaskbar = True
                 Me.mSecondDisplay.Show()
             Else
@@ -1360,7 +1371,7 @@ Namespace TransStore
                 Dim numofmonitor As Integer = Screen.AllScreens.Length
                 If numofmonitor > 1 Then
                     ' Tampilkan monitor kedua
-                    Me.mSecondDisplay.Text = "wndow do from kedua"
+                    Me.mSecondDisplay.Text = "Display"
                     Me.mSecondDisplay.ShowInTaskbar = False
                     Me.mSecondDisplay.Show()
                     Me.mSecondDisplay.Location = Screen.AllScreens(UBound(Screen.AllScreens)).Bounds.Location
@@ -1368,9 +1379,6 @@ Namespace TransStore
                     Me.mSecondDisplay.FormBorderStyle = FormBorderStyle.None
                 End If
             End If
-
-
-
 
             Me.mSecondDisplay.setPOS(Me)
         End Sub
