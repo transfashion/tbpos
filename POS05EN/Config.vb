@@ -27,7 +27,7 @@ Public Class Config
     Public Shared DevRegionId As String = ""  ' "00900"    ' Kosongkan apabila sesuai Transbrowser.pos.ini, diisi untuk ovveride
     Public Shared DevBranchId As String = ""  ' "0000300"  ' Kosongkan apabila sesuai Transbrowser.pos.ini, diisi untuk ovveride
     Public Shared DevMachineId As String = "" ' "DV"       ' Kosongkan apabila sesuai Transbrowser.pos.ini, diisi untuk ovveride
-    Public Shared DevBonType As String = "OUTLET02" 'BAZAR OUTLET01, OUTLET02, OUTLET03
+    Public Shared DevBonType As String = "OUTLET02" 'BAZAR, OUTLET01, OUTLET02, OUTLET03
 
     Public Shared DevScanMode As String = "" 'TransStore.POS.MODE_BARCODESCAN
 

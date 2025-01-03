@@ -1356,19 +1356,26 @@ Namespace TransStore
 
         Public Sub InitialiseSecondDisplay()
             Me.mSecondDisplay = New dlgSecondDisplay()
-
+            Dim numofmonitor As Integer = Screen.AllScreens.Length
 
             ' If uiTrnPosEN.StartInfo.EnvironmentVariables("POSENV") = "DEV" Then
             If Me.IsDevelopmentMode Then
 
 
                 ' DEVELOMENT
+                ' selalu tampilkan display kedua
                 Me.mSecondDisplay.Text = "Display"
                 Me.mSecondDisplay.ShowInTaskbar = True
                 Me.mSecondDisplay.Show()
+                If numofmonitor > 1 Then
+                    Me.mSecondDisplay.Location = Screen.AllScreens(UBound(Screen.AllScreens)).Bounds.Location
+                    Me.mSecondDisplay.WindowState = FormWindowState.Maximized
+                    Me.mSecondDisplay.FormBorderStyle = FormBorderStyle.None
+                End If
             Else
+
                 ' PRODUCTION
-                Dim numofmonitor As Integer = Screen.AllScreens.Length
+                ' hanya menampilkan display kedua kalau multiple monitor
                 If numofmonitor > 1 Then
                     ' Tampilkan monitor kedua
                     Me.mSecondDisplay.Text = "Display"
@@ -3788,9 +3795,14 @@ Namespace TransStore
                 Select Case i
                     Case 1
                         Dim mVoured As Decimal = objBon.Header.Rows(0).Item("bon_msubtvoucher") + objBon.Header.Rows(0).Item("bon_msubtredeem")
-                        Line &= "SALES NETT".PadLeft(14, pad)
+                        'Line &= "SALES NETT".PadLeft(14, pad)
+                        'Line &= " "
+                        'Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msalenet")).PadLeft(11, pad)
+
+                        Line &= " ".PadLeft(14, pad)
                         Line &= " "
-                        Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msalenet")).PadLeft(11, pad)
+                        Line &= " ".PadLeft(11, pad)
+
                         Line &= " "
                         Line &= "VOU/RED".PadLeft(14, pad)
                         Line &= "  "
@@ -3803,9 +3815,14 @@ Namespace TransStore
                         Dim netbeforetax As Decimal = objBon.Header.Rows(0).Item("bon_msalenet")
                         Dim taxprc As Decimal = Math.Round((tax / netbeforetax) * 100, 2)
 
-                        Line &= ("Inc PPN " & CStr(taxprc) & "%").PadLeft(14, pad)
+                        'Line &= ("Inc PPN " & CStr(taxprc) & "%").PadLeft(14, pad)
+                        'Line &= " "
+                        'Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msaletax")).PadLeft(11, pad)
+
+                        Line &= " ".PadLeft(14, pad)
                         Line &= " "
-                        Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msaletax")).PadLeft(11, pad)
+                        Line &= " ".PadLeft(11, pad)
+
                         Line &= " "
                         Line &= "ADD.DISC".PadLeft(14, pad)
                         Line &= "  "
@@ -3814,9 +3831,14 @@ Namespace TransStore
                         Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msubtdiscadd")).PadLeft(11, pad)
 
                     Case 3
-                        Line &= "GROSS".PadLeft(14, pad)
+                        'Line &= "GROSS".PadLeft(14, pad)
+                        'Line &= " "
+                        'Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msalegross")).PadLeft(11, pad)
+
+                        Line &= " ".PadLeft(14, pad)
                         Line &= " "
-                        Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msalegross")).PadLeft(11, pad)
+                        Line &= " ".PadLeft(11, pad)
+
                         Line &= " "
                         Line &= "PAYM.DISC".PadLeft(14, pad)
                         Line &= "  "
@@ -4096,9 +4118,15 @@ Namespace TransStore
                 Select Case i
                     Case 1
                         Dim mVoured As Decimal = objBon.Header.Rows(0).Item("bon_msubtvoucher") + objBon.Header.Rows(0).Item("bon_msubtredeem")
-                        Line &= "SALES NETT".PadLeft(14, pad)
+                        'Line &= "SALES NETT".PadLeft(14, pad)
+                        'Line &= " "
+                        'Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msalenet")).PadLeft(11, pad)
+
+                        Line &= " ".PadLeft(14, pad)
                         Line &= " "
-                        Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msalenet")).PadLeft(11, pad)
+                        Line &= " ".PadLeft(11, pad)
+
+
                         Line &= " "
                         Line &= "VOU/RED".PadLeft(14, pad)
                         Line &= "  "
@@ -4111,9 +4139,14 @@ Namespace TransStore
                         Dim netbeforetax As Decimal = objBon.Header.Rows(0).Item("bon_msalenet")
                         Dim taxprc As Decimal = Math.Round((tax / netbeforetax) * 100, 2)
 
-                        Line &= ("Inc PPN " & CStr(taxprc) & "%").PadLeft(14, pad)
+                        'Line &= ("Inc PPN " & CStr(taxprc) & "%").PadLeft(14, pad)
+                        'Line &= " "
+                        'Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msaletax")).PadLeft(11, pad)
+
+                        Line &= " ".PadLeft(14, pad)
                         Line &= " "
-                        Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msaletax")).PadLeft(11, pad)
+                        Line &= " ".PadLeft(11, pad)
+
                         Line &= " "
                         Line &= "ADD.DISC".PadLeft(14, pad)
                         Line &= "  "
@@ -4124,9 +4157,15 @@ Namespace TransStore
                     Case 3
                         Dim discline = "DISC  (" & Trim(objBon.Header.Rows(0).Item("pospayment_id")) & ")"
 
-                        Line &= "GROSS".PadLeft(14, pad)
+                        'Line &= "GROSS".PadLeft(14, pad)
+                        'Line &= " "
+                        'Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msalegross")).PadLeft(11, pad)
+
+                        Line &= " ".PadLeft(14, pad)
                         Line &= " "
-                        Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msalegross")).PadLeft(11, pad)
+                        Line &= " ".PadLeft(11, pad)
+
+
                         Line &= " "
                         'Line &= "DISC (MEGA)".PadLeft(14, pad)
 
@@ -4406,22 +4445,22 @@ Namespace TransStore
 
 
 
-            Line = "GROSS".PadRight(29)
-            Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msalegross")).PadLeft(11, pad)
-            sb.AppendText(Line & vbCrLf)
+            'Line = "GROSS".PadRight(29)
+            'Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msalegross")).PadLeft(11, pad)
+            'sb.AppendText(Line & vbCrLf)
 
-            Dim tax As Decimal = objBon.Header.Rows(0).Item("bon_msaletax")
-            Dim netbeforetax As Decimal = objBon.Header.Rows(0).Item("bon_msalenet")
-            Dim taxprc As Decimal = Math.Round((tax / netbeforetax) * 100, 2)
+            'Dim tax As Decimal = objBon.Header.Rows(0).Item("bon_msaletax")
+            'Dim netbeforetax As Decimal = objBon.Header.Rows(0).Item("bon_msalenet")
+            'Dim taxprc As Decimal = Math.Round((tax / netbeforetax) * 100, 2)
 
-            Line = ("Inc.PPN " & CStr(taxprc) & "%").PadRight(29)
-            Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msaletax")).PadLeft(11, pad)
-            sb.AppendText(Line & vbCrLf)
+            'Line = ("Inc.PPN " & CStr(taxprc) & "%").PadRight(29)
+            'Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msaletax")).PadLeft(11, pad)
+            'sb.AppendText(Line & vbCrLf)
 
 
-            Line = "NETT".PadRight(29)
-            Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msalenet")).PadLeft(11, pad)
-            sb.AppendText(Line & vbCrLf)
+            'Line = "NETT".PadRight(29)
+            'Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_msalenet")).PadLeft(11, pad)
+            'sb.AppendText(Line & vbCrLf)
 
             Line = vbCrLf
             Line &= "PAYMENT(s)"
