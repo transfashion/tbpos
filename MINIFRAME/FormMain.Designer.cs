@@ -41,41 +41,42 @@ namespace MINIFRAME
             // 
             // obj_Status
             // 
+            this.obj_Status.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.obj_Status.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.obj_Status_Username,
             this.obj_Status_Database,
             this.obj_Status_Webservice,
             this.obj_Status_Message,
             this.obj_Status_Progress});
-            this.obj_Status.Location = new System.Drawing.Point(0, 350);
+            this.obj_Status.Location = new System.Drawing.Point(0, 346);
             this.obj_Status.Name = "obj_Status";
-            this.obj_Status.Size = new System.Drawing.Size(648, 22);
+            this.obj_Status.Size = new System.Drawing.Size(648, 26);
             this.obj_Status.TabIndex = 0;
             this.obj_Status.Text = "statusStrip1";
             // 
             // obj_Status_Username
             // 
             this.obj_Status_Username.Name = "obj_Status_Username";
-            this.obj_Status_Username.Size = new System.Drawing.Size(60, 17);
+            this.obj_Status_Username.Size = new System.Drawing.Size(75, 20);
             this.obj_Status_Username.Text = "Username";
             // 
             // obj_Status_Database
             // 
             this.obj_Status_Database.Name = "obj_Status_Database";
-            this.obj_Status_Database.Size = new System.Drawing.Size(55, 17);
+            this.obj_Status_Database.Size = new System.Drawing.Size(72, 20);
             this.obj_Status_Database.Text = "Database";
             // 
             // obj_Status_Webservice
             // 
             this.obj_Status_Webservice.Name = "obj_Status_Webservice";
-            this.obj_Status_Webservice.Size = new System.Drawing.Size(67, 17);
+            this.obj_Status_Webservice.Size = new System.Drawing.Size(84, 20);
             this.obj_Status_Webservice.Text = "Webservice";
             this.obj_Status_Webservice.Visible = false;
             // 
             // obj_Status_Message
             // 
             this.obj_Status_Message.Name = "obj_Status_Message";
-            this.obj_Status_Message.Size = new System.Drawing.Size(416, 17);
+            this.obj_Status_Message.Size = new System.Drawing.Size(384, 20);
             this.obj_Status_Message.Spring = true;
             this.obj_Status_Message.Text = "Message";
             this.obj_Status_Message.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -83,7 +84,7 @@ namespace MINIFRAME
             // obj_Status_Progress
             // 
             this.obj_Status_Progress.Name = "obj_Status_Progress";
-            this.obj_Status_Progress.Size = new System.Drawing.Size(100, 16);
+            this.obj_Status_Progress.Size = new System.Drawing.Size(100, 18);
             // 
             // pnl_Main
             // 
@@ -92,7 +93,7 @@ namespace MINIFRAME
             this.pnl_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnl_Main.Location = new System.Drawing.Point(0, 0);
             this.pnl_Main.Name = "pnl_Main";
-            this.pnl_Main.Size = new System.Drawing.Size(648, 350);
+            this.pnl_Main.Size = new System.Drawing.Size(648, 346);
             this.pnl_Main.TabIndex = 1;
             // 
             // FormMain

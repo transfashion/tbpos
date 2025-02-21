@@ -194,7 +194,24 @@ Public Class PosPromo
         Me.POS.PromoApplied = False
         Me.POS.BolehDiscPayment = True
 
+
+        Dim dtvtype As DataTable = Me.POS.LoadVoucherType()
+
         For Each row As DataRow In dtitem.Rows
+            Dim bondetil_vou01id = row("bondetil_vou01id")
+
+            ' Skip reset untuk promo depan
+            'Me.POS.LoadVoucherType()
+            Dim foundRows() As DataRow = dtvtype.Select("posvouchertype_id = '" & bondetil_vou01id & "'")
+            If foundRows.Length > 0 Then
+                Exit Sub
+            End If
+
+            'If (bondetil_vou01id = "000OWN" Or bondetil_vou01id = "000DIR" Or bondetil_vou01id = "000EMP") Then
+            '    Exit Sub
+            'End If
+
+
             Dim bondetil_qty As Integer = row("bondetil_qty")
             Dim bondetil_pricegross As Decimal = row("bondetil_pricegross")
             Dim bondetil_discpstd01 As Decimal = row("bondetil_discpstd01")

@@ -83,6 +83,7 @@ Partial Class uiTrnPosEN
         Me.LabelUpdateBin = New System.Windows.Forms.Label()
         Me.ProgressBarUpdatebin = New System.Windows.Forms.ProgressBar()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btn_TestUnzip = New System.Windows.Forms.Button()
         Me.Label14 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.btn_TestQris = New System.Windows.Forms.Button()
@@ -578,7 +579,7 @@ Partial Class uiTrnPosEN
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(359, 13)
         Me.Label10.TabIndex = 35
-        Me.Label10.Text = "fix printout"
+        Me.Label10.Text = "patch discount depan"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'LabelVersion
@@ -809,6 +810,7 @@ Partial Class uiTrnPosEN
         '
         Me.Panel1.AutoScroll = True
         Me.Panel1.BackColor = System.Drawing.Color.Transparent
+        Me.Panel1.Controls.Add(Me.btn_TestUnzip)
         Me.Panel1.Controls.Add(Me.Label14)
         Me.Panel1.Controls.Add(Me.Label12)
         Me.Panel1.Controls.Add(Me.btn_TestQris)
@@ -841,6 +843,16 @@ Partial Class uiTrnPosEN
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(764, 547)
         Me.Panel1.TabIndex = 33
+        '
+        'btn_TestUnzip
+        '
+        Me.btn_TestUnzip.ForeColor = System.Drawing.Color.Black
+        Me.btn_TestUnzip.Location = New System.Drawing.Point(259, 504)
+        Me.btn_TestUnzip.Name = "btn_TestUnzip"
+        Me.btn_TestUnzip.Size = New System.Drawing.Size(121, 23)
+        Me.btn_TestUnzip.TabIndex = 40
+        Me.btn_TestUnzip.Text = "Test Unzip"
+        Me.btn_TestUnzip.UseVisualStyleBackColor = True
         '
         'Label14
         '
@@ -1009,4 +1021,5 @@ Partial Class uiTrnPosEN
     Friend WithEvents Label15 As Label
     Friend WithEvents Label14 As Label
     Friend WithEvents Label12 As Label
+    Friend WithEvents btn_TestUnzip As Button
 End Class
