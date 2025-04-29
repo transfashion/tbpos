@@ -477,7 +477,7 @@ Public Class dlgTrnPosVoucher
         discvalue = (disc / 100) * Me.total
 
         Dim res As DialogResult
-        res = MessageBox.Show("Anda akan menambahkan discount secara manual sebesar " & disc & "% pada transaksi ini. Apakah anda yakin ?", "Additional Disc", MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
+        res = MessageBox.Show("Anda akan menambahkan discount secara manual sebesar " & disc & " pada transaksi ini. Apakah anda yakin ?", "Additional Disc", MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
         If res = Windows.Forms.DialogResult.OK Then
             Me.objPaymentVoucherCode.Text = "MANUAL-ADD-DISC"
             Me.objPaymentVoucher.Text = 0
@@ -493,8 +493,63 @@ Public Class dlgTrnPosVoucher
         'Me.objPaymentAddDisc.Text = 0
         'End If
 
-
     End Sub
 
 
+    Private Sub do_discvalue(ByVal discvalue As Decimal)
+        Dim res As DialogResult
+        res = MessageBox.Show("Anda akan menambahkan discount secara manual sebesar " & discvalue & "% pada transaksi ini. Apakah anda yakin ?", "Additional Disc", MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
+        If res = Windows.Forms.DialogResult.OK Then
+            Me.objPaymentVoucherCode.Text = "MANUAL-ADD-DISC"
+            Me.objPaymentVoucher.Text = 0
+            Me.objPaymentAddDisc.Text = String.Format("{0:#,##0}", discvalue)
+        End If
+    End Sub
+
+
+    Private Sub Label3_Click(sender As Object, e As EventArgs) Handles Label3.Click
+        Me.do_discvalue(10000)
+    End Sub
+
+    Private Sub Label5_Click(sender As Object, e As EventArgs) Handles Label5.Click
+        Me.do_discvalue(50000)
+    End Sub
+
+    Private Sub btn_disckelipatan_Click(sender As Object, e As EventArgs) Handles btn_disckelipatan.Click
+        ' Discount 10% setiap kelipatan 2 Juta
+        Dim discpercent As Decimal = 10
+        Dim kelipatan As Decimal = 2000000
+        Dim itemMaxdiscAllowed As Decimal = 0 ' hanya barang full price
+
+        Dim multiplication As Decimal = Math.Floor(Me.total / kelipatan)
+        Dim maxvaluetobedisc = multiplication * kelipatan
+        Dim discvalue As Decimal = maxvaluetobedisc * (discpercent / 100)
+
+
+        For Each rowItem As DataRow In Me.POS.PosItems.Rows
+            Dim dsc As Decimal = rowItem("bondetil_discpstd01")
+            If dsc > itemMaxdiscAllowed Then
+                ' transaksi ini mempunyai item yang discountnya melebihi yang diperbolehkan
+                ' tambahan discount hanya berlaku untuk transaksi barang2 dengan discount maksimal {itemMaxdiscAllowed}
+                If (itemMaxdiscAllowed = 0) Then
+                    MessageBox.Show("Promo tambahan discount tambahan 10% (kelipatan) hanya untuk barang-barang fullprice", "Additional Disc", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Else
+                    MessageBox.Show(String.Format("Tambahan discount hanya berlaku untuk transaksi barang2 dengan discount maksimal {0:#,##0}", itemMaxdiscAllowed), "Additional Disc", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                End If
+                Return
+            End If
+
+            Debug.Print("Item: {0} - Disc: {1}", rowItem("bondetil_item"), dsc)
+        Next
+
+
+        Dim res As DialogResult
+        res = MessageBox.Show("Anda akan menambahkan discount secara sebesar " & discpercent & " pada transaksi ini." & vbCrLf & "Maximum (" & maxvaluetobedisc & ") Apakah anda yakin ?", "Additional Disc", MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
+        If res = Windows.Forms.DialogResult.OK Then
+            Me.objPaymentVoucherCode.Text = "MANUAL-ADD-DISC"
+            Me.objPaymentVoucher.Text = 0
+            Me.objPaymentAddDisc.Text = String.Format("{0:#,##0}", discvalue)
+        End If
+
+    End Sub
 End Class
