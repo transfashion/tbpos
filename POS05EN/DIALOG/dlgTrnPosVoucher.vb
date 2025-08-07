@@ -67,6 +67,17 @@ Public Class dlgTrnPosVoucher
             End If
 
 
+
+            If Me.POS.RegionId = "02600" Then
+                Me.btn_fla200.Enabled = True
+                Me.btn_eag500.Enabled = False
+                Me.btn_other250.Enabled = False
+            ElseIf Me.POS.RegionId = "00100" Then
+                Me.btn_fla200.Enabled = False
+                Me.btn_eag500.Enabled = True
+                Me.btn_other250.Enabled = True
+            End If
+
         Catch ex As Exception
             Me.Close()
             Throw ex
@@ -477,7 +488,7 @@ Public Class dlgTrnPosVoucher
         discvalue = (disc / 100) * Me.total
 
         Dim res As DialogResult
-        res = MessageBox.Show("Anda akan menambahkan discount secara manual sebesar " & disc & " pada transaksi ini. Apakah anda yakin ?", "Additional Disc", MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
+        res = MessageBox.Show("Anda akan menambahkan discount secara manual sebesar " & disc & "% pada transaksi ini. Apakah anda yakin ?", "Additional Disc", MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
         If res = Windows.Forms.DialogResult.OK Then
             Me.objPaymentVoucherCode.Text = "MANUAL-ADD-DISC"
             Me.objPaymentVoucher.Text = 0
@@ -498,7 +509,7 @@ Public Class dlgTrnPosVoucher
 
     Private Sub do_discvalue(ByVal discvalue As Decimal)
         Dim res As DialogResult
-        res = MessageBox.Show("Anda akan menambahkan discount secara manual sebesar " & discvalue & "% pada transaksi ini. Apakah anda yakin ?", "Additional Disc", MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
+        res = MessageBox.Show("Anda akan menambahkan discount secara manual sebesar " & String.Format("{0:#,##0}", discvalue) & " pada transaksi ini. Apakah anda yakin ?", "Additional Disc", MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
         If res = Windows.Forms.DialogResult.OK Then
             Me.objPaymentVoucherCode.Text = "MANUAL-ADD-DISC"
             Me.objPaymentVoucher.Text = 0
@@ -552,4 +563,46 @@ Public Class dlgTrnPosVoucher
         End If
 
     End Sub
+
+    Private Sub btn_fla200_Click(sender As Object, e As EventArgs) Handles btn_fla200.Click
+        Dim discvalue As Decimal = 200000
+        Dim minimalBelanja As Decimal = 4000000
+
+        If Me.total < minimalBelanja Then
+            MessageBox.Show(String.Format("discount 200rb, minimal belanja harus {0:#,##0}", minimalBelanja), "Voucher", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return
+        End If
+
+        Me.do_discvalue(discvalue)
+
+    End Sub
+
+    Private Sub btn_other250_Click(sender As Object, e As EventArgs) Handles btn_other250.Click
+        Dim discvalue As Decimal = 250000
+        Dim minimalBelanja As Decimal = 5000000
+
+        If Me.total < minimalBelanja Then
+            MessageBox.Show(String.Format("discount 250rb, minimal belanja harus {0:#,##0}", minimalBelanja), "Voucher", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return
+        End If
+
+        Me.do_discvalue(discvalue)
+
+    End Sub
+
+    Private Sub btn_eag500_Click(sender As Object, e As EventArgs) Handles btn_eag500.Click
+        Dim discvalue As Decimal = 500000
+        Dim minimalBelanja As Decimal = 8000000
+
+        If Me.total < minimalBelanja Then
+            MessageBox.Show(String.Format("discount 500rb, minimal belanja harus {0:#,##0}", minimalBelanja), "Voucher", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return
+        End If
+
+        Me.do_discvalue(discvalue)
+
+    End Sub
+
+
+
 End Class
