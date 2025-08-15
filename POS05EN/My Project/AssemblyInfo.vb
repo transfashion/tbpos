@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("POS05EN")> 
-<Assembly: AssemblyDescription("Point of Sales, TransStore Module")> 
-<Assembly: AssemblyCompany("PT. Trans Mahagaya")> 
-<Assembly: AssemblyProduct("POS05EN")> 
-<Assembly: AssemblyCopyright("Copyright ©2009, PT. Trans Mahagaya")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTitle("POS05EN")>
+<Assembly: AssemblyDescription("Point of Sales v7.0, Trans Browser Module")>
+<Assembly: AssemblyCompany("PT. Trans Fashion Indonesia")>
+<Assembly: AssemblyProduct("POS05EN")>
+<Assembly: AssemblyCopyright("©2009-2025, PT. Trans Fashion Indonesia")>
+<Assembly: AssemblyTrademark("Trans Browser (TM)")>
 
 <Assembly: ComVisible(False)>
 
@@ -31,4 +31,4 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 
 <Assembly: AssemblyVersion("7.0.*")>
-<Assembly: AssemblyFileVersion("7.0.9")>
+<Assembly: AssemblyFileVersion("7.0.10")>

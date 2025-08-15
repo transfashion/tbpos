@@ -603,6 +603,11 @@ Public Class dlgTrnPosVoucher
 
     End Sub
 
+    Private Sub btn_v100k_Click(sender As Object, e As EventArgs) Handles btn_v100k.Click
+        Dim discvalue As Decimal = 100000
+        'Dim minimalBelanja As Decimal = 0
+        Me.do_discvalue(discvalue)
+    End Sub
 
 
 End Class
