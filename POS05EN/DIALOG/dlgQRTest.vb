@@ -1,3 +1,6 @@
+Imports System.Runtime.InteropServices
+
+
 Public Class dlgQRTest
 
     Private WithEvents POS As TransStore.POS
@@ -19,9 +22,9 @@ Public Class dlgQRTest
             Dim data As String = Me.txtQRCode.Text    ' "00020101021226660018ID.CO.BANKMEGA.WWW01189360042600112810380211000001222640303UMI51410014ID.CO.QRIS.WWW0212ID12345678900303UMI5204581253033605403100550202560105802ID5923Trans Fashion Indonesia6007JAKARTA61051279062270123MID202111051433057btnYq63043FDE"
             encodedString = utf8Encoding.GetBytes(data)
             qrCodeEncoder.QRCodeEncodeMode = ThoughtWorks.QRCode.Codec.QRCodeEncoder.ENCODE_MODE.BYTE
-            qrCodeEncoder.QRCodeErrorCorrect = ThoughtWorks.QRCode.Codec.QRCodeEncoder.ERROR_CORRECTION.H
-            qrCodeEncoder.QRCodeScale = QR_Scale
-            qrCodeEncoder.QRCodeVersion = QR_Version
+            qrCodeEncoder.QRCodeErrorCorrect = ThoughtWorks.QRCode.Codec.QRCodeEncoder.ERROR_CORRECTION.L
+            qrCodeEncoder.QRCodeScale = Me.txtQrScale.Text
+            qrCodeEncoder.QRCodeVersion = Me.txtQrVersion.Text
 
             Dim image As System.Drawing.Image = qrCodeEncoder.Encode(data)
             Me.picQRCode.Image = image
@@ -48,6 +51,9 @@ Public Class dlgQRTest
 
         Me.txtMid.Text = "00000016300"
         Me.txtTid.Text = "00000088"
+
+
+        Me.txtQRCode.Text = "SL03.777.25091245678"
 
     End Sub
 
@@ -197,4 +203,76 @@ Public Class dlgQRTest
             Cursor = Cursors.Arrow
         End Try
     End Sub
+
+    Private Sub ButtonPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+
+
+        Dim qrImage As Image = Me.picQRCode.Image
+        Dim PrinterName = Me.POS.ReceiptPrinter
+        Dim hPrn As New IntPtr(0)
+        Dim docinfo As New Translib.RawPrinterHelper.DOCINFOW()
+        Dim dwError As Int32
+
+        ' Potong kertas
+        Dim strCut As String = ""
+        strCut &= LX300.P_CR & LX300.P_FF
+        strCut &= Chr(&H1D) & "V" & Chr(66) & Chr(0)
+
+
+        Dim str = ""
+        str &= Chr(27)
+        str &= Chr(51)
+        str &= Chr(60)
+        str &= Chr(27)
+        str &= Chr(77)
+        str &= Chr(0)
+
+        str &= "Test Print" & vbCrLf
+
+        Try
+
+            If Translib.RawPrinterHelper.OpenPrinter(PrinterName, hPrn, 0&) Then
+                If Translib.RawPrinterHelper.StartDocPrinter(hPrn, 1, docinfo) Then
+                    If Translib.RawPrinterHelper.StartPagePrinter(hPrn) Then
+
+
+                        'Send the converted ANSI string to the printer.
+                        Translib.RawPrinterHelper.SendStringToPrinter(PrinterName, str)
+
+
+                        ' Buat QRCode
+                        Dim qrByte As Byte() = BonQR.GenerateQRDocument(qrImage)
+                        Dim unmanagedQRPointer As IntPtr = Marshal.AllocCoTaskMem(qrByte.Length)
+                        Marshal.Copy(qrByte, 0, unmanagedQRPointer, qrByte.Length)
+                        Translib.RawPrinterHelper.SendBytesToPrinter(PrinterName, unmanagedQRPointer, qrByte.Length)
+
+
+                        ' Potong Kertas
+                        Translib.RawPrinterHelper.SendStringToPrinter(PrinterName, strCut)
+
+                        ' End the page.
+                        Translib.RawPrinterHelper.EndPagePrinter(hPrn)
+
+                    End If
+                    Translib.RawPrinterHelper.EndDocPrinter(hPrn)
+                End If
+                Translib.RawPrinterHelper.ClosePrinter(hPrn)
+            End If
+
+
+            dwError = Marshal.GetLastWin32Error()
+            If (dwError <> 0) Then
+                Throw New Exception("Print Error. Error Code: " & dwError)
+            End If
+
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Print", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
+    End Sub
+
+
+
+
 End Class

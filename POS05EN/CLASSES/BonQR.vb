@@ -6,21 +6,65 @@ Public Class BonQR
 
 
     Public Shared Function GenerateQRDocument(text As String) As Byte()
+        Dim bitmapData As BitmapData = GetQRBitmapData(text)
+
         Using memoryStream As New MemoryStream()
             Using binaryWriter As New BinaryWriter(memoryStream)
                 binaryWriter.Write(ChrW(&H1B)) ' ESC
                 binaryWriter.Write("@"c)
-                RenderQR(text, binaryWriter)
+                RenderQR(bitmapData, binaryWriter)
                 binaryWriter.Flush()
                 Return memoryStream.ToArray()
             End Using
         End Using
-
     End Function
 
-    Public Shared Function GetQRBitmapData(text As String) As BitmapData
-        Dim qrImage As Image = GenerateQRImage(text, 8, 0)
-        Dim qrBitmap As Bitmap = ConvertToBlackWhiteBitmap(qrImage)
+
+    Public Shared Function ConvertToGrayscaleBitmap(sourceImage As Image) As Bitmap
+        Dim bwBitmap As New Bitmap(sourceImage.Width, sourceImage.Height)
+
+        Using g As Graphics = Graphics.FromImage(bwBitmap)
+            Dim cm As New Imaging.ColorMatrix(New Single()() {
+            New Single() {0.3, 0.3, 0.3, 0, 0},
+            New Single() {0.59, 0.59, 0.59, 0, 0},
+            New Single() {0.11, 0.11, 0.11, 0, 0},
+            New Single() {0, 0, 0, 1, 0},
+            New Single() {0, 0, 0, 0, 1}
+        })
+
+            Dim ia As New Imaging.ImageAttributes()
+            ia.SetColorMatrix(cm)
+
+            g.DrawImage(
+                sourceImage,
+                New Rectangle(0, 0, bwBitmap.Width, bwBitmap.Height),
+                0, 0, sourceImage.Width, sourceImage.Height,
+                GraphicsUnit.Pixel,
+                ia
+            )
+        End Using
+
+        Return bwBitmap
+    End Function
+
+
+
+    Public Shared Function GenerateQRDocument(qrImage As Image) As Byte()
+        Dim bwBitmap As Bitmap = ConvertToGrayscaleBitmap(qrImage)
+        Dim bitmapData As BitmapData = GetQRBitmapData(bwBitmap)
+
+        Using memoryStream As New MemoryStream()
+            Using binaryWriter As New BinaryWriter(memoryStream)
+                binaryWriter.Write(ChrW(&H1B)) ' ESC
+                binaryWriter.Write("@"c)
+                RenderQR(bitmapData, binaryWriter)
+                binaryWriter.Flush()
+                Return memoryStream.ToArray()
+            End Using
+        End Using
+    End Function
+
+    Public Shared Function GetQRBitmapData(qrBitmap As Bitmap) As BitmapData
 
         Dim lebar As Integer = 500 'dot
         Dim tinggi As Integer = qrBitmap.Height
@@ -48,8 +92,14 @@ Public Class BonQR
             bitmapData.Width = bitmap.Width
             Return bitmapData
         End Using
+
     End Function
 
+
+    Public Shared Function GetQRBitmapData(text As String) As BitmapData
+        Dim qrImage As Image = GenerateQRImage(text, 4, 0)
+        Return GetQRBitmapData(qrImage)
+    End Function
 
 
     Public Shared Function CenterQRInCanvas(qrBitmap As Bitmap, canvasWidth As Integer, canvasHeight As Integer) As Bitmap
@@ -68,9 +118,7 @@ Public Class BonQR
     End Function
 
 
-    Public Shared Sub RenderQR(text As String, bw As BinaryWriter)
-        Dim bitmapData As BitmapData = GetQRBitmapData(text)
-
+    Public Shared Sub RenderQR(bitmapData As BitmapData, bw As BinaryWriter)
         Dim dots As BitArray = bitmapData.Dots
         Dim bytes As Byte() = BitConverter.GetBytes(bitmapData.Width)
 
@@ -121,7 +169,7 @@ Public Class BonQR
         Dim encodedString() As Byte
         encodedString = utf8Encoding.GetBytes(data)
         qrCodeEncoder.QRCodeEncodeMode = ThoughtWorks.QRCode.Codec.QRCodeEncoder.ENCODE_MODE.BYTE
-        qrCodeEncoder.QRCodeErrorCorrect = ThoughtWorks.QRCode.Codec.QRCodeEncoder.ERROR_CORRECTION.L
+        qrCodeEncoder.QRCodeErrorCorrect = ThoughtWorks.QRCode.Codec.QRCodeEncoder.ERROR_CORRECTION.H
         qrCodeEncoder.QRCodeScale = scale
         qrCodeEncoder.QRCodeVersion = version
         Dim image As System.Drawing.Image = qrCodeEncoder.Encode(data)
@@ -130,66 +178,6 @@ Public Class BonQR
 
 
 
-    Public Shared Function ConvertToBlackWhiteBitmap(srcImage As Image) As Bitmap
-        ' Konversi ke grayscale 24bpp
-        Dim grayBmp As New Bitmap(srcImage.Width, srcImage.Height, PixelFormat.Format24bppRgb)
-        Using g As Graphics = Graphics.FromImage(grayBmp)
-            Dim colorMatrix As New Imaging.ColorMatrix(
-            New Single()() {
-                New Single() {0.299, 0.299, 0.299, 0, 0},
-                New Single() {0.587, 0.587, 0.587, 0, 0},
-                New Single() {0.114, 0.114, 0.114, 0, 0},
-                New Single() {0, 0, 0, 1, 0},
-                New Single() {0, 0, 0, 0, 1}
-            })
-            Dim ia As New Imaging.ImageAttributes()
-            ia.SetColorMatrix(colorMatrix)
-            g.DrawImage(srcImage, New Rectangle(0, 0, srcImage.Width, srcImage.Height),
-                    0, 0, srcImage.Width, srcImage.Height, GraphicsUnit.Pixel, ia)
-        End Using
-
-        ' Konversi ke 1bpp dengan LockBits
-        Dim width As Integer = grayBmp.Width
-        Dim height As Integer = grayBmp.Height
-        Dim bwBitmap As New Bitmap(width, height, PixelFormat.Format1bppIndexed)
-        Dim rect As New Rectangle(0, 0, width, height)
-        Dim grayData As System.Drawing.Imaging.BitmapData = grayBmp.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb)
-        Dim bwData As System.Drawing.Imaging.BitmapData = bwBitmap.LockBits(rect, ImageLockMode.WriteOnly, PixelFormat.Format1bppIndexed)
-
-        Try
-            Dim threshold As Integer = 128
-            Dim grayStride As Integer = grayData.Stride
-            Dim bwStride As Integer = bwData.Stride
-
-            For y As Integer = 0 To height - 1
-                Dim grayPtr As IntPtr = IntPtr.Add(grayData.Scan0, y * grayStride)
-                Dim bwPtr As IntPtr = IntPtr.Add(bwData.Scan0, y * bwStride)
-                Dim bwByte As Byte = 0
-                Dim bitPos As Integer = 7
-
-                For x As Integer = 0 To width - 1
-                    Dim b As Byte = Marshal.ReadByte(grayPtr, x * 3)
-                    Dim g As Byte = Marshal.ReadByte(grayPtr, x * 3 + 1)
-                    Dim r As Byte = Marshal.ReadByte(grayPtr, x * 3 + 2)
-                    Dim gray As Integer = CInt(0.299 * r + 0.587 * g + 0.114 * b)
-                    If gray < threshold Then
-                        bwByte = bwByte Or CByte(1 << bitPos)
-                    End If
-                    bitPos -= 1
-                    If bitPos < 0 Or x = width - 1 Then
-                        Marshal.WriteByte(bwPtr, x \ 8, bwByte)
-                        bwByte = 0
-                        bitPos = 7
-                    End If
-                Next
-            Next
-        Finally
-            grayBmp.UnlockBits(grayData)
-            bwBitmap.UnlockBits(bwData)
-        End Try
-
-        Return bwBitmap
-    End Function
 
 
 End Class
