@@ -634,7 +634,8 @@ Public Class dlgTrnPosPayment
                         End If
 
                         For ci As Integer = 1 To copyprint
-                            ret = uiTrnPosEN.SendTextToPrinter(Me.POS, txt, uiTrnPosEN.PrintMethod.PrintOnly, LX300.P_PAGE_07)
+                            'ret = uiTrnPosEN.SendTextToPrinter(Me.POS, txt, uiTrnPosEN.PrintMethod.PrintOnly, LX300.P_PAGE_07)
+                            ret = uiTrnPosEN.PrintBon(Me.POS, objBonData, txt)
                         Next
 
                         ' setelah selesai, tany, apakah akan reprint lagi
