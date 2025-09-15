@@ -35,6 +35,7 @@ Partial Class dlgTrnPosVoucher
         Me.pnlAuth2Shadow = New System.Windows.Forms.Panel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Group02 = New System.Windows.Forms.GroupBox()
+        Me.btn_v100k = New System.Windows.Forms.Label()
         Me.btn_eag500 = New System.Windows.Forms.Label()
         Me.btn_other250 = New System.Windows.Forms.Label()
         Me.btn_fla200 = New System.Windows.Forms.Label()
@@ -61,7 +62,6 @@ Partial Class dlgTrnPosVoucher
         Me.Label9 = New System.Windows.Forms.Label()
         Me.objPaymentVoucher = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
-        Me.btn_v100k = New System.Windows.Forms.Label()
         CType(Me.ds, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PnlFormMain.SuspendLayout()
         Me.pnlAuth2.SuspendLayout()
@@ -272,6 +272,22 @@ Partial Class dlgTrnPosVoucher
         Me.Group02.TabStop = False
         Me.Group02.Text = "Voucher / Rabat / Cash Discounts"
         '
+        'btn_v100k
+        '
+        Me.btn_v100k.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_v100k.BackColor = System.Drawing.Color.LightGray
+        Me.btn_v100k.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.btn_v100k.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btn_v100k.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_v100k.Location = New System.Drawing.Point(23, 269)
+        Me.btn_v100k.Name = "btn_v100k"
+        Me.btn_v100k.Padding = New System.Windows.Forms.Padding(2)
+        Me.btn_v100k.Size = New System.Drawing.Size(222, 52)
+        Me.btn_v100k.TabIndex = 23
+        Me.btn_v100k.Text = "100k"
+        Me.btn_v100k.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btn_v100k.Visible = False
+        '
         'btn_eag500
         '
         Me.btn_eag500.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -284,8 +300,9 @@ Partial Class dlgTrnPosVoucher
         Me.btn_eag500.Padding = New System.Windows.Forms.Padding(2)
         Me.btn_eag500.Size = New System.Drawing.Size(222, 52)
         Me.btn_eag500.TabIndex = 22
-        Me.btn_eag500.Text = "500k (EAG)"
+        Me.btn_eag500.Text = "500k"
         Me.btn_eag500.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btn_eag500.Visible = False
         '
         'btn_other250
         '
@@ -294,12 +311,12 @@ Partial Class dlgTrnPosVoucher
         Me.btn_other250.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.btn_other250.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btn_other250.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_other250.Location = New System.Drawing.Point(697, 145)
+        Me.btn_other250.Location = New System.Drawing.Point(697, 16)
         Me.btn_other250.Name = "btn_other250"
         Me.btn_other250.Padding = New System.Windows.Forms.Padding(2)
         Me.btn_other250.Size = New System.Drawing.Size(222, 52)
         Me.btn_other250.TabIndex = 21
-        Me.btn_other250.Text = "250k (OTHER)"
+        Me.btn_other250.Text = "250k"
         Me.btn_other250.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'btn_fla200
@@ -309,13 +326,14 @@ Partial Class dlgTrnPosVoucher
         Me.btn_fla200.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.btn_fla200.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btn_fla200.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_fla200.Location = New System.Drawing.Point(697, 81)
+        Me.btn_fla200.Location = New System.Drawing.Point(265, 268)
         Me.btn_fla200.Name = "btn_fla200"
         Me.btn_fla200.Padding = New System.Windows.Forms.Padding(2)
         Me.btn_fla200.Size = New System.Drawing.Size(222, 52)
         Me.btn_fla200.TabIndex = 20
-        Me.btn_fla200.Text = "200k (FLA)"
+        Me.btn_fla200.Text = "200k"
         Me.btn_fla200.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btn_fla200.Visible = False
         '
         'btn_disckelipatan
         '
@@ -614,21 +632,6 @@ Partial Class dlgTrnPosVoucher
         Me.Label4.TabIndex = 0
         Me.Label4.Text = ":: Add Disc / Voucher ::"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'btn_v100k
-        '
-        Me.btn_v100k.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_v100k.BackColor = System.Drawing.Color.LightGray
-        Me.btn_v100k.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.btn_v100k.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btn_v100k.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_v100k.Location = New System.Drawing.Point(697, 16)
-        Me.btn_v100k.Name = "btn_v100k"
-        Me.btn_v100k.Padding = New System.Windows.Forms.Padding(2)
-        Me.btn_v100k.Size = New System.Drawing.Size(222, 52)
-        Me.btn_v100k.TabIndex = 23
-        Me.btn_v100k.Text = "100k"
-        Me.btn_v100k.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'dlgTrnPosVoucher
         '

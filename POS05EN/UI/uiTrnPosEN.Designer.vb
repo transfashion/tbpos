@@ -579,7 +579,7 @@ Partial Class uiTrnPosEN
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(359, 13)
         Me.Label10.TabIndex = 35
-        Me.Label10.Text = "SVK"
+        Me.Label10.Text = "add disc 250k"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'LabelVersion

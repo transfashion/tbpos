@@ -68,15 +68,15 @@ Public Class dlgTrnPosVoucher
 
 
 
-            If Me.POS.RegionId = "02600" Then
-                Me.btn_fla200.Enabled = True
-                Me.btn_eag500.Enabled = False
-                Me.btn_other250.Enabled = False
-            ElseIf Me.POS.RegionId = "00100" Then
-                Me.btn_fla200.Enabled = False
-                Me.btn_eag500.Enabled = True
-                Me.btn_other250.Enabled = True
-            End If
+            'If Me.POS.RegionId = "02600" Then
+            '    Me.btn_fla200.Enabled = True
+            '    Me.btn_eag500.Enabled = False
+            '    Me.btn_other250.Enabled = False
+            'ElseIf Me.POS.RegionId = "00100" Then
+            '    Me.btn_fla200.Enabled = False
+            '    Me.btn_eag500.Enabled = True
+            '    Me.btn_other250.Enabled = True
+            'End If
 
         Catch ex As Exception
             Me.Close()
@@ -579,7 +579,7 @@ Public Class dlgTrnPosVoucher
 
     Private Sub btn_other250_Click(sender As Object, e As EventArgs) Handles btn_other250.Click
         Dim discvalue As Decimal = 250000
-        Dim minimalBelanja As Decimal = 5000000
+        Dim minimalBelanja As Decimal = 250000
 
         If Me.total < minimalBelanja Then
             MessageBox.Show(String.Format("discount 250rb, minimal belanja harus {0:#,##0}", minimalBelanja), "Voucher", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
