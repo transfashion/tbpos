@@ -666,10 +666,10 @@ Public Class PosPromo
                 disc_additional_B = pdgroupB.percentDiscount / 100
 
 
-                'If pdgroupA.replaceDiscount Then
+                'If pdgroupB.replaceDiscount Then
                 '    ' Replace std pricing using ricing yg ada di promo
-                '    bondetil_discpstd01 = disc_additional_A * 100
-                '    bondetil_discrstd01 = disc_additional_A * bondetil_pricegross
+                '    bondetil_discpstd01 = disc_additional_B * 100
+                '    bondetil_discrstd01 = disc_additional_B * bondetil_pricegross
                 '    bondetil_pricenettstd01 = bondetil_pricegross - bondetil_discrstd01
                 '    bondetil_discpvou01 = 0
                 '    bondetil_discrvou01 = 0
@@ -679,8 +679,8 @@ Public Class PosPromo
                 '    bondetil_discpstd01 = pricing_disc
                 '    bondetil_discrstd01 = (pricing_disc / 100) * bondetil_pricegross
                 '    bondetil_pricenettstd01 = bondetil_pricegross - bondetil_discrstd01
-                '    bondetil_discpvou01 = disc_additional_A * 100
-                '    bondetil_discrvou01 = disc_additional_A * bondetil_pricenettstd01
+                '    bondetil_discpvou01 = disc_additional_B * 100
+                '    bondetil_discrvou01 = disc_additional_B * bondetil_pricenettstd01
                 '    bondetil_pricenettvou01 = bondetil_pricenettstd01 - bondetil_discrvou01
                 'End If
 
@@ -709,13 +709,27 @@ Public Class PosPromo
 
                         dv = row.Table.DefaultView
 
-                        '' Replace std pricing using ricing yg ada di promo
-                        bondetil_discpstd01 = disc_additional_B * 100
-                        bondetil_discrstd01 = disc_additional_B * bondetil_pricegross
-                        bondetil_pricenettstd01 = bondetil_pricegross - bondetil_discrstd01
-                        bondetil_discpvou01 = 0
-                        bondetil_discrvou01 = 0
-                        bondetil_pricenettvou01 = bondetil_pricenettstd01
+                        ' Hitung Diskon
+                        If pdgroupB.replaceDiscount Then
+                            ' Replace std pricing using ricing yg ada di promo
+                            bondetil_discpstd01 = disc_additional_B * 100
+                            bondetil_discrstd01 = disc_additional_B * bondetil_pricegross
+                            bondetil_pricenettstd01 = bondetil_pricegross - bondetil_discrstd01
+                            bondetil_discpvou01 = 0
+                            bondetil_discrvou01 = 0
+                            bondetil_pricenettvou01 = bondetil_pricenettstd01
+
+                        Else
+                            ' Pricing discount bertingkat
+                            bondetil_discpstd01 = pricing_disc
+                            bondetil_discrstd01 = (pricing_disc / 100) * bondetil_pricegross
+                            bondetil_pricenettstd01 = bondetil_pricegross - bondetil_discrstd01
+                            bondetil_discpvou01 = disc_additional_B * 100
+                            bondetil_discrvou01 = disc_additional_B * bondetil_pricenettstd01
+                            bondetil_pricenettvou01 = bondetil_pricenettstd01 - bondetil_discrvou01
+                        End If
+
+
                         bondetil_pricenet = bondetil_pricenettvou01
                         bondetil_subtotal = bondetil_qty * bondetil_pricenet
 
