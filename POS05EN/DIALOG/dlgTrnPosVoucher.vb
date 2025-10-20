@@ -577,9 +577,9 @@ Public Class dlgTrnPosVoucher
 
     End Sub
 
-    Private Sub btn_other250_Click(sender As Object, e As EventArgs) Handles btn_other250.Click
-        Dim discvalue As Decimal = 250000
-        Dim minimalBelanja As Decimal = 250000
+    Private Sub btn_other500_Click(sender As Object, e As EventArgs) Handles btn_other500.Click
+        Dim discvalue As Decimal = 500000
+        Dim minimalBelanja As Decimal = 500000
 
         If Me.total < minimalBelanja Then
             MessageBox.Show(String.Format("discount 250rb, minimal belanja harus {0:#,##0}", minimalBelanja), "Voucher", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
