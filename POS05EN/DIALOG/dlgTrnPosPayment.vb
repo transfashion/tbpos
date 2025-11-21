@@ -57,6 +57,8 @@ Public Class dlgTrnPosPayment
 
 
 
+    Private TOTAL As Decimal
+
 #Region " Constructor "
 
     Public Shadows Function OpenDialog(ByVal owner As System.Windows.Forms.IWin32Window, ByRef objPOS As TransStore.POS, ByVal args As Object) As Object
@@ -153,6 +155,10 @@ Public Class dlgTrnPosPayment
 
 
         Me.objPaymentOutstanding.DataBindings.Add(New Binding("Text", Me.POS.PosPaymentDialog, "payment_outstanding", True, DataSourceUpdateMode.OnPropertyChanged, 0, "#,##0"))
+
+
+        Me.objPaymentDonasi.DataBindings.Add(New Binding("Text", Me.POS.PosPaymentDialog, "bon_donasi", True, DataSourceUpdateMode.OnPropertyChanged, 0, "#,##0"))
+        Me.objPaymentGrantotal.DataBindings.Add(New Binding("Text", Me.POS.PosPaymentDialog, "payment_granttotal", True, DataSourceUpdateMode.OnPropertyChanged, 0, "#,##0"))
 
 
     End Function
@@ -393,6 +399,9 @@ Public Class dlgTrnPosPayment
                     Me.AddToPayments(sender, Keys.KeyCode, ctrl, paymintparam)
                 End If
 
+
+            Case Keys.F7
+                Me.OpenDonasiDialog()
 
             Case Keys.Up
                 ' Me.txtItemEntry.Text = ""
@@ -1098,6 +1107,7 @@ Public Class dlgTrnPosPayment
             .bon_mdiscpaympercent = Me.SelectedPaymentDisc
             .bon_mdiscpayment = CDec(Me.objPaymentDiscValue.Text)
             .bon_mtotal = CDec(Me.objPaymentTOTAL.Text)
+            .bon_mdonasi = CDec(Me.objPaymentDonasi.Text)
             .bon_mpayment = CDec(Me.objPaymentTotalPaid.Text)
             .bon_mrefund = CDec(Me.objPaymentTotalRefund.Text)
 
@@ -1124,6 +1134,8 @@ Public Class dlgTrnPosPayment
             .machine_id = Me.POS.MachineId
             .region_id = Me.POS.RegionId
             .branch_id = Me.POS.BranchId
+
+
         End With
 
 
@@ -1155,6 +1167,44 @@ Public Class dlgTrnPosPayment
                     Throw New Exception("SaveData Error." & vbCrLf & "Telp Customer Kosong")
                 End If
             End If
+
+
+            ' Jika ada donasi, masukkan merchandise donasi ke tabel POS Items
+            If (objBonHeaderData.bon_mdonasi > 0) Then
+                ' Cek apakah sudah ada item donasi di table POS Items
+                'Me.POS.PosItems.Select(String.Format("item_isdonation=1")).ToList().ForEach(Sub(r)
+                '                                                                                donasi_exists = True
+                '                                                                            End Sub)
+
+                Dim donasi_exists As Boolean = False
+                Dim datarow() = Me.POS.PosItems.Select(String.Format("heinv_id='TMDONASI'"))
+                If datarow.Length > 0 Then
+                    donasi_exists = True
+                End If
+
+
+                If Not donasi_exists Then
+                    ' masukkan item donasi
+                    Dim newrow As DataRow = Me.POS.PosItems.NewRow()
+
+                    newrow("region_id") = "00100"
+                    newrow("heinv_id") = "TMDONASI"
+
+                    newrow("bondetil_qty") = 1
+                    newrow("bondetil_pricenet") = 0
+                    newrow("bondetil_subtotal") = 0
+                    newrow("bondetil_subtotal") = 0
+
+
+                    Me.POS.PosItems.Rows.Add(newrow)
+
+
+                    Me.POS.PosItems.AcceptChanges()
+                End If
+
+
+            End If
+
 
 
             Me.POS.Save(objBonHeaderData)
@@ -1207,7 +1257,7 @@ Public Class dlgTrnPosPayment
         Dim OutstandingPayment As Decimal
 
         Me.objPaymentTotalDue.Text = Me.POS.PaymentSubtotal
-        OutstandingPayment = CDec(Me.objPaymentTOTAL.Text) - Me.POS.PaymentSubtotal
+        OutstandingPayment = CDec(Me.objPaymentGrantotal.Text) - Me.POS.PaymentSubtotal
 
 
         Me.objPaymentValue.Text = OutstandingPayment
@@ -1610,7 +1660,7 @@ Public Class dlgTrnPosPayment
 
 
         Me.PaymentType_IndexSet(Me.SelectedPaymentId)
-        Me.dlg_ItemCalculate()
+        Me.PreCalculation()
 
 
 
@@ -1716,7 +1766,12 @@ Public Class dlgTrnPosPayment
     End Sub
 
 
-    Private Sub dlg_ItemCalculate()
+    Private Sub PreCalculation()
+        ' dilakukan saat load form payment
+        ' hanya dilakukan sekali,
+        ' untuk keperluan menampilkan total yang harus dibayar, qty item, dan beberapa informasi lain
+
+
 
 
         ' Hitung total qty
@@ -1790,8 +1845,15 @@ Public Class dlgTrnPosPayment
 
         ' Yang harus dibayar & nilai outstanding
         Dim total As Decimal = CDec(sumsubtotal) - discvalue - adddiscvoucher
+
+        Me.TOTAL = total
+
+
         Me.objPaymentTOTAL.Text = total
+        Me.objPaymentDonasi.Text = 0
+        Me.objPaymentGrantotal.Text = total
         Me.objPaymentOutstanding.Text = total
+
 
 
         ' Masukkan ke nilai pembayaran
@@ -2660,5 +2722,43 @@ Public Class dlgTrnPosPayment
 
     Private Sub btnAddToPayment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddToPayment.Click
         Me.Key(sender, Keys.F5, False, Nothing)
+    End Sub
+
+    Private Sub btnDonasi_Click(sender As Object, e As EventArgs) Handles btnDonasi.Click
+        OpenDonasiDialog()
+    End Sub
+
+
+
+    Private Sub OpenDonasiDialog()
+
+        ' hanya bisa dibuka apabila belum ada payment yang dimasukkan
+        If Me.DgvPayments.Rows.Count > 0 Then
+            MessageBox.Show("Donasi hanya bisa dimasukkan pada pembayaran pertama", "Donasi", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+
+
+        Dim dlg As dlgDonasi = New dlgDonasi
+        Dim res As DialogResult
+        dlg.StartPosition = FormStartPosition.CenterScreen
+        dlg.WindowState = FormWindowState.Normal
+        dlg.NilaiDonasi = 0D
+        res = dlg.ShowDialog(Me)
+        If res = Windows.Forms.DialogResult.OK Then
+            Dim donasi As Decimal = dlg.NilaiDonasi
+            Dim total As Decimal = Me.TOTAL + donasi
+
+            Me.objPaymentDonasi.Text = donasi
+            Me.objPaymentGrantotal.Text = total
+            Me.objPaymentOutstanding.Text = total
+
+            Me.objPaymentValue.Text = total
+            Me.objPaymentCash.Text = total
+
+            Me.BindingContext(Me.POS.PosPaymentDialog).EndCurrentEdit()
+            Me.POS.PosPaymentDialog.AcceptChanges()
+        End If
     End Sub
 End Class

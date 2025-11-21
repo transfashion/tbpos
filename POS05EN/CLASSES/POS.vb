@@ -169,6 +169,7 @@ Namespace TransStore
             Dim bon_mdiscpaympercent As Decimal
             Dim bon_mdiscpayment As Decimal
             Dim bon_mtotal As Decimal
+            Dim bon_mdonasi As Decimal
             Dim bon_mpayment As Decimal
             Dim bon_mrefund As Decimal
             Dim bon_msalegross As Decimal
@@ -214,6 +215,11 @@ Namespace TransStore
             Dim branch_id As String
 
             Dim site_id_from As String
+
+
+
+
+
         End Structure
 
 
@@ -461,6 +467,9 @@ Namespace TransStore
             tbl.Columns.Add(New DataColumn("payment_outstanding", GetType(System.Decimal)))
             tbl.Columns.Add(New DataColumn("payment_redeem", GetType(System.Decimal)))
 
+            tbl.Columns.Add(New DataColumn("bon_donasi", GetType(System.Decimal)))
+            tbl.Columns.Add(New DataColumn("payment_granttotal", GetType(System.Decimal)))
+
 
             '-------------------------------
             'Default Value: 
@@ -494,6 +503,9 @@ Namespace TransStore
             tbl.Columns("payment_adddisc").DefaultValue = 0
             tbl.Columns("payment_outstanding").DefaultValue = 0
             tbl.Columns("payment_redeem").DefaultValue = 0
+
+            tbl.Columns("bon_donasi").DefaultValue = 0
+            tbl.Columns("payment_granttotal").DefaultValue = 0
 
             Return tbl
         End Function
@@ -2596,6 +2608,7 @@ Namespace TransStore
             dbCmdInsert.Parameters.Add(New System.Data.OleDb.OleDbParameter("@bon_mdiscpaympercent", System.Data.OleDb.OleDbType.Decimal, 9))
             dbCmdInsert.Parameters.Add(New System.Data.OleDb.OleDbParameter("@bon_mdiscpayment", System.Data.OleDb.OleDbType.Decimal, 9))
             dbCmdInsert.Parameters.Add(New System.Data.OleDb.OleDbParameter("@bon_mtotal", System.Data.OleDb.OleDbType.Decimal, 9))
+            dbCmdInsert.Parameters.Add(New System.Data.OleDb.OleDbParameter("@bon_mdonasi", System.Data.OleDb.OleDbType.Decimal, 9))
             dbCmdInsert.Parameters.Add(New System.Data.OleDb.OleDbParameter("@bon_mpayment", System.Data.OleDb.OleDbType.Decimal, 9))
             dbCmdInsert.Parameters.Add(New System.Data.OleDb.OleDbParameter("@bon_mrefund", System.Data.OleDb.OleDbType.Decimal, 9))
             dbCmdInsert.Parameters.Add(New System.Data.OleDb.OleDbParameter("@bon_msalegross", System.Data.OleDb.OleDbType.Decimal, 9))
@@ -2665,6 +2678,7 @@ Namespace TransStore
             dbCmdInsert.Parameters("@bon_mdiscpaympercent").Value = objBonHeaderData.bon_mdiscpaympercent
             dbCmdInsert.Parameters("@bon_mdiscpayment").Value = objBonHeaderData.bon_mdiscpayment
             dbCmdInsert.Parameters("@bon_mtotal").Value = objBonHeaderData.bon_mtotal
+            dbCmdInsert.Parameters("@bon_mdonasi").Value = objBonHeaderData.bon_mdonasi
             dbCmdInsert.Parameters("@bon_mpayment").Value = objBonHeaderData.bon_mpayment
             dbCmdInsert.Parameters("@bon_mrefund").Value = objBonHeaderData.bon_mrefund
             dbCmdInsert.Parameters("@bon_msalegross").Value = objBonHeaderData.bon_msalegross
@@ -3433,92 +3447,104 @@ Namespace TransStore
             Try
                 conn.Open()
 
-                sql = "if not exists (select * from sysobjects where name='master_site' and xtype='U')" & _
-                      " create table master_site ( " & _
-                      "     site_id varchar(20) PRIMARY KEY not null, " & _
-                      "     site_name varchar(30) not null, " & _
-                      "     site_isdisabled tinyint not null default 0 " & _
-                     " ) "
 
-                cmd = New OleDb.OleDbCommand(sql, conn)
-                cmd.ExecuteNonQuery()
-
-
-                ' Fill Initial Data
-                ' dim site_name as String = Me.region_n
-                Dim site_name As String = Me.SiteName
-                Dim site_id As String = Me.RegionId & ":" & Me.BranchId
-
-                sql = " IF NOT EXISTS (SELECT * FROM master_site WHERE site_id='" & site_id & "') " & _
-                      " BEGIN " & _
-                      "   INSERT INTO master_site (site_id, site_name) VALUES ('" & site_id & "', '" & site_name & "')  " & _
-                      " END "
-                cmd = New OleDb.OleDbCommand(sql, conn)
-                cmd.ExecuteNonQuery()
-
-
-
-                ' Add kolom
-                sql = " IF NOT EXISTS (SELECT *  FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[transaksi_hepos]')  AND name = 'site_id_from') " & _
-                      " BEGIN " & _
-                      "    ALTER TABLE transaksi_hepos ADD site_id_from varchar(20) " & _
+                ' Tambahkan field donasi di transaksi_hepos
+                sql = " IF NOT EXISTS (SELECT *  FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[transaksi_hepos]')  AND name = 'bon_mdonasi') " &
+                      " BEGIN " &
+                      "    ALTER TABLE transaksi_hepos ADD bon_mdonasi decimal(9,0) not null default 0 " &
                       " END"
                 cmd = New OleDb.OleDbCommand(sql, conn)
                 cmd.ExecuteNonQuery()
 
 
-                ' Fix POS Voucher Type
-                sql = " IF NOT EXISTS (SELECT *  FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[master_posvouchertype]')  AND name = 'posvouchertype_threshold') " & _
-                      " BEGIN " & _
-                      "    ALTER TABLE master_posvouchertype ADD posvouchertype_threshold int not null default 1 " & _
-                      " END"
-                cmd = New OleDb.OleDbCommand(sql, conn)
-                cmd.ExecuteNonQuery()
 
 
-                ' Tambahkan Kolom PaymentDisc Rp
-                sql = " IF NOT EXISTS (SELECT *  FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[master_pospayment]')  AND name = 'pospayment_discvalue') " & _
-                      " BEGIN " & _
-                      "    ALTER TABLE master_pospayment ADD pospayment_discvalue decimal(8,0) not null default 0 " & _
-                      " END"
-                cmd = New OleDb.OleDbCommand(sql, conn)
-                cmd.ExecuteNonQuery()
+                'sql = "if not exists (select * from sysobjects where name='master_site' and xtype='U')" & _
+                '      " create table master_site ( " & _
+                '      "     site_id varchar(20) PRIMARY KEY not null, " & _
+                '      "     site_name varchar(30) not null, " & _
+                '      "     site_isdisabled tinyint not null default 0 " & _
+                '     " ) "
 
-                sql = " IF NOT EXISTS (SELECT *  FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[master_pospayment]')  AND name = 'pospayment_discminpurchase') " & _
-                      " BEGIN " & _
-                      "    ALTER TABLE master_pospayment ADD pospayment_discminpurchase decimal(9,0) not null default 0 " & _
-                      " END"
-                cmd = New OleDb.OleDbCommand(sql, conn)
-                cmd.ExecuteNonQuery()
+                'cmd = New OleDb.OleDbCommand(sql, conn)
+                'cmd.ExecuteNonQuery()
 
 
-                sql = " IF NOT EXISTS (SELECT *  FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[master_pospayment]')  AND name = 'pospayment_maxitemdiscallowed') " & _
-                                     " BEGIN " & _
-                                     "    ALTER TABLE master_pospayment ADD pospayment_maxitemdiscallowed decimal(5,2) not null default 100 " & _
-                                     " END"
-                cmd = New OleDb.OleDbCommand(sql, conn)
-                cmd.ExecuteNonQuery()
+                '' Fill Initial Data
+                '' dim site_name as String = Me.region_n
+                'Dim site_name As String = Me.SiteName
+                'Dim site_id As String = Me.RegionId & ":" & Me.BranchId
+
+                'sql = " IF NOT EXISTS (SELECT * FROM master_site WHERE site_id='" & site_id & "') " & _
+                '      " BEGIN " & _
+                '      "   INSERT INTO master_site (site_id, site_name) VALUES ('" & site_id & "', '" & site_name & "')  " & _
+                '      " END "
+                'cmd = New OleDb.OleDbCommand(sql, conn)
+                'cmd.ExecuteNonQuery()
 
 
-                ' Tambahkan Table untuk discount paymnet
-                sql = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  TABLE_NAME = 'master_pospaymentdisc') " & vbCrLf & _
-                      "BEGIN" & vbCrLf & _
-                      " CREATE TABLE master_pospaymentdisc (" & vbCrLf & _
-                      "     pospayment_id varchar(10) not null," & vbCrLf & _
-                      "   	region_id varchar(5) not null," & vbCrLf & _
-                      "   	branch_id varchar(7) not null," & vbCrLf & _
-                      "     disc_percent decimal(5,2) not null default 0," & vbCrLf & _
-                      "     disc_value decimal(9, 0) not null default 0," & vbCrLf & _
-                      "     minpurchase_value decimal(9, 0) not null default 0," & vbCrLf & _
-                      "     minpurchase_qty int not null default 0," & vbCrLf & _
-                      "     maxdisc_value decimal(9, 0) not null default 0," & vbCrLf & _
-                      "     date_start date not null," & vbCrLf & _
-                      "     date_end date not null," & vbCrLf & _
-                      "     primary key(pospayment_id, region_id, branch_id)" & vbCrLf & _
-                      " )" & vbCrLf & _
-                      "END"
-                cmd = New OleDb.OleDbCommand(sql, conn)
-                cmd.ExecuteNonQuery()
+
+                '' Add kolom
+                'sql = " IF NOT EXISTS (SELECT *  FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[transaksi_hepos]')  AND name = 'site_id_from') " & _
+                '      " BEGIN " & _
+                '      "    ALTER TABLE transaksi_hepos ADD site_id_from varchar(20) " & _
+                '      " END"
+                'cmd = New OleDb.OleDbCommand(sql, conn)
+                'cmd.ExecuteNonQuery()
+
+
+                '' Fix POS Voucher Type
+                'sql = " IF NOT EXISTS (SELECT *  FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[master_posvouchertype]')  AND name = 'posvouchertype_threshold') " & _
+                '      " BEGIN " & _
+                '      "    ALTER TABLE master_posvouchertype ADD posvouchertype_threshold int not null default 1 " & _
+                '      " END"
+                'cmd = New OleDb.OleDbCommand(sql, conn)
+                'cmd.ExecuteNonQuery()
+
+
+                '' Tambahkan Kolom PaymentDisc Rp
+                'sql = " IF NOT EXISTS (SELECT *  FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[master_pospayment]')  AND name = 'pospayment_discvalue') " & _
+                '      " BEGIN " & _
+                '      "    ALTER TABLE master_pospayment ADD pospayment_discvalue decimal(8,0) not null default 0 " & _
+                '      " END"
+                'cmd = New OleDb.OleDbCommand(sql, conn)
+                'cmd.ExecuteNonQuery()
+
+                'sql = " IF NOT EXISTS (SELECT *  FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[master_pospayment]')  AND name = 'pospayment_discminpurchase') " & _
+                '      " BEGIN " & _
+                '      "    ALTER TABLE master_pospayment ADD pospayment_discminpurchase decimal(9,0) not null default 0 " & _
+                '      " END"
+                'cmd = New OleDb.OleDbCommand(sql, conn)
+                'cmd.ExecuteNonQuery()
+
+
+                'sql = " IF NOT EXISTS (SELECT *  FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[master_pospayment]')  AND name = 'pospayment_maxitemdiscallowed') " & _
+                '                     " BEGIN " & _
+                '                     "    ALTER TABLE master_pospayment ADD pospayment_maxitemdiscallowed decimal(5,2) not null default 100 " & _
+                '                     " END"
+                'cmd = New OleDb.OleDbCommand(sql, conn)
+                'cmd.ExecuteNonQuery()
+
+
+                '' Tambahkan Table untuk discount paymnet
+                'sql = "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND  TABLE_NAME = 'master_pospaymentdisc') " & vbCrLf & _
+                '      "BEGIN" & vbCrLf & _
+                '      " CREATE TABLE master_pospaymentdisc (" & vbCrLf & _
+                '      "     pospayment_id varchar(10) not null," & vbCrLf & _
+                '      "   	region_id varchar(5) not null," & vbCrLf & _
+                '      "   	branch_id varchar(7) not null," & vbCrLf & _
+                '      "     disc_percent decimal(5,2) not null default 0," & vbCrLf & _
+                '      "     disc_value decimal(9, 0) not null default 0," & vbCrLf & _
+                '      "     minpurchase_value decimal(9, 0) not null default 0," & vbCrLf & _
+                '      "     minpurchase_qty int not null default 0," & vbCrLf & _
+                '      "     maxdisc_value decimal(9, 0) not null default 0," & vbCrLf & _
+                '      "     date_start date not null," & vbCrLf & _
+                '      "     date_end date not null," & vbCrLf & _
+                '      "     primary key(pospayment_id, region_id, branch_id)" & vbCrLf & _
+                '      " )" & vbCrLf & _
+                '      "END"
+                'cmd = New OleDb.OleDbCommand(sql, conn)
+                'cmd.ExecuteNonQuery()
 
             Catch ex As Exception
                 Throw ex

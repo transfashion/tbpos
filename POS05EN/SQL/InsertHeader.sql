@@ -18,6 +18,7 @@
  declare @bon_mdiscpaympercent AS decimal(18, 0) 
  declare @bon_mdiscpayment AS decimal(18, 0) 
  declare @bon_mtotal AS decimal(18, 0) 
+ declare @bon_mdonasi AS decimal(18, 0) 
  declare @bon_mpayment AS decimal(18, 0) 
  declare @bon_mrefund AS decimal(18, 0) 
  declare @bon_msalegross AS decimal(18, 0) 
@@ -86,6 +87,7 @@ BEGIN
  	set @bon_mdiscpaympercent  = ?
  	set @bon_mdiscpayment  = ?
  	set @bon_mtotal  = ?
+    set @bon_mdonasi = ?
  	set @bon_mpayment = ?
  	set @bon_mrefund = ?
  	set @bon_msalegross = ?
@@ -185,6 +187,7 @@ BEGIN
      bon_mdiscpaympercent, 
      bon_mdiscpayment, 
      bon_mtotal, 
+     bon_mdonasi,
      bon_mpayment, 
      bon_mrefund, 
      bon_msalegross, 
@@ -250,6 +253,7 @@ BEGIN
      @bon_mdiscpaympercent, 
      @bon_mdiscpayment, 
      @bon_mtotal, 
+     @bon_mdonasi,
      @bon_mpayment, 
      @bon_mrefund, 
      @bon_msalegross, 

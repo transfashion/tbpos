@@ -189,6 +189,12 @@
     <Compile Include="DIALOG\dlgDiag.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="DIALOG\dlgDonasi.Designer.vb">
+      <DependentUpon>dlgDonasi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DIALOG\dlgDonasi.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="DIALOG\dlgMobilePayment.Designer.vb">
       <DependentUpon>dlgMobilePayment.vb</DependentUpon>
     </Compile>
@@ -309,6 +315,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="POLEDISPLAY.vb" />
+    <EmbeddedResource Include="DIALOG\dlgDonasi.resx">
+      <DependentUpon>dlgDonasi.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SQL\InsertPayment.sql" />
     <Compile Include="UI\uiQRTest.Designer.vb">
       <DependentUpon>uiQRTest.vb</DependentUpon>

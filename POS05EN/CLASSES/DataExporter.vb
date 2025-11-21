@@ -154,6 +154,7 @@ Namespace TransStore
                                     CreateFieldDefinition("bon_mdiscpaympercent", "decimal(18, 0)"),
                                     CreateFieldDefinition("bon_mdiscpayment", "decimal(18, 0)"),
                                     CreateFieldDefinition("bon_mtotal", "decimal(18, 0)"),
+                                    CreateFieldDefinition("bon_mdonasi", "decimal(18, 0)"),
                                     CreateFieldDefinition("bon_mpayment", "decimal(18, 0)"),
                                     CreateFieldDefinition("bon_mrefund", "decimal(18, 0)"),
                                     CreateFieldDefinition("bon_msalegross", "decimal(18, 0)"),

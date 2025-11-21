@@ -1,9 +1,9 @@
-<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class dlgTrnPosEN
     Inherits Translib.dlgBase
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing AndAlso components IsNot Nothing Then
             components.Dispose()
@@ -17,7 +17,7 @@ Partial Class dlgTrnPosEN
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.PnlPosMain = New System.Windows.Forms.Panel()
@@ -192,7 +192,7 @@ Partial Class dlgTrnPosEN
         Me.txt_INFO.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txt_INFO.ForeColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer))
-        Me.txt_INFO.Location = New System.Drawing.Point(555, 81)
+        Me.txt_INFO.Location = New System.Drawing.Point(555, 123)
         Me.txt_INFO.Name = "txt_INFO"
         Me.txt_INFO.Size = New System.Drawing.Size(222, 30)
         Me.txt_INFO.TabIndex = 37
@@ -223,7 +223,7 @@ Partial Class dlgTrnPosEN
         '
         Me.Label11.AutoSize = True
         Me.Label11.ForeColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer))
-        Me.Label11.Location = New System.Drawing.Point(520, 82)
+        Me.Label11.Location = New System.Drawing.Point(520, 124)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(38, 13)
         Me.Label11.TabIndex = 34
@@ -568,7 +568,7 @@ Partial Class dlgTrnPosEN
         '
         Me.objVoucherInformation.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.objVoucherInformation.Location = New System.Drawing.Point(597, 34)
+        Me.objVoucherInformation.Location = New System.Drawing.Point(609, 32)
         Me.objVoucherInformation.Name = "objVoucherInformation"
         Me.objVoucherInformation.Size = New System.Drawing.Size(174, 13)
         Me.objVoucherInformation.TabIndex = 31
