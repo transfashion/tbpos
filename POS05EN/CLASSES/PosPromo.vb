@@ -89,11 +89,14 @@ Public Class PosPromo
             Dim is_branch_match As Boolean = False
             Dim is_date_match As Boolean = False
 
-            ' Cek apabila Region Sesuai
-            is_region_match = IIf(pd.ValidRegion = Me.CurrentRegionId, True, False)
-            If Not is_region_match Then
-                If Not forcePromoForDev Then
-                    Continue For
+            ' Jika POS bukan untuk region Corporate (any brand),
+            ' cek apakah Region Sesuai
+            If Me.CurrentRegionId <> "00100" Then
+                is_region_match = IIf(pd.ValidRegion = Me.CurrentRegionId, True, False)
+                If Not is_region_match Then
+                    If Not forcePromoForDev Then
+                        Continue For
+                    End If
                 End If
             End If
 
