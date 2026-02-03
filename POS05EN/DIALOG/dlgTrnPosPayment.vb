@@ -1184,22 +1184,95 @@ Public Class dlgTrnPosPayment
 
 
                 If Not donasi_exists Then
+
+                    ' ambil nilai maximum dari bondetil_line di table POS Items
+                    Dim maxline As Integer = 0
+                    If Me.POS.PosItems.Rows.Count > 0 Then
+                        For Each row As DataRow In Me.POS.PosItems.Rows
+                            If CInt(row("bondetil_line")) > maxline Then
+                                maxline = CInt(row("bondetil_line"))
+                            End If
+                        Next
+                    End If
+
+
+
+                    Dim itemIsSet As Boolean = False
+                    Dim heinv_id As String = ""
+                    Dim heinvitem_id As String = ""
+                    Dim heinvgro_id As String = ""
+                    Dim heinvctg_id As String = ""
+                    Dim region_nameshort As String = ""
+                    Dim region_id As String = ""
+
+                    If Me.POS.RegionId = "00900" Then
+                        itemIsSet = True
+                        region_id = "00900"
+                        region_nameshort = "EAG"
+                        heinv_id = "TM25110000700"
+                        heinvitem_id = "TM25110000701"
+                        heinvgro_id = "EAG00000"
+                        heinvctg_id = "EAG00001"
+
+                    ElseIf Me.POS.RegionId = "03400" Then
+                        itemIsSet = True
+                        region_id = "03400"
+                        region_nameshort = "GEX"
+                        heinv_id = "TM25110000500"
+                        heinvitem_id = "TM25110000501"
+                        heinvgro_id = "GEX00L00"
+                        heinvctg_id = "GEX00L01"
+
+                    ElseIf Me.POS.RegionId = "02600" Then
+                        itemIsSet = True
+                        region_id = "02600"
+                        region_nameshort = "FLA"
+                        heinv_id = "TM25110000600"
+                        heinvitem_id = "TM25110000601"
+                        heinvgro_id = "FUR00000"
+                        heinvctg_id = "FUR00001"
+
+                    Else
+
+                        itemIsSet = True
+                        region_id = "00100"
+                        region_nameshort = "COR"
+                        heinv_id = "TM11070162600"
+                        heinvitem_id = "TM11070162601"
+                        heinvgro_id = "COR01000"
+                        heinvctg_id = "COR01001"
+
+                    End If
+
+
                     ' masukkan item donasi
-                    Dim newrow As DataRow = Me.POS.PosItems.NewRow()
+                    If itemIsSet Then
+                        Dim newrow As DataRow = Me.POS.PosItems.NewRow()
+                        newrow("region_id") = Me.POS.RegionId
+                        newrow("heinv_id") = heinv_id
+                        newrow("bondetil_item") = heinvitem_id
+                        newrow("bondetil_line") = maxline + 1
+                        newrow("bondetil_qty") = 1
+                        newrow("bondetil_article") = "KEYCHAIN CT ARSA"
+                        newrow("bondetil_barcode") = heinvitem_id
+                        newrow("bondetil_pricenet") = 0
+                        newrow("bondetil_subtotal") = 0
+                        newrow("bondetil_subtotal") = 0
+                        newrow("bondetil_descr") = "KEYCHAIN CT ARSA"
+                        newrow("bondetil_rule") = "00"
+                        newrow("bondetil_size") = "N/A"
+                        newrow("bondetil_vou01type") = "NONE"
+                        newrow("bondetil_vou01method") = "NONE"
+                        newrow("region_nameshort") = region_nameshort
+                        newrow("colname") = "C01"
+                        newrow("sizetag") = "1"
+                        newrow("proc") = "00"
+                        newrow("heinvgro_id") = heinvgro_id
+                        newrow("heinvctg_id") = heinvctg_id
+                        Me.POS.PosItems.Rows.Add(newrow)
+                        Me.POS.PosItems.AcceptChanges()
+                    End If
 
-                    newrow("region_id") = "00100"
-                    newrow("heinv_id") = "TMDONASI"
-
-                    newrow("bondetil_qty") = 1
-                    newrow("bondetil_pricenet") = 0
-                    newrow("bondetil_subtotal") = 0
-                    newrow("bondetil_subtotal") = 0
-
-
-                    Me.POS.PosItems.Rows.Add(newrow)
-
-
-                    Me.POS.PosItems.AcceptChanges()
                 End If
 
 
@@ -1887,6 +1960,7 @@ Public Class dlgTrnPosPayment
         ' Hitung kembali pembayaran
         Dim totalvalue As Decimal = CDec(Me.objPaymentTotalValue.Text)
         Dim carddisc As Decimal = CDec(Me.objPaymentDiscValue.Text)
+        Dim donasi As Decimal = CDec(Me.objPaymentDonasi.Text)
         Dim adddiscvoucher As Decimal = voucher + adddisc + redeem
 
         If adddiscvoucher > totalvalue Then
@@ -1900,10 +1974,16 @@ Public Class dlgTrnPosPayment
         Dim discvalue As Decimal = (Me.SelectedPaymentDisc / 100) * CDec(sumsubtotal)
         Dim total As Decimal = sumsubtotal - discvalue
 
+        Me.TOTAL = total
+
+        Dim grandtotal As Decimal = total + donasi
+
         Me.objPaymentDiscValue.Text = discvalue
         Me.objPaymentDiscVoucherTotal.Text = adddiscvoucher
         Me.objPaymentTOTAL.Text = total
-        Me.objPaymentOutstanding.Text = total
+        Me.objPaymentOutstanding.Text = grandtotal
+        Me.objPaymentGrantotal.Text = grandtotal
+
 
 
 

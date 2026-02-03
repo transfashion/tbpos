@@ -378,7 +378,7 @@ Public Class dlgTrnPosNew
 
         ' Cek apakah pengisian kode voucher link ke customer
         Dim dr() As DataRow
-        Dim site_id_from As String
+        Dim site_id_from As String = "0"
 
         dr = Me.master_posvouchertype_cust.Select(String.Format("posvouchertype_id='{0}'", Me.objVoucher01TypeId.Text))
         If dr.Length > 0 Then
@@ -402,6 +402,11 @@ Public Class dlgTrnPosNew
 
             Case "CHAT-AGENT"
                 eventname = "AGENT"
+                site_id_from = Me.cbo_ItemFrom.SelectedValue
+                If site_id_from = "0" Then
+                    MessageBox.Show("Sumber Item harus dipilih", "Item From", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Return
+                End If
 
             Case "ONLINE"
                 eventname = "ONLINE"
@@ -424,11 +429,7 @@ Public Class dlgTrnPosNew
 
 
 
-        site_id_from = Me.cbo_ItemFrom.SelectedValue
-        If site_id_from = "0" Then
-            MessageBox.Show("Sumber Item harus dipilih", "Item From", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Return
-        End If
+
 
 
 
@@ -1043,15 +1044,20 @@ Public Class dlgTrnPosNew
 
 
     Public Sub SelectOwnLocation()
-        For i As Integer = 1 To Me.cbo_ItemFrom.Items.Count
-            Dim t As Integer = i
+        Try
+            For i As Integer = 1 To Me.cbo_ItemFrom.Items.Count
+                Dim t As Integer = i
 
-            Dim dv As DataRowView = Me.cbo_ItemFrom.Items(i)
-            If dv.Item("site_id") = Me.POS.RegionId & ":" & Me.POS.BranchId Then
-                Me.cbo_ItemFrom.SelectedItem = dv
-                Exit For
-            End If
-        Next
+                Dim dv As DataRowView = Me.cbo_ItemFrom.Items(i)
+                If dv.Item("site_id") = Me.POS.RegionId & ":" & Me.POS.BranchId Then
+                    Me.cbo_ItemFrom.SelectedItem = dv
+                    Exit For
+                End If
+            Next
+        Catch ex As Exception
+            Debug.WriteLine("SelectOwnLocation Error: " & ex.Message)
+        End Try
+
     End Sub
 
 

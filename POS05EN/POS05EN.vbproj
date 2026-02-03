@@ -143,6 +143,7 @@
     <Compile Include="CLASSES\BitmapData.vb" />
     <Compile Include="CLASSES\BonQR.vb" />
     <Compile Include="CLASSES\DataExporter.vb" />
+    <Compile Include="CLASSES\ManualDiscVoucher.vb" />
     <Compile Include="CLASSES\POSItem.vb" />
     <Compile Include="CLASSES\CreditCard.vb" />
     <Compile Include="CLASSES\DateInterval.vb" />

@@ -244,6 +244,7 @@ Public Class dlgTrnPosVoid
         Me.objPaymentTotalValue.DataBindings.Add(New Binding("Text", Me.oBon.Header, "bon_msubtotal", True, DataSourceUpdateMode.OnPropertyChanged, 0, "#,##0"))
         Me.objPaymentDiscVoucherTotal.DataBindings.Add(New Binding("Text", Me.oBon.Header, "bon_msubtracttotal", True, DataSourceUpdateMode.OnPropertyChanged, 0, "#,##0"))
         Me.objPaymentDiscValue.DataBindings.Add(New Binding("Text", Me.oBon.Header, "bon_mdiscpayment", True, DataSourceUpdateMode.OnPropertyChanged, 0, "#,##0"))
+        Me.objDonasi.DataBindings.Add(New Binding("Text", Me.oBon.Header, "bon_mdonasi", True, DataSourceUpdateMode.OnPropertyChanged, 0, "#,##0"))
         Me.objPaymentTOTAL.DataBindings.Add(New Binding("Text", Me.oBon.Header, "bon_mtotal", True, DataSourceUpdateMode.OnPropertyChanged, 0, "#,##0"))
 
 

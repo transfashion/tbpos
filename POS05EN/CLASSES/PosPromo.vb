@@ -69,6 +69,12 @@ Public Class PosPromo
         For Each promoFilePath In My.Computer.FileSystem.GetFiles(promoDirectory)
             i = i + 1
 
+            ' get file name only
+            Dim fileNameOnly As String = System.IO.Path.GetFileName(promoFilePath)
+            If fileNameOnly = "voucher.dat" Then
+                Continue For
+            End If
+
 
             Dim forcePromoForDev = False
             If promoFilePath = TEST_PROMO_FILE Then
@@ -117,7 +123,7 @@ Public Class PosPromo
             If (Not Me.POS.UsedPromoList.ContainsKey(pd.PromoId)) Then
                 Me.POS.UsedPromoList.Add(pd.PromoId, up)
             Else
-                MessageBox.Show("Promo " & pd.PromoId & " is duplicated.", "POS", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show("Promo " & pd.PromoId & " Is duplicated.", "POS", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
 
         Next

@@ -440,6 +440,7 @@ Partial Class dlgTrnPosPayment
         Me.objPaymentTotalDue.TabIndex = 31
         Me.objPaymentTotalDue.Text = "99,000,000"
         Me.objPaymentTotalDue.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.objPaymentTotalDue.Visible = False
         '
         'Label15
         '

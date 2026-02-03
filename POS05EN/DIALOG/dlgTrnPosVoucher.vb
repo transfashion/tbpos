@@ -1,3 +1,5 @@
+Imports System.Runtime.Remoting.Contexts
+
 Public Class dlgTrnPosVoucher
 
     Private Const __MEGAMAY_PROMO As String = "MEGAMAY14"
@@ -235,6 +237,12 @@ Public Class dlgTrnPosVoucher
         'Me.PnlFormMain.BackgroundImageLayout = ImageLayout.Stretch
         'Me.PnlFormMain.BackgroundImage = My.Resources.bgf
 
+
+        Me.LoadActiveDiscountPromo()
+
+
+
+
         Me.Refresh()
         Me.ResumeLayout()
 
@@ -358,6 +366,68 @@ Public Class dlgTrnPosVoucher
     Private Sub dlgTrnPosVoucher_FormClosed(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosedEventArgs) Handles Me.FormClosed
         Me.POS = Nothing
     End Sub
+
+
+    Private Sub LoadActiveDiscountPromo()
+        If Me.POS.VoucherList Is Nothing Then
+            Return
+        End If
+
+        '[
+        '    {"Value":100000, "MinimumPurchase":1000000},
+        '    {"Value":0.05, "MinimumPurchase":1000000}
+        ']
+
+        Me.FlowLayoutPanel1.Controls.Clear()
+        Dim voucherList As List(Of ManualDiscVoucher) = Me.POS.VoucherList
+        For Each voucher As ManualDiscVoucher In voucherList
+            Dim btn As New Label With {
+                .Width = 222,
+                .Height = 52,
+                .Margin = New Padding(5),
+                .Padding = New Padding(2),
+                .TextAlign = ContentAlignment.MiddleCenter,
+                .Font = New Font("'Microsoft Sans Serif", 12, FontStyle.Bold),
+                .BackColor = Color.LightGray,
+                .BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle,
+                .Tag = voucher
+            }
+
+            If (voucher.Value < 1) Then
+                btn.Text = String.Format("{0}%", 100 * voucher.Value)
+            Else
+                btn.Text = String.Format("{0:#,##0}", voucher.Value)
+            End If
+
+            AddHandler btn.Click, AddressOf Me.VoucherButton_Click
+            Me.FlowLayoutPanel1.Controls.Add(btn)
+        Next
+    End Sub
+
+    Private Sub VoucherButton_Click(sender As Object, e As EventArgs)
+        Dim btn As Label = CType(sender, Label)
+        Dim voucher As ManualDiscVoucher = CType(btn.Tag, ManualDiscVoucher)
+
+
+        ' cek minimal belanja
+        If Me.total < voucher.MinimumPurchase Then
+            MessageBox.Show(String.Format("Untuk menggunakan voucher ini, minimal belanja harus {0:#,##0}", voucher.MinimumPurchase), "Voucher", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return
+        End If
+
+
+        ' cek voucher value, apakah persen atau nilai tetap
+        If (voucher.Value < 1) Then
+            ' persen
+            Dim discvalue As Decimal = voucher.Value * Me.total
+            Me.do_disc(discvalue)
+        Else
+            ' nilai tetap
+            Me.do_discvalue(voucher.Value)
+        End If
+
+    End Sub
+
 
 
     Private Sub btnOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOpen.Click
@@ -606,7 +676,7 @@ Public Class dlgTrnPosVoucher
 
     Private Sub btn_other500_Click(sender As Object, e As EventArgs) Handles btn_other500.Click
         Dim discvalue As Decimal = 500000
-        Dim minimalBelanja As Decimal = 500000
+        Dim minimalBelanja As Decimal = 7000000
 
         If Me.total < minimalBelanja Then
             MessageBox.Show(String.Format("discount 500rb, minimal belanja harus {0:#,##0}", minimalBelanja), "Voucher", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -615,5 +685,53 @@ Public Class dlgTrnPosVoucher
 
         Me.do_discvalue(discvalue)
 
+    End Sub
+
+    Private Sub btn_other300_Click(sender As Object, e As EventArgs) Handles btn_other300.Click
+        Dim discvalue As Decimal = 300000
+        Dim minimalBelanja As Decimal = 300000
+
+        If Me.total < minimalBelanja Then
+            MessageBox.Show(String.Format("discount 300rb, minimal belanja harus {0:#,##0}", minimalBelanja), "Voucher", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return
+        End If
+
+        Me.do_discvalue(discvalue)
+    End Sub
+
+    Private Sub btn_other750_Click(sender As Object, e As EventArgs) Handles btn_other750.Click
+        Dim discvalue As Decimal = 750000
+        Dim minimalBelanja As Decimal = 10000000
+
+        If Me.total < minimalBelanja Then
+            MessageBox.Show(String.Format("discount 750rb, minimal belanja harus {0:#,##0}", minimalBelanja), "Voucher", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return
+        End If
+
+        Me.do_discvalue(discvalue)
+    End Sub
+
+    Private Sub btn_other1500_Click(sender As Object, e As EventArgs) Handles btn_other1500.Click
+        Dim discvalue As Decimal = 1500000
+        Dim minimalBelanja As Decimal = 15000000
+
+        If Me.total < minimalBelanja Then
+            MessageBox.Show(String.Format("discount 1.5juta, minimal belanja harus {0:#,##0}", minimalBelanja), "Voucher", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return
+        End If
+
+        Me.do_discvalue(discvalue)
+    End Sub
+
+    Private Sub btn_other50_Click(sender As Object, e As EventArgs) Handles btn_other50.Click
+        Dim discvalue As Decimal = 50000
+        Dim minimalBelanja As Decimal = 50000
+
+        If Me.total < minimalBelanja Then
+            MessageBox.Show(String.Format("discount 50ribu, minimal belanja harus {0:#,##0}", minimalBelanja), "Voucher", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return
+        End If
+
+        Me.do_discvalue(discvalue)
     End Sub
 End Class

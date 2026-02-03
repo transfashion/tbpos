@@ -19,28 +19,30 @@ Partial Class dlgTrnPosVoid
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.objID = New System.Windows.Forms.TextBox
-        Me.objIDExt = New System.Windows.Forms.TextBox
-        Me.DgvPOSItem = New System.Windows.Forms.DataGridView
-        Me.DgvPayments = New System.Windows.Forms.DataGridView
-        Me.objPaymentTOTAL = New System.Windows.Forms.Label
-        Me.Label11 = New System.Windows.Forms.Label
-        Me.chkVoid = New System.Windows.Forms.CheckBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.lblVoidBy = New System.Windows.Forms.Label
-        Me.objUsername = New System.Windows.Forms.Label
-        Me.pnlVoidInfo = New System.Windows.Forms.Panel
-        Me.lblVoidInfo = New System.Windows.Forms.Label
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.objPaymentDiscDescr = New System.Windows.Forms.Label
-        Me.Label7 = New System.Windows.Forms.Label
-        Me.objPaymentDiscVoucherTotal = New System.Windows.Forms.Label
-        Me.objPaymentTotalQty = New System.Windows.Forms.Label
-        Me.objPaymentDiscValue = New System.Windows.Forms.Label
-        Me.objPaymentTotalValue = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.objFakturPajak = New System.Windows.Forms.TextBox
+        Me.objID = New System.Windows.Forms.TextBox()
+        Me.objIDExt = New System.Windows.Forms.TextBox()
+        Me.DgvPOSItem = New System.Windows.Forms.DataGridView()
+        Me.DgvPayments = New System.Windows.Forms.DataGridView()
+        Me.objPaymentTOTAL = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.chkVoid = New System.Windows.Forms.CheckBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.lblVoidBy = New System.Windows.Forms.Label()
+        Me.objUsername = New System.Windows.Forms.Label()
+        Me.pnlVoidInfo = New System.Windows.Forms.Panel()
+        Me.lblVoidInfo = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.objPaymentDiscDescr = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.objPaymentDiscVoucherTotal = New System.Windows.Forms.Label()
+        Me.objPaymentTotalQty = New System.Windows.Forms.Label()
+        Me.objPaymentDiscValue = New System.Windows.Forms.Label()
+        Me.objPaymentTotalValue = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.objFakturPajak = New System.Windows.Forms.TextBox()
+        Me.objDonasi = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
         CType(Me.ds, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DgvPOSItem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DgvPayments, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -68,15 +70,15 @@ Partial Class dlgTrnPosVoid
         Me.DgvPOSItem.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DgvPOSItem.Location = New System.Drawing.Point(8, 78)
         Me.DgvPOSItem.Name = "DgvPOSItem"
-        Me.DgvPOSItem.Size = New System.Drawing.Size(847, 240)
+        Me.DgvPOSItem.Size = New System.Drawing.Size(847, 223)
         Me.DgvPOSItem.TabIndex = 5
         '
         'DgvPayments
         '
         Me.DgvPayments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DgvPayments.Location = New System.Drawing.Point(8, 324)
+        Me.DgvPayments.Location = New System.Drawing.Point(8, 307)
         Me.DgvPayments.Name = "DgvPayments"
-        Me.DgvPayments.Size = New System.Drawing.Size(427, 164)
+        Me.DgvPayments.Size = New System.Drawing.Size(427, 181)
         Me.DgvPayments.TabIndex = 6
         '
         'objPaymentTOTAL
@@ -174,7 +176,7 @@ Partial Class dlgTrnPosVoid
         '
         Me.Label6.BackColor = System.Drawing.Color.Transparent
         Me.Label6.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(488, 340)
+        Me.Label6.Location = New System.Drawing.Point(488, 319)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(129, 15)
         Me.Label6.TabIndex = 52
@@ -185,7 +187,7 @@ Partial Class dlgTrnPosVoid
         '
         Me.objPaymentDiscDescr.BackColor = System.Drawing.Color.Transparent
         Me.objPaymentDiscDescr.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.objPaymentDiscDescr.Location = New System.Drawing.Point(448, 388)
+        Me.objPaymentDiscDescr.Location = New System.Drawing.Point(448, 367)
         Me.objPaymentDiscDescr.Name = "objPaymentDiscDescr"
         Me.objPaymentDiscDescr.Size = New System.Drawing.Size(284, 15)
         Me.objPaymentDiscDescr.TabIndex = 47
@@ -196,7 +198,7 @@ Partial Class dlgTrnPosVoid
         '
         Me.Label7.BackColor = System.Drawing.Color.Transparent
         Me.Label7.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(448, 363)
+        Me.Label7.Location = New System.Drawing.Point(448, 342)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(233, 15)
         Me.Label7.TabIndex = 54
@@ -208,7 +210,7 @@ Partial Class dlgTrnPosVoid
         Me.objPaymentDiscVoucherTotal.BackColor = System.Drawing.Color.Transparent
         Me.objPaymentDiscVoucherTotal.Font = New System.Drawing.Font("Arial", 14.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.objPaymentDiscVoucherTotal.ForeColor = System.Drawing.Color.DimGray
-        Me.objPaymentDiscVoucherTotal.Location = New System.Drawing.Point(677, 355)
+        Me.objPaymentDiscVoucherTotal.Location = New System.Drawing.Point(677, 334)
         Me.objPaymentDiscVoucherTotal.Name = "objPaymentDiscVoucherTotal"
         Me.objPaymentDiscVoucherTotal.Size = New System.Drawing.Size(175, 24)
         Me.objPaymentDiscVoucherTotal.TabIndex = 53
@@ -219,7 +221,7 @@ Partial Class dlgTrnPosVoid
         '
         Me.objPaymentTotalQty.BackColor = System.Drawing.Color.Transparent
         Me.objPaymentTotalQty.Font = New System.Drawing.Font("Arial", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.objPaymentTotalQty.Location = New System.Drawing.Point(445, 332)
+        Me.objPaymentTotalQty.Location = New System.Drawing.Point(445, 311)
         Me.objPaymentTotalQty.Name = "objPaymentTotalQty"
         Me.objPaymentTotalQty.Size = New System.Drawing.Size(56, 24)
         Me.objPaymentTotalQty.TabIndex = 51
@@ -231,7 +233,7 @@ Partial Class dlgTrnPosVoid
         Me.objPaymentDiscValue.BackColor = System.Drawing.Color.Transparent
         Me.objPaymentDiscValue.Font = New System.Drawing.Font("Arial", 14.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.objPaymentDiscValue.ForeColor = System.Drawing.Color.DimGray
-        Me.objPaymentDiscValue.Location = New System.Drawing.Point(677, 379)
+        Me.objPaymentDiscValue.Location = New System.Drawing.Point(677, 358)
         Me.objPaymentDiscValue.Name = "objPaymentDiscValue"
         Me.objPaymentDiscValue.Size = New System.Drawing.Size(175, 24)
         Me.objPaymentDiscValue.TabIndex = 48
@@ -242,7 +244,7 @@ Partial Class dlgTrnPosVoid
         '
         Me.objPaymentTotalValue.BackColor = System.Drawing.Color.Transparent
         Me.objPaymentTotalValue.Font = New System.Drawing.Font("Arial", 14.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.objPaymentTotalValue.Location = New System.Drawing.Point(673, 331)
+        Me.objPaymentTotalValue.Location = New System.Drawing.Point(673, 310)
         Me.objPaymentTotalValue.Name = "objPaymentTotalValue"
         Me.objPaymentTotalValue.Size = New System.Drawing.Size(179, 24)
         Me.objPaymentTotalValue.TabIndex = 46
@@ -266,10 +268,35 @@ Partial Class dlgTrnPosVoid
         Me.objFakturPajak.Size = New System.Drawing.Size(190, 20)
         Me.objFakturPajak.TabIndex = 56
         '
+        'objDonasi
+        '
+        Me.objDonasi.BackColor = System.Drawing.Color.Transparent
+        Me.objDonasi.Font = New System.Drawing.Font("Arial", 14.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.objDonasi.ForeColor = System.Drawing.Color.DimGray
+        Me.objDonasi.Location = New System.Drawing.Point(677, 382)
+        Me.objDonasi.Name = "objDonasi"
+        Me.objDonasi.Size = New System.Drawing.Size(175, 24)
+        Me.objDonasi.TabIndex = 57
+        Me.objDonasi.Text = "99,000,000"
+        Me.objDonasi.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label4
+        '
+        Me.Label4.BackColor = System.Drawing.Color.Transparent
+        Me.Label4.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.Location = New System.Drawing.Point(448, 391)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(284, 15)
+        Me.Label4.TabIndex = 58
+        Me.Label4.Text = "Donasi"
+        Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
         'dlgTrnPosVoid
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.ClientSize = New System.Drawing.Size(860, 532)
+        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.objDonasi)
         Me.Controls.Add(Me.objFakturPajak)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label6)
@@ -313,6 +340,8 @@ Partial Class dlgTrnPosVoid
         Me.Controls.SetChildIndex(Me.Label6, 0)
         Me.Controls.SetChildIndex(Me.Label3, 0)
         Me.Controls.SetChildIndex(Me.objFakturPajak, 0)
+        Me.Controls.SetChildIndex(Me.objDonasi, 0)
+        Me.Controls.SetChildIndex(Me.Label4, 0)
         CType(Me.ds, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DgvPOSItem, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DgvPayments, System.ComponentModel.ISupportInitialize).EndInit()
@@ -343,5 +372,6 @@ Partial Class dlgTrnPosVoid
     Friend WithEvents objPaymentTotalValue As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents objFakturPajak As System.Windows.Forms.TextBox
-
+    Friend WithEvents objDonasi As Label
+    Friend WithEvents Label4 As Label
 End Class

@@ -35,8 +35,14 @@ Partial Class dlgTrnPosVoucher
         Me.pnlAuth2Shadow = New System.Windows.Forms.Panel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Group02 = New System.Windows.Forms.GroupBox()
-        Me.btn_eag500 = New System.Windows.Forms.Label()
+        Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
+        Me.btn_other50 = New System.Windows.Forms.Label()
+        Me.btn_other250 = New System.Windows.Forms.Label()
+        Me.btn_other300 = New System.Windows.Forms.Label()
         Me.btn_other500 = New System.Windows.Forms.Label()
+        Me.btn_other750 = New System.Windows.Forms.Label()
+        Me.btn_other1500 = New System.Windows.Forms.Label()
+        Me.btn_eag500 = New System.Windows.Forms.Label()
         Me.btn_disckelipatan = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.btn_disc5 = New System.Windows.Forms.Label()
@@ -58,14 +64,12 @@ Partial Class dlgTrnPosVoucher
         Me.Label9 = New System.Windows.Forms.Label()
         Me.objPaymentVoucher = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
-        Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
-        Me.btn_other250 = New System.Windows.Forms.Label()
         CType(Me.ds, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PnlFormMain.SuspendLayout()
         Me.pnlAuth2.SuspendLayout()
         Me.Group02.SuspendLayout()
-        Me.pnlAuth1.SuspendLayout()
         Me.FlowLayoutPanel1.SuspendLayout()
+        Me.pnlAuth1.SuspendLayout()
         Me.SuspendLayout()
         '
         'PnlFormMain
@@ -78,7 +82,7 @@ Partial Class dlgTrnPosVoucher
         Me.PnlFormMain.Controls.Add(Me.Label4)
         Me.PnlFormMain.Location = New System.Drawing.Point(1, 3)
         Me.PnlFormMain.Name = "PnlFormMain"
-        Me.PnlFormMain.Size = New System.Drawing.Size(971, 601)
+        Me.PnlFormMain.Size = New System.Drawing.Size(971, 666)
         Me.PnlFormMain.TabIndex = 3
         '
         'btnF10
@@ -89,7 +93,7 @@ Partial Class dlgTrnPosVoucher
         Me.btnF10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.btnF10.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btnF10.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnF10.Location = New System.Drawing.Point(805, 556)
+        Me.btnF10.Location = New System.Drawing.Point(805, 621)
         Me.btnF10.Name = "btnF10"
         Me.btnF10.Padding = New System.Windows.Forms.Padding(2)
         Me.btnF10.Size = New System.Drawing.Size(136, 26)
@@ -242,6 +246,11 @@ Partial Class dlgTrnPosVoucher
         '
         'Group02
         '
+        Me.Group02.Controls.Add(Me.btn_other750)
+        Me.Group02.Controls.Add(Me.btn_other500)
+        Me.Group02.Controls.Add(Me.btn_other300)
+        Me.Group02.Controls.Add(Me.btn_other250)
+        Me.Group02.Controls.Add(Me.btn_other50)
         Me.Group02.Controls.Add(Me.FlowLayoutPanel1)
         Me.Group02.Controls.Add(Me.btn_eag500)
         Me.Group02.Controls.Add(Me.btn_disckelipatan)
@@ -262,26 +271,70 @@ Partial Class dlgTrnPosVoucher
         Me.Group02.Controls.Add(Me.objPaymentVoucher)
         Me.Group02.Location = New System.Drawing.Point(9, 145)
         Me.Group02.Name = "Group02"
-        Me.Group02.Size = New System.Drawing.Size(932, 400)
+        Me.Group02.Size = New System.Drawing.Size(932, 473)
         Me.Group02.TabIndex = 3
         Me.Group02.TabStop = False
         Me.Group02.Text = "Voucher / Rabat / Cash Discounts"
         '
-        'btn_eag500
+        'FlowLayoutPanel1
         '
-        Me.btn_eag500.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_eag500.BackColor = System.Drawing.Color.LightGray
-        Me.btn_eag500.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.btn_eag500.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btn_eag500.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_eag500.Location = New System.Drawing.Point(23, 278)
-        Me.btn_eag500.Name = "btn_eag500"
-        Me.btn_eag500.Padding = New System.Windows.Forms.Padding(2)
-        Me.btn_eag500.Size = New System.Drawing.Size(222, 52)
-        Me.btn_eag500.TabIndex = 22
-        Me.btn_eag500.Text = "500k"
-        Me.btn_eag500.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btn_eag500.Visible = False
+        Me.FlowLayoutPanel1.Controls.Add(Me.btn_other1500)
+        Me.FlowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
+        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(667, 16)
+        Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
+        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(251, 451)
+        Me.FlowLayoutPanel1.TabIndex = 23
+        '
+        'btn_other50
+        '
+        Me.btn_other50.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_other50.BackColor = System.Drawing.Color.LightGray
+        Me.btn_other50.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.btn_other50.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btn_other50.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_other50.Location = New System.Drawing.Point(23, 283)
+        Me.btn_other50.Margin = New System.Windows.Forms.Padding(5)
+        Me.btn_other50.Name = "btn_other50"
+        Me.btn_other50.Padding = New System.Windows.Forms.Padding(2)
+        Me.btn_other50.Size = New System.Drawing.Size(72, 52)
+        Me.btn_other50.TabIndex = 26
+        Me.btn_other50.Text = "50k"
+        Me.btn_other50.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btn_other50.Visible = False
+        '
+        'btn_other250
+        '
+        Me.btn_other250.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_other250.BackColor = System.Drawing.Color.LightGray
+        Me.btn_other250.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.btn_other250.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btn_other250.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_other250.Location = New System.Drawing.Point(269, 283)
+        Me.btn_other250.Margin = New System.Windows.Forms.Padding(5)
+        Me.btn_other250.Name = "btn_other250"
+        Me.btn_other250.Padding = New System.Windows.Forms.Padding(2)
+        Me.btn_other250.Size = New System.Drawing.Size(61, 52)
+        Me.btn_other250.TabIndex = 22
+        Me.btn_other250.Text = "250k"
+        Me.btn_other250.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btn_other250.Visible = False
+        '
+        'btn_other300
+        '
+        Me.btn_other300.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_other300.BackColor = System.Drawing.Color.LightGray
+        Me.btn_other300.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.btn_other300.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btn_other300.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_other300.Location = New System.Drawing.Point(105, 283)
+        Me.btn_other300.Margin = New System.Windows.Forms.Padding(5)
+        Me.btn_other300.Name = "btn_other300"
+        Me.btn_other300.Padding = New System.Windows.Forms.Padding(2)
+        Me.btn_other300.Size = New System.Drawing.Size(72, 52)
+        Me.btn_other300.TabIndex = 23
+        Me.btn_other300.Text = "300k"
+        Me.btn_other300.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btn_other300.Visible = False
         '
         'btn_other500
         '
@@ -290,14 +343,65 @@ Partial Class dlgTrnPosVoucher
         Me.btn_other500.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.btn_other500.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btn_other500.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_other500.Location = New System.Drawing.Point(5, 67)
+        Me.btn_other500.Location = New System.Drawing.Point(187, 283)
         Me.btn_other500.Margin = New System.Windows.Forms.Padding(5)
         Me.btn_other500.Name = "btn_other500"
         Me.btn_other500.Padding = New System.Windows.Forms.Padding(2)
-        Me.btn_other500.Size = New System.Drawing.Size(222, 52)
+        Me.btn_other500.Size = New System.Drawing.Size(72, 52)
         Me.btn_other500.TabIndex = 21
         Me.btn_other500.Text = "500k"
         Me.btn_other500.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btn_other500.Visible = False
+        '
+        'btn_other750
+        '
+        Me.btn_other750.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_other750.BackColor = System.Drawing.Color.LightGray
+        Me.btn_other750.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.btn_other750.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btn_other750.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_other750.Location = New System.Drawing.Point(340, 283)
+        Me.btn_other750.Margin = New System.Windows.Forms.Padding(5)
+        Me.btn_other750.Name = "btn_other750"
+        Me.btn_other750.Padding = New System.Windows.Forms.Padding(2)
+        Me.btn_other750.Size = New System.Drawing.Size(66, 52)
+        Me.btn_other750.TabIndex = 24
+        Me.btn_other750.Text = "750k"
+        Me.btn_other750.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btn_other750.Visible = False
+        '
+        'btn_other1500
+        '
+        Me.btn_other1500.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_other1500.BackColor = System.Drawing.Color.LightGray
+        Me.btn_other1500.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.btn_other1500.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btn_other1500.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_other1500.Location = New System.Drawing.Point(5, 5)
+        Me.btn_other1500.Margin = New System.Windows.Forms.Padding(5)
+        Me.btn_other1500.Name = "btn_other1500"
+        Me.btn_other1500.Padding = New System.Windows.Forms.Padding(2)
+        Me.btn_other1500.Size = New System.Drawing.Size(222, 52)
+        Me.btn_other1500.TabIndex = 25
+        Me.btn_other1500.Text = "1.5jt"
+        Me.btn_other1500.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btn_other1500.Visible = False
+        '
+        'btn_eag500
+        '
+        Me.btn_eag500.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_eag500.BackColor = System.Drawing.Color.LightGray
+        Me.btn_eag500.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.btn_eag500.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btn_eag500.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_eag500.Location = New System.Drawing.Point(23, 351)
+        Me.btn_eag500.Name = "btn_eag500"
+        Me.btn_eag500.Padding = New System.Windows.Forms.Padding(2)
+        Me.btn_eag500.Size = New System.Drawing.Size(222, 52)
+        Me.btn_eag500.TabIndex = 22
+        Me.btn_eag500.Text = "500k"
+        Me.btn_eag500.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btn_eag500.Visible = False
         '
         'btn_disckelipatan
         '
@@ -306,7 +410,7 @@ Partial Class dlgTrnPosVoucher
         Me.btn_disckelipatan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.btn_disckelipatan.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btn_disckelipatan.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_disckelipatan.Location = New System.Drawing.Point(23, 336)
+        Me.btn_disckelipatan.Location = New System.Drawing.Point(23, 409)
         Me.btn_disckelipatan.Name = "btn_disckelipatan"
         Me.btn_disckelipatan.Padding = New System.Windows.Forms.Padding(2)
         Me.btn_disckelipatan.Size = New System.Drawing.Size(222, 48)
@@ -329,7 +433,7 @@ Partial Class dlgTrnPosVoucher
         Me.btn_disc5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.btn_disc5.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btn_disc5.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_disc5.Location = New System.Drawing.Point(260, 278)
+        Me.btn_disc5.Location = New System.Drawing.Point(260, 351)
         Me.btn_disc5.Name = "btn_disc5"
         Me.btn_disc5.Padding = New System.Windows.Forms.Padding(2)
         Me.btn_disc5.Size = New System.Drawing.Size(70, 26)
@@ -345,7 +449,7 @@ Partial Class dlgTrnPosVoucher
         Me.btn_disc30.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.btn_disc30.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btn_disc30.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_disc30.Location = New System.Drawing.Point(412, 315)
+        Me.btn_disc30.Location = New System.Drawing.Point(412, 388)
         Me.btn_disc30.Name = "btn_disc30"
         Me.btn_disc30.Padding = New System.Windows.Forms.Padding(2)
         Me.btn_disc30.Size = New System.Drawing.Size(70, 26)
@@ -361,7 +465,7 @@ Partial Class dlgTrnPosVoucher
         Me.btn_disc25.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.btn_disc25.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btn_disc25.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_disc25.Location = New System.Drawing.Point(336, 315)
+        Me.btn_disc25.Location = New System.Drawing.Point(336, 388)
         Me.btn_disc25.Name = "btn_disc25"
         Me.btn_disc25.Padding = New System.Windows.Forms.Padding(2)
         Me.btn_disc25.Size = New System.Drawing.Size(70, 26)
@@ -377,7 +481,7 @@ Partial Class dlgTrnPosVoucher
         Me.btn_disc20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.btn_disc20.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btn_disc20.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_disc20.Location = New System.Drawing.Point(260, 315)
+        Me.btn_disc20.Location = New System.Drawing.Point(260, 388)
         Me.btn_disc20.Name = "btn_disc20"
         Me.btn_disc20.Padding = New System.Windows.Forms.Padding(2)
         Me.btn_disc20.Size = New System.Drawing.Size(70, 26)
@@ -393,7 +497,7 @@ Partial Class dlgTrnPosVoucher
         Me.btn_disc15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.btn_disc15.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btn_disc15.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_disc15.Location = New System.Drawing.Point(412, 278)
+        Me.btn_disc15.Location = New System.Drawing.Point(412, 351)
         Me.btn_disc15.Name = "btn_disc15"
         Me.btn_disc15.Padding = New System.Windows.Forms.Padding(2)
         Me.btn_disc15.Size = New System.Drawing.Size(70, 26)
@@ -409,7 +513,7 @@ Partial Class dlgTrnPosVoucher
         Me.btn_disc10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.btn_disc10.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btn_disc10.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_disc10.Location = New System.Drawing.Point(336, 278)
+        Me.btn_disc10.Location = New System.Drawing.Point(336, 351)
         Me.btn_disc10.Name = "btn_disc10"
         Me.btn_disc10.Padding = New System.Windows.Forms.Padding(2)
         Me.btn_disc10.Size = New System.Drawing.Size(70, 26)
@@ -565,37 +669,11 @@ Partial Class dlgTrnPosVoucher
         Me.Label4.Text = ":: Add Disc / Voucher ::"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'FlowLayoutPanel1
-        '
-        Me.FlowLayoutPanel1.Controls.Add(Me.btn_other250)
-        Me.FlowLayoutPanel1.Controls.Add(Me.btn_other500)
-        Me.FlowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
-        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(667, 16)
-        Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(251, 368)
-        Me.FlowLayoutPanel1.TabIndex = 23
-        '
-        'btn_other250
-        '
-        Me.btn_other250.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_other250.BackColor = System.Drawing.Color.LightGray
-        Me.btn_other250.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.btn_other250.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btn_other250.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_other250.Location = New System.Drawing.Point(5, 5)
-        Me.btn_other250.Margin = New System.Windows.Forms.Padding(5)
-        Me.btn_other250.Name = "btn_other250"
-        Me.btn_other250.Padding = New System.Windows.Forms.Padding(2)
-        Me.btn_other250.Size = New System.Drawing.Size(222, 52)
-        Me.btn_other250.TabIndex = 22
-        Me.btn_other250.Text = "250k"
-        Me.btn_other250.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
         'dlgTrnPosVoucher
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(975, 649)
+        Me.ClientSize = New System.Drawing.Size(975, 714)
         Me.Controls.Add(Me.PnlFormMain)
         Me.Name = "dlgTrnPosVoucher"
         Me.Controls.SetChildIndex(Me.PnlFormMain, 0)
@@ -606,9 +684,9 @@ Partial Class dlgTrnPosVoucher
         Me.pnlAuth2.PerformLayout()
         Me.Group02.ResumeLayout(False)
         Me.Group02.PerformLayout()
+        Me.FlowLayoutPanel1.ResumeLayout(False)
         Me.pnlAuth1.ResumeLayout(False)
         Me.pnlAuth1.PerformLayout()
-        Me.FlowLayoutPanel1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -653,4 +731,8 @@ Partial Class dlgTrnPosVoucher
     Friend WithEvents btn_other500 As Label
     Friend WithEvents FlowLayoutPanel1 As FlowLayoutPanel
     Friend WithEvents btn_other250 As Label
+    Friend WithEvents btn_other300 As Label
+    Friend WithEvents btn_other750 As Label
+    Friend WithEvents btn_other1500 As Label
+    Friend WithEvents btn_other50 As Label
 End Class

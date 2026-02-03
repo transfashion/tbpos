@@ -28,7 +28,7 @@ Namespace TransStore
         Public Shared PrinterName As String
         Public Shared AllowBackDatedEntry As Boolean = False
 
-       
+        Public VoucherList As List(Of ManualDiscVoucher)
 
 
         Public SynSignID As String = ""
@@ -3612,6 +3612,7 @@ Namespace TransStore
                 bontype = Config.DevBonType
             End If
 
+            'bontype = "OUTLET01"
 
             Select Case bontype
                 Case "OUTLET00"
@@ -4083,7 +4084,7 @@ Namespace TransStore
 
 
 
-            Dim sisa As Integer = 15 - i
+            Dim sisa As Integer = 14 - i
             If sisa > 0 Then
                 For i = 1 To sisa
                     sb.AppendText("" & vbCrLf)
@@ -4231,20 +4232,23 @@ Namespace TransStore
             Else
                 Line = "".PadLeft(101, pad)
             End If
+            Line &= "Donasi".PadLeft(14, pad)
+            Line &= "  "
+            Line &= "".PadLeft(6, pad)
+            Line &= "   "
+            Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_mdonasi")).PadLeft(11, pad)
+            sb.AppendText(Line & vbCrLf)
+
+
+            Dim grandtotal As Decimal = objBon.Header.Rows(0).Item("bon_mtotal") + objBon.Header.Rows(0).Item("bon_mdonasi")
+            Line = ""
+            Line &= "".PadLeft(101, pad)
             Line &= "PAYM.DUE".PadLeft(14, pad)
             Line &= "  "
             Line &= "".PadLeft(6, pad)
             Line &= "   "
-            Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_mtotal")).PadLeft(11, pad)
+            Line &= String.Format("{0:#,##0}", grandtotal).PadLeft(11, pad)
             sb.AppendText(Line & vbCrLf)
-
-
-            'Line = ""
-            'Line &= "TMG/" & Me.RegionId & "/" & Me.BranchId & "/" & objBon.Header.Rows(0).Item("machine_id") & "    " & Me.UserName & "  "
-            'Line &= String.Format("{0:dd/MM/yyyy}", Now())
-            'Line &= "  "
-            'Line &= "01.347.523.1.073.000   **** THANK YOU ****"
-            'Line = Line.PadLeft(137, pad)
 
 
             Line = ""
@@ -4455,6 +4459,10 @@ Namespace TransStore
             End If
 
 
+
+
+
+
             If objBon.Header.Rows(0).Item("bon_mdiscpayment") Then
                 Line = "Disc.Paym".PadRight(29)
                 Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_mdiscpayment")).PadLeft(11, pad)
@@ -4462,8 +4470,18 @@ Namespace TransStore
                 sb.AppendText(Line & vbCrLf)
             End If
 
+
+            If objBon.Header.Rows(0).Item("bon_mdonasi") Then
+                Line = "Donasi".PadRight(29)
+                Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_mdonasi")).PadLeft(11, pad)
+                'Line &= "           "
+                sb.AppendText(Line & vbCrLf)
+            End If
+
+
+            Dim grandtotal As Decimal = objBon.Header.Rows(0).Item("bon_mtotal") + objBon.Header.Rows(0).Item("bon_mdonasi")
             Line = "Paym.Due".PadRight(29)
-            Line &= String.Format("{0:#,##0}", objBon.Header.Rows(0).Item("bon_mtotal")).PadLeft(11, pad)
+            Line &= String.Format("{0:#,##0}", grandtotal).PadLeft(11, pad)
             sb.AppendText(Line & vbCrLf)
 
 
