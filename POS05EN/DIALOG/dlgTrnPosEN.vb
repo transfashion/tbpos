@@ -1314,6 +1314,40 @@ Public Class dlgTrnPosEN
     End Sub
 
 
+
+
+
+    Private Sub SetActiveVoucherList()
+        Dim voucherDirectory As String = My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Transbrowser\promos"
+        Dim voucherFilePath As String = System.IO.Path.Combine(voucherDirectory, "voucher.dat")
+
+        ' cek apakah file promo ada
+        If Not My.Computer.FileSystem.FileExists(voucherFilePath) Then
+            Return
+        End If
+
+
+        Try
+            ' baca file json dari promo
+            Dim voucherContentEncoded As String = System.IO.File.ReadAllText(voucherFilePath)
+            Dim voucherListJson As String = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(voucherContentEncoded))
+            ''Coba data manual
+            'voucherListJson = "
+            '        [
+            '            { ""Value"":100000, ""MinimumPurchase"":1000000, ""DateStart"":""2026-03-04"", ""DateEnd"":""2026-03-05"", ""TimeStart"":""11:00:00"", ""TimeEnd"":""15:00:00""},
+            '            {""Title"":""Disc B"", ""Value"":20000, ""MinimumPurchase"":1000000, ""DateStart"":""2026-03-03"", ""DateEnd"":""2026-03-03"", ""TimeStart"":"""", ""TimeEnd"":""""},
+            '            {""Title"":""Disc C"", ""Value"":0.05, ""MinimumPurchase"":1000000}
+            '        ]
+            '"
+            Dim voucherList As List(Of ManualDiscVoucher) = Newtonsoft.Json.JavaScriptConvert.DeserializeObject(Of List(Of ManualDiscVoucher))(voucherListJson)
+            Me.POS.VoucherList = voucherList
+        Catch ex As Exception
+            Throw ex
+        End Try
+
+    End Sub
+
+
     Private Sub SetActivePromoList()
         Me.PromoListContainer.Controls.Clear()
         Dim firstItemSelected As Boolean = False
@@ -1899,6 +1933,7 @@ Public Class dlgTrnPosEN
         Me.ReShown = True
         Me.POS.PosPromo.InitializeActivePromo(Me.CurrentRegionId, Me.CurrentBranchId)
         Me.SetActivePromoList()
+        Me.SetActiveVoucherList()
     End Function
 
     Private Sub objStatusShow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles objStatusShow.Click

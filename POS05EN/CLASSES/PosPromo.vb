@@ -60,6 +60,9 @@ Public Class PosPromo
         Me.CurrentRegionId = region_id
         Me.CurrentBranchId = branch_id
 
+
+        CurrentActivePromo.Clear()
+
         Dim promoFilePath As String
         Dim promoContentEncoded As String
         Dim promoJson As String
@@ -117,6 +120,7 @@ Public Class PosPromo
                     End If
                 End If
             End If
+
             CurrentActivePromo.Add(pd)
 
             Dim up As TransStore.POS.UsedPromo = New TransStore.POS.UsedPromo()
@@ -126,7 +130,10 @@ Public Class PosPromo
             If (Not Me.POS.UsedPromoList.ContainsKey(pd.PromoId)) Then
                 Me.POS.UsedPromoList.Add(pd.PromoId, up)
             Else
-                MessageBox.Show("Promo " & pd.PromoId & " Is duplicated.", "POS", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                ' reload promo
+                Me.POS.UsedPromoList.Remove(pd.PromoId)
+                Me.POS.UsedPromoList.Add(pd.PromoId, up)
+                'MessageBox.Show("Promo " & pd.PromoId & " Is duplicated.", "POS", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
 
         Next

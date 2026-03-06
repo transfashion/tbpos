@@ -44,7 +44,7 @@ Namespace TransStore
         'Private mRegion As String
 
         Private mSessionId, mClientName As String
-        Private mMachineID, mBranchId, mRegionId, mRegionPathFilter, mEvent, mPrinterDefault, mReceiptPrinter, mLogo, mNPWP, mRPCAddress, mQrisProxy As String
+        Private mMachineID, mBranchId, mRegionId, mSiteId, mRegionPathFilter, mEvent, mPrinterDefault, mReceiptPrinter, mLogo, mNPWP, mRPCAddress, mQrisProxy As String
         Private mSiteName As String
         Private mUsername As String
         Private mui As uiTrnPosEN
@@ -728,6 +728,26 @@ Namespace TransStore
                 Me.mRegionId = value
             End Set
         End Property
+
+
+        Public Property SiteId() As String
+            Get
+                If Me.IsDevelopmentMode Then
+                    If Config.DevSiteId <> "" Then
+                        Return Config.DevSiteId
+                    Else
+                        Return Me.mSiteId
+                    End If
+
+                Else
+                    Return Me.mSiteId
+                End If
+            End Get
+            Set(ByVal value As String)
+                Me.mSiteId = value
+            End Set
+        End Property
+
 
 
         Public Property SiteName() As String
