@@ -223,7 +223,7 @@ Partial Class uiTrnPosEN
         Me.objDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.objDate.Location = New System.Drawing.Point(79, 19)
         Me.objDate.Name = "objDate"
-        Me.objDate.Size = New System.Drawing.Size(93, 20)
+        Me.objDate.Size = New System.Drawing.Size(112, 20)
         Me.objDate.TabIndex = 8
         '
         'groupClossing
@@ -579,7 +579,7 @@ Partial Class uiTrnPosEN
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(359, 13)
         Me.Label10.TabIndex = 35
-        Me.Label10.Text = "voucher local"
+        Me.Label10.Text = "patch 1 voucher local"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'LabelVersion

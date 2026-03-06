@@ -1298,6 +1298,7 @@ Public Class dlgTrnPosEN
         Me.CurrentBranchId = Me.POS.BranchId
         Me.SetRegionBranchDevelopment()
 
+        Me.txt_INFO.Text = ""
 
         ' READ AVAILABLE PROMO
         ' Tamabahkan ke Container Available Promo List
@@ -1305,10 +1306,17 @@ Public Class dlgTrnPosEN
         Me.POS.PosPromo.setTrnPOSEN(Me)
         Me.POS.PosPromo.setItemGrid(Me.DgvPOSItem)
         Me.POS.PosPromo.InitializeActivePromo(Me.CurrentRegionId, Me.CurrentBranchId)
-        Me.txt_INFO.Text = ""
 
+
+        Me.SetActivePromoList()
+
+        Me.Loaded = True
+    End Sub
+
+
+    Private Sub SetActivePromoList()
+        Me.PromoListContainer.Controls.Clear()
         Dim firstItemSelected As Boolean = False
-
         For Each pd As PosPromoData In Me.POS.PosPromo.CurrentActivePromo
             ' Me.txt_INFO.Text &= pd.Descr & vbCrLf
             Dim lblPromo As New Label With {
@@ -1324,10 +1332,7 @@ Public Class dlgTrnPosEN
             End If
             Me.PromoListContainer.Controls.Add(lblPromo)
         Next
-
-        Me.Loaded = True
     End Sub
-
 
     Private Sub SetActivePromoLabel(lbl As Label)
 
@@ -1892,6 +1897,8 @@ Public Class dlgTrnPosEN
 
     Public Function POSTransactionPrepare() As Boolean
         Me.ReShown = True
+        Me.POS.PosPromo.InitializeActivePromo(Me.CurrentRegionId, Me.CurrentBranchId)
+        Me.SetActivePromoList()
     End Function
 
     Private Sub objStatusShow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles objStatusShow.Click

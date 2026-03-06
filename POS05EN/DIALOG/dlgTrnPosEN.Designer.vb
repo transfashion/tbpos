@@ -135,7 +135,6 @@ Partial Class dlgTrnPosEN
         '
         'PnlPosMainF
         '
-        Me.PnlPosMainF.Controls.Add(Me.PromoListContainer)
         Me.PnlPosMainF.Controls.Add(Me.Label12)
         Me.PnlPosMainF.Controls.Add(Me.txt_INFO)
         Me.PnlPosMainF.Controls.Add(Me.btn_PgDown)
@@ -161,6 +160,7 @@ Partial Class dlgTrnPosEN
         Me.PnlPosMainF.Controls.Add(Me.objPosOperator)
         Me.PnlPosMainF.Controls.Add(Me.objPosMachineID)
         Me.PnlPosMainF.Controls.Add(Me.objPosDate)
+        Me.PnlPosMainF.Controls.Add(Me.PromoListContainer)
         Me.PnlPosMainF.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.PnlPosMainF.Location = New System.Drawing.Point(0, 315)
         Me.PnlPosMainF.Name = "PnlPosMainF"
@@ -169,11 +169,13 @@ Partial Class dlgTrnPosEN
         '
         'PromoListContainer
         '
+        Me.PromoListContainer.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.PromoListContainer.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
         Me.PromoListContainer.Location = New System.Drawing.Point(261, 60)
         Me.PromoListContainer.Margin = New System.Windows.Forms.Padding(0)
         Me.PromoListContainer.Name = "PromoListContainer"
-        Me.PromoListContainer.Size = New System.Drawing.Size(200, 100)
+        Me.PromoListContainer.Size = New System.Drawing.Size(249, 132)
         Me.PromoListContainer.TabIndex = 39
         '
         'Label12
@@ -192,9 +194,9 @@ Partial Class dlgTrnPosEN
         Me.txt_INFO.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txt_INFO.ForeColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer))
-        Me.txt_INFO.Location = New System.Drawing.Point(555, 123)
+        Me.txt_INFO.Location = New System.Drawing.Point(50, 209)
         Me.txt_INFO.Name = "txt_INFO"
-        Me.txt_INFO.Size = New System.Drawing.Size(222, 30)
+        Me.txt_INFO.Size = New System.Drawing.Size(222, 18)
         Me.txt_INFO.TabIndex = 37
         Me.txt_INFO.Text = "<text>"
         Me.txt_INFO.Visible = False
@@ -223,7 +225,7 @@ Partial Class dlgTrnPosEN
         '
         Me.Label11.AutoSize = True
         Me.Label11.ForeColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer))
-        Me.Label11.Location = New System.Drawing.Point(520, 124)
+        Me.Label11.Location = New System.Drawing.Point(15, 210)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(38, 13)
         Me.Label11.TabIndex = 34

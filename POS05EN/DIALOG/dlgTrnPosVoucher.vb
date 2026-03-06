@@ -374,13 +374,31 @@ Public Class dlgTrnPosVoucher
         End If
 
         '[
-        '    {"Value":100000, "MinimumPurchase":1000000},
-        '    {"Value":0.05, "MinimumPurchase":1000000}
+        '    {"Value":100000, "MinimumPurchase":1000000, "DateStart":"2026-03-04", "DateEnd":"2026-03-05", "TimeStart":"", "TimeEnd":""},
+        '    {"Value":0.05, "MinimumPurchase":1000000,  "DateStart":"2026-03-04", "DateEnd":"2026-03-05", "TimeStart":"", "TimeEnd":""}
         ']
+
+        Dim now As Date = DateTime.Now
 
         Me.FlowLayoutPanel1.Controls.Clear()
         Dim voucherList As List(Of ManualDiscVoucher) = Me.POS.VoucherList
         For Each voucher As ManualDiscVoucher In voucherList
+
+            ' cek tanggal dan waktu berlaku
+            If (voucher.DateStart.HasValue AndAlso voucher.DateStart.Value.Date > now.Date) OrElse (voucher.DateEnd.HasValue AndAlso voucher.DateEnd.Value.Date < now.Date) Then
+                ' voucher tidak berlaku karena tanggal belum mulai atau sudah lewat
+                Continue For
+            End If
+
+
+            ' cek jam berlaku
+            Dim buttonEnabled As Boolean = True
+            If (voucher.TimeStart.HasValue AndAlso voucher.TimeStart.Value.TimeOfDay > now.TimeOfDay) OrElse (voucher.TimeEnd.HasValue AndAlso voucher.TimeEnd.Value.TimeOfDay < now.TimeOfDay) Then
+                ' voucher tidak berlaku karena jam belum mulai atau sudah lewat
+                buttonEnabled = False
+            End If
+
+
             Dim btn As New Label With {
                 .Width = 222,
                 .Height = 52,
@@ -388,20 +406,73 @@ Public Class dlgTrnPosVoucher
                 .Padding = New Padding(2),
                 .TextAlign = ContentAlignment.MiddleCenter,
                 .Font = New Font("'Microsoft Sans Serif", 12, FontStyle.Bold),
-                .BackColor = Color.LightGray,
-                .BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle,
+                .ForeColor = Color.Gainsboro,
                 .Tag = voucher
             }
 
-            If (voucher.Value < 1) Then
-                btn.Text = String.Format("{0}%", 100 * voucher.Value)
+
+
+
+            If (voucher.Title <> "") Then
+                btn.Text = voucher.Title
             Else
-                btn.Text = String.Format("{0:#,##0}", voucher.Value)
+                If (voucher.Value < 1) Then
+                    btn.Text = String.Format("{0}%", 100 * voucher.Value)
+                Else
+                    btn.Text = String.Format("{0:#,##0}", voucher.Value)
+                End If
             End If
 
-            AddHandler btn.Click, AddressOf Me.VoucherButton_Click
+
+            If buttonEnabled Then
+                ' Aktif
+                btn.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+                btn.BackColor = Color.LightGray
+                btn.ForeColor = Color.DarkBlue
+                btn.Cursor = Cursors.Hand
+                AddHandler btn.Click, AddressOf Me.VoucherButton_Click
+                AddHandler btn.Paint, AddressOf Me.VoucherButton_PaintEnabled
+            Else
+                ' Nonaktif
+                btn.BorderStyle = BorderStyle.None
+                btn.BackColor = Color.Silver
+                btn.ForeColor = Color.LightGray
+                AddHandler btn.Paint, AddressOf Me.VoucherButton_PaintDisabled
+            End If
+
+
+
             Me.FlowLayoutPanel1.Controls.Add(btn)
         Next
+    End Sub
+
+
+
+
+    Private Sub VoucherButton_PaintDisabled(sender As Object, e As PaintEventArgs)
+        Dim lbl As Label = DirectCast(sender, Label)
+        Dim borderColor As Color = Color.LightGray
+        Dim borderThickness As Integer = 1
+
+        Using pen As New Pen(borderColor, borderThickness)
+            Dim rect As Rectangle = lbl.ClientRectangle
+            rect.Width -= 1
+            rect.Height -= 1
+            e.Graphics.DrawRectangle(pen, rect)
+        End Using
+    End Sub
+
+    Private Sub VoucherButton_PaintEnabled(sender As Object, e As PaintEventArgs)
+        Dim lbl As Label = DirectCast(sender, Label)
+        Dim borderColor As Color = Color.DarkBlue
+        Dim borderThickness As Integer = 1
+
+        Using pen As New Pen(borderColor, borderThickness)
+            Dim rect As Rectangle = lbl.ClientRectangle
+            rect.Width -= 1
+            rect.Height -= 1
+            e.Graphics.DrawRectangle(pen, rect)
+        End Using
     End Sub
 
     Private Sub VoucherButton_Click(sender As Object, e As EventArgs)
@@ -419,8 +490,8 @@ Public Class dlgTrnPosVoucher
         ' cek voucher value, apakah persen atau nilai tetap
         If (voucher.Value < 1) Then
             ' persen
-            Dim discvalue As Decimal = voucher.Value * Me.total
-            Me.do_disc(discvalue)
+            'Dim discvalue As Decimal = voucher.Value * Me.total
+            Me.do_disc(voucher.Value, Me.total)
         Else
             ' nilai tetap
             Me.do_discvalue(voucher.Value)
@@ -528,37 +599,38 @@ Public Class dlgTrnPosVoucher
     End Sub
 
 
-    Private Sub btn_disc5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_disc5.Click
-        Me.do_disc(5)
-    End Sub
+    'Private Sub btn_disc5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_disc5.Click
+    '    Me.do_disc(5)
+    'End Sub
 
-    Private Sub btn_disc10_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_disc10.Click
-        Me.do_disc(10)
-    End Sub
+    'Private Sub btn_disc10_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_disc10.Click
+    '    Me.do_disc(10)
+    'End Sub
 
-    Private Sub btn_disc15_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_disc15.Click
-        Me.do_disc(15)
-    End Sub
+    'Private Sub btn_disc15_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_disc15.Click
+    '    Me.do_disc(15)
+    'End Sub
 
-    Private Sub btn_disc20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_disc20.Click
-        Me.do_disc(20)
-    End Sub
+    'Private Sub btn_disc20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_disc20.Click
+    '    Me.do_disc(20)
+    'End Sub
 
-    Private Sub btn_disc25_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_disc25.Click
-        Me.do_disc(25)
-    End Sub
+    'Private Sub btn_disc25_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_disc25.Click
+    '    Me.do_disc(25)
+    'End Sub
 
-    Private Sub btn_disc30_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_disc30.Click
-        Me.do_disc(30)
-    End Sub
+    'Private Sub btn_disc30_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_disc30.Click
+    '    Me.do_disc(30)
+    'End Sub
 
 
-    Private Sub do_disc(ByVal disc As Integer)
-        Dim discvalue As Decimal
-        discvalue = (disc / 100) * Me.total
+    Private Sub do_disc(ByVal disc As Decimal, ByVal total As Decimal)
+        Dim discvalue As Decimal = disc * total
+        ' discvalue = (disc / 100) * Me.total
+        Dim discpercent As Decimal = 100 * disc
 
         Dim res As DialogResult
-        res = MessageBox.Show("Anda akan menambahkan discount secara manual sebesar " & disc & "% pada transaksi ini. Apakah anda yakin ?", "Additional Disc", MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
+        res = MessageBox.Show("Anda akan menambahkan discount secara manual sebesar " & discpercent & "% pada transaksi ini. Apakah anda yakin ?", "Additional Disc", MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
         If res = Windows.Forms.DialogResult.OK Then
             Me.objPaymentVoucherCode.Text = "MANUAL-ADD-DISC"
             Me.objPaymentVoucher.Text = 0

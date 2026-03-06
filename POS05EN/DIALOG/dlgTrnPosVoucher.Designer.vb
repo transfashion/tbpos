@@ -35,12 +35,12 @@ Partial Class dlgTrnPosVoucher
         Me.pnlAuth2Shadow = New System.Windows.Forms.Panel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Group02 = New System.Windows.Forms.GroupBox()
-        Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
-        Me.btn_other50 = New System.Windows.Forms.Label()
-        Me.btn_other250 = New System.Windows.Forms.Label()
-        Me.btn_other300 = New System.Windows.Forms.Label()
-        Me.btn_other500 = New System.Windows.Forms.Label()
         Me.btn_other750 = New System.Windows.Forms.Label()
+        Me.btn_other500 = New System.Windows.Forms.Label()
+        Me.btn_other300 = New System.Windows.Forms.Label()
+        Me.btn_other250 = New System.Windows.Forms.Label()
+        Me.btn_other50 = New System.Windows.Forms.Label()
+        Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
         Me.btn_other1500 = New System.Windows.Forms.Label()
         Me.btn_eag500 = New System.Windows.Forms.Label()
         Me.btn_disckelipatan = New System.Windows.Forms.Label()
@@ -276,65 +276,22 @@ Partial Class dlgTrnPosVoucher
         Me.Group02.TabStop = False
         Me.Group02.Text = "Voucher / Rabat / Cash Discounts"
         '
-        'FlowLayoutPanel1
+        'btn_other750
         '
-        Me.FlowLayoutPanel1.Controls.Add(Me.btn_other1500)
-        Me.FlowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
-        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(667, 16)
-        Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(251, 451)
-        Me.FlowLayoutPanel1.TabIndex = 23
-        '
-        'btn_other50
-        '
-        Me.btn_other50.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_other50.BackColor = System.Drawing.Color.LightGray
-        Me.btn_other50.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.btn_other50.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btn_other50.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_other50.Location = New System.Drawing.Point(23, 283)
-        Me.btn_other50.Margin = New System.Windows.Forms.Padding(5)
-        Me.btn_other50.Name = "btn_other50"
-        Me.btn_other50.Padding = New System.Windows.Forms.Padding(2)
-        Me.btn_other50.Size = New System.Drawing.Size(72, 52)
-        Me.btn_other50.TabIndex = 26
-        Me.btn_other50.Text = "50k"
-        Me.btn_other50.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btn_other50.Visible = False
-        '
-        'btn_other250
-        '
-        Me.btn_other250.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_other250.BackColor = System.Drawing.Color.LightGray
-        Me.btn_other250.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.btn_other250.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btn_other250.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_other250.Location = New System.Drawing.Point(269, 283)
-        Me.btn_other250.Margin = New System.Windows.Forms.Padding(5)
-        Me.btn_other250.Name = "btn_other250"
-        Me.btn_other250.Padding = New System.Windows.Forms.Padding(2)
-        Me.btn_other250.Size = New System.Drawing.Size(61, 52)
-        Me.btn_other250.TabIndex = 22
-        Me.btn_other250.Text = "250k"
-        Me.btn_other250.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btn_other250.Visible = False
-        '
-        'btn_other300
-        '
-        Me.btn_other300.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_other300.BackColor = System.Drawing.Color.LightGray
-        Me.btn_other300.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.btn_other300.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btn_other300.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_other300.Location = New System.Drawing.Point(105, 283)
-        Me.btn_other300.Margin = New System.Windows.Forms.Padding(5)
-        Me.btn_other300.Name = "btn_other300"
-        Me.btn_other300.Padding = New System.Windows.Forms.Padding(2)
-        Me.btn_other300.Size = New System.Drawing.Size(72, 52)
-        Me.btn_other300.TabIndex = 23
-        Me.btn_other300.Text = "300k"
-        Me.btn_other300.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btn_other300.Visible = False
+        Me.btn_other750.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_other750.BackColor = System.Drawing.Color.LightGray
+        Me.btn_other750.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.btn_other750.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btn_other750.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_other750.Location = New System.Drawing.Point(340, 283)
+        Me.btn_other750.Margin = New System.Windows.Forms.Padding(5)
+        Me.btn_other750.Name = "btn_other750"
+        Me.btn_other750.Padding = New System.Windows.Forms.Padding(2)
+        Me.btn_other750.Size = New System.Drawing.Size(66, 52)
+        Me.btn_other750.TabIndex = 24
+        Me.btn_other750.Text = "750k"
+        Me.btn_other750.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btn_other750.Visible = False
         '
         'btn_other500
         '
@@ -353,30 +310,74 @@ Partial Class dlgTrnPosVoucher
         Me.btn_other500.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.btn_other500.Visible = False
         '
-        'btn_other750
+        'btn_other300
         '
-        Me.btn_other750.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_other750.BackColor = System.Drawing.Color.LightGray
-        Me.btn_other750.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.btn_other750.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btn_other750.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_other750.Location = New System.Drawing.Point(340, 283)
-        Me.btn_other750.Margin = New System.Windows.Forms.Padding(5)
-        Me.btn_other750.Name = "btn_other750"
-        Me.btn_other750.Padding = New System.Windows.Forms.Padding(2)
-        Me.btn_other750.Size = New System.Drawing.Size(66, 52)
-        Me.btn_other750.TabIndex = 24
-        Me.btn_other750.Text = "750k"
-        Me.btn_other750.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btn_other750.Visible = False
+        Me.btn_other300.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_other300.BackColor = System.Drawing.Color.LightGray
+        Me.btn_other300.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.btn_other300.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btn_other300.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_other300.Location = New System.Drawing.Point(105, 283)
+        Me.btn_other300.Margin = New System.Windows.Forms.Padding(5)
+        Me.btn_other300.Name = "btn_other300"
+        Me.btn_other300.Padding = New System.Windows.Forms.Padding(2)
+        Me.btn_other300.Size = New System.Drawing.Size(72, 52)
+        Me.btn_other300.TabIndex = 23
+        Me.btn_other300.Text = "300k"
+        Me.btn_other300.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btn_other300.Visible = False
+        '
+        'btn_other250
+        '
+        Me.btn_other250.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_other250.BackColor = System.Drawing.Color.LightGray
+        Me.btn_other250.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.btn_other250.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btn_other250.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_other250.Location = New System.Drawing.Point(269, 283)
+        Me.btn_other250.Margin = New System.Windows.Forms.Padding(5)
+        Me.btn_other250.Name = "btn_other250"
+        Me.btn_other250.Padding = New System.Windows.Forms.Padding(2)
+        Me.btn_other250.Size = New System.Drawing.Size(61, 52)
+        Me.btn_other250.TabIndex = 22
+        Me.btn_other250.Text = "250k"
+        Me.btn_other250.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btn_other250.Visible = False
+        '
+        'btn_other50
+        '
+        Me.btn_other50.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_other50.BackColor = System.Drawing.Color.LightGray
+        Me.btn_other50.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.btn_other50.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btn_other50.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_other50.Location = New System.Drawing.Point(23, 283)
+        Me.btn_other50.Margin = New System.Windows.Forms.Padding(5)
+        Me.btn_other50.Name = "btn_other50"
+        Me.btn_other50.Padding = New System.Windows.Forms.Padding(2)
+        Me.btn_other50.Size = New System.Drawing.Size(72, 52)
+        Me.btn_other50.TabIndex = 26
+        Me.btn_other50.Text = "50k"
+        Me.btn_other50.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btn_other50.Visible = False
+        '
+        'FlowLayoutPanel1
+        '
+        Me.FlowLayoutPanel1.Controls.Add(Me.btn_other1500)
+        Me.FlowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
+        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(667, 16)
+        Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
+        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(251, 451)
+        Me.FlowLayoutPanel1.TabIndex = 23
         '
         'btn_other1500
         '
         Me.btn_other1500.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_other1500.BackColor = System.Drawing.Color.LightGray
+        Me.btn_other1500.BackColor = System.Drawing.Color.DarkGray
         Me.btn_other1500.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.btn_other1500.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btn_other1500.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_other1500.ForeColor = System.Drawing.Color.LightGray
         Me.btn_other1500.Location = New System.Drawing.Point(5, 5)
         Me.btn_other1500.Margin = New System.Windows.Forms.Padding(5)
         Me.btn_other1500.Name = "btn_other1500"
