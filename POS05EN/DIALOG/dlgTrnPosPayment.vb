@@ -1970,9 +1970,68 @@ Public Class dlgTrnPosPayment
         Dim sumsubtotal As Decimal = totalvalue - adddiscvoucher
 
 
-        ' Hitung ulang additional payment disc
-        Dim discvalue As Decimal = (Me.SelectedPaymentDisc / 100) * CDec(sumsubtotal)
-        Dim total As Decimal = sumsubtotal - discvalue
+
+
+        Dim discvalue As Decimal = 0
+        Me.objPaymentDiscDescr.Text = String.Format("Using {0} with no additional disc.", Me.SelectedPaymentName)
+
+
+        ' Cek apakah ada discount brand untuk payment yang dipilih
+        ' pada GetPaymentDiscount akan ambil discount di brand dan tanggal tertentu
+        Dim paymdisc As TransStore.DiscountPayment = Me.POS.GetPaymentDiscount(Me.SelectedPaymentId, Me.POS.RegionId)
+        If paymdisc.DiscountPercentage > 0 Or paymdisc.DiscountValue > 0 Then
+            Me.SelectedPaymentDiscValue = paymdisc.DiscountValue
+            Me.SelectedPaymentDisc = paymdisc.DiscountPercentage
+            Me.SelectedPaymentDiscMinPurchase = paymdisc.MinimumValuePurchase
+        End If
+
+
+        ' Hitung nilai discount payment dan tampilkan ke layar
+        Dim limit As String
+        If (Me.SelectedPaymentDiscValue > 0) Then
+            If (totalvalue >= Me.SelectedPaymentDiscMinPurchase) Then
+                ' Discount menggunakan fix angka rupiah
+                discvalue = Me.SelectedPaymentDiscValue
+                Me.objPaymentDiscDescr.Text = String.Format("Using {0} with additional disc {1:#0}", Me.SelectedPaymentName, Me.SelectedPaymentDiscValue)
+            End If
+
+        ElseIf (Me.SelectedPaymentDisc > 0) Then
+            If (totalvalue >= Me.SelectedPaymentDiscMinPurchase) Then
+                ' Discount menggunakan persentase
+                discvalue = (Me.SelectedPaymentDisc / 100) * CDec(sumsubtotal)
+
+                ' limit discount value
+                limit = ""
+                If discvalue > paymdisc.MaximumDiscountValue And paymdisc.MaximumDiscountValue > 0 Then
+                    discvalue = paymdisc.MaximumDiscountValue
+                    limit = String.Format("max {0:#,##0}", paymdisc.MaximumDiscountValue)
+                End If
+                Me.objPaymentDiscDescr.Text = String.Format("Using {0} with additional disc {1:#0}% {2}", Me.SelectedPaymentName, Me.SelectedPaymentDisc, limit)
+            End If
+
+        Else
+            ' Tanpa discount
+            discvalue = 0
+            Me.objPaymentDiscDescr.Text = String.Format("Using {0} with no additional disc.", Me.SelectedPaymentName)
+
+        End If
+
+        Me.objPaymentDiscValue.Text = discvalue
+
+        Dim total As Decimal = CDec(sumsubtotal) - discvalue - adddiscvoucher
+
+
+
+
+
+        ' ===========================
+
+
+
+        '' Hitung ulang additional payment disc
+        ' Dim discvalue As Decimal = (Me.SelectedPaymentDisc / 100) * CDec(sumsubtotal)
+        ' Dim total As Decimal = sumsubtotal - discvalue
+
 
         Me.TOTAL = total
 
@@ -1987,11 +2046,11 @@ Public Class dlgTrnPosPayment
 
 
 
-        If Me.SelectedPaymentDisc > 0 Then
-            Me.objPaymentDiscDescr.Text = String.Format("Using {0} with additional disc {1:#0}% of {2:#,##0}", Me.SelectedPaymentName, Me.SelectedPaymentDisc, sumsubtotal)
-        Else
-            Me.objPaymentDiscDescr.Text = String.Format("Using {0} with no additional disc.", Me.SelectedPaymentName)
-        End If
+        'If Me.SelectedPaymentDisc > 0 Then
+        '    Me.objPaymentDiscDescr.Text = String.Format("Using {0} with additional disc {1:#0}% of {2:#,##0}", Me.SelectedPaymentName, Me.SelectedPaymentDisc, sumsubtotal)
+        'Else
+        '    Me.objPaymentDiscDescr.Text = String.Format("Using {0} with no additional disc.", Me.SelectedPaymentName)
+        'End If
 
 
         If Me.objPaymentCash.Enabled Then
