@@ -9,10 +9,10 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("POS05EN")>
-<Assembly: AssemblyDescription("Point of Sales v7.0, Trans Browser Module")>
+<Assembly: AssemblyDescription("Point of Sales v7.1, Trans Browser Module")>
 <Assembly: AssemblyCompany("PT. Trans Fashion Indonesia")>
 <Assembly: AssemblyProduct("POS05EN")>
-<Assembly: AssemblyCopyright("©2009-2025, PT. Trans Fashion Indonesia")>
+<Assembly: AssemblyCopyright("©2009-2026, PT. Trans Fashion Indonesia")>
 <Assembly: AssemblyTrademark("Trans Browser (TM)")>
 
 <Assembly: ComVisible(False)>
@@ -30,5 +30,5 @@ Imports System.Runtime.InteropServices
 ' You can specify all the values or you can default the Build and Revision Numbers 
 ' by using the '*' as shown below:
 
-<Assembly: AssemblyVersion("7.0.*")>
-<Assembly: AssemblyFileVersion("7.0.20")>
+<Assembly: AssemblyVersion("7.1.*")>
+<Assembly: AssemblyFileVersion("7.1.0")>
