@@ -9,7 +9,8 @@ namespace TBPOS
 {
     static class Program
     {
-        static MINIFRAME.FormMain frmmain; 
+        static MINIFRAME.FormMain frmmain;
+        static FormSplash frmSplash;
 
         [STAThread]
         static void Main()
@@ -17,7 +18,14 @@ namespace TBPOS
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            bool doUpdate = false; // set true untuk update POS05EN.dll dari server
+
+
+            frmSplash = new FormSplash();
+            frmSplash.TopMost = true;
+            frmSplash.StartPosition = FormStartPosition.CenterScreen;
+            frmSplash.Show();
+
+            bool doUpdate = true; // set true untuk update POS05EN.dll dari server
             if (doUpdate)
             {
                 UpdatePOS05EnDll();
@@ -37,7 +45,10 @@ namespace TBPOS
         {
             MINIFRAME.FormLogin frmlogin = new MINIFRAME.FormLogin();
             frmlogin.PreferenceSet += new EventHandler(frmlogin_PreferenceSet);
+            frmlogin.Load += (s, ev) => { frmSplash.Close(); };
+            
             DialogResult res = frmlogin.ShowDialog();
+
             if (res != DialogResult.Yes)
                 frmmain.Close();
 
@@ -59,6 +70,10 @@ namespace TBPOS
             {
                 MessageBox.Show("Error on embedding POS05EN.\r\n" + ex.Message, "TBPOS", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
+            }
+            finally
+            {
+               
             }
 
         }
@@ -115,11 +130,17 @@ namespace TBPOS
             // jika ada update di server, download dulu
             // download update dari server ke cwd/download
             // synchronous call dari Main:
-            string url = "http://localhost/crossroads/updatedllpos/POS05EN.dll";
+            frmSplash.setStatus("Checking for updates...");
+            string url = "http://localhostsdfr/crossroads/updatedllpos/POS05EN.dll";
             string dest = Path.Combine(cwd, "download", "POS05EN.dll");
+
             bool ok = Downloader.DownloadPos05EnDllAsync(url, dest).GetAwaiter().GetResult();
 
             if (ok) {
+
+                frmSplash.setStatus("Updating DLL");
+
+
                 string msg;
                 TryDeletePos05EnDll(cwd, out msg);
 
@@ -135,6 +156,8 @@ namespace TBPOS
                 // hapus file di cwd/download
                 File.Delete(sourcePath);
             }
+
+            frmSplash.setStatus("");
         }
 
 

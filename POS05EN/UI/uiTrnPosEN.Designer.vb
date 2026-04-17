@@ -91,6 +91,7 @@ Partial Class uiTrnPosEN
         Me.btnShowParameter = New System.Windows.Forms.LinkLabel()
         Me.btnUpdateManual = New System.Windows.Forms.Button()
         Me.TimerAutosendData = New System.Windows.Forms.Timer(Me.components)
+        Me.btn_Hash = New System.Windows.Forms.Button()
         CType(Me.dsMaster, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.groupClossing.SuspendLayout()
         Me.groupTransaction.SuspendLayout()
@@ -810,6 +811,7 @@ Partial Class uiTrnPosEN
         '
         Me.Panel1.AutoScroll = True
         Me.Panel1.BackColor = System.Drawing.Color.Transparent
+        Me.Panel1.Controls.Add(Me.btn_Hash)
         Me.Panel1.Controls.Add(Me.btn_TestUnzip)
         Me.Panel1.Controls.Add(Me.Label14)
         Me.Panel1.Controls.Add(Me.Label12)
@@ -918,6 +920,16 @@ Partial Class uiTrnPosEN
         'TimerAutosendData
         '
         '
+        'btn_Hash
+        '
+        Me.btn_Hash.ForeColor = System.Drawing.Color.Black
+        Me.btn_Hash.Location = New System.Drawing.Point(388, 504)
+        Me.btn_Hash.Name = "btn_Hash"
+        Me.btn_Hash.Size = New System.Drawing.Size(121, 23)
+        Me.btn_Hash.TabIndex = 41
+        Me.btn_Hash.Text = "Hash"
+        Me.btn_Hash.UseVisualStyleBackColor = True
+        '
         'uiTrnPosEN
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1022,4 +1034,5 @@ Partial Class uiTrnPosEN
     Friend WithEvents Label14 As Label
     Friend WithEvents Label12 As Label
     Friend WithEvents btn_TestUnzip As Button
+    Friend WithEvents btn_Hash As Button
 End Class

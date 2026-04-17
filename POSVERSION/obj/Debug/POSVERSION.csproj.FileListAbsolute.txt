@@ -1,0 +1,8 @@
+C:\Users\agung\Development\transfashion\tbpos\POSVERSION\bin\Debug\POSVERSION.exe.config
+C:\Users\agung\Development\transfashion\tbpos\POSVERSION\bin\Debug\POSVERSION.exe
+C:\Users\agung\Development\transfashion\tbpos\POSVERSION\bin\Debug\POSVERSION.pdb
+C:\Users\agung\Development\transfashion\tbpos\POSVERSION\obj\Debug\POSVERSION.csproj.AssemblyReference.cache
+C:\Users\agung\Development\transfashion\tbpos\POSVERSION\obj\Debug\POSVERSION.csproj.CoreCompileInputs.cache
+C:\Users\agung\Development\transfashion\tbpos\POSVERSION\obj\Debug\POSVERSION.exe
+C:\Users\agung\Development\transfashion\tbpos\POSVERSION\obj\Debug\POSVERSION.pdb
+C:\Users\agung\Development\transfashion\tbpos\POSVERSION\obj\Debug\POSVERSION.exe.config
