@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Web.Script.Serialization;
 using System.Windows.Forms;
 
 
@@ -30,7 +32,7 @@ namespace TBPOS
             {
                 UpdatePOS05EnDll();
             }
-           
+
 
 
             frmmain = new MINIFRAME.FormMain();
@@ -46,7 +48,7 @@ namespace TBPOS
             MINIFRAME.FormLogin frmlogin = new MINIFRAME.FormLogin();
             frmlogin.PreferenceSet += new EventHandler(frmlogin_PreferenceSet);
             frmlogin.Load += (s, ev) => { frmSplash.Close(); };
-            
+
             DialogResult res = frmlogin.ShowDialog();
 
             if (res != DialogResult.Yes)
@@ -73,7 +75,7 @@ namespace TBPOS
             }
             finally
             {
-               
+
             }
 
         }
@@ -84,9 +86,9 @@ namespace TBPOS
         }
 
 
-        public static bool TryDeletePos05EnDll(string dirPath, out string message)
+        public static bool TryDeleteFile(string filePath, out string message)
         {
-            string filePath = Path.Combine(dirPath, "POS05EN.dll");
+            //string filePath = Path.Combine(dirPath, "POS05EN.dll");
             if (!File.Exists(filePath))
             {
                 message = $"File not found: {filePath}";
@@ -127,14 +129,98 @@ namespace TBPOS
             string asmDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
 
+
+
+            // Cek pos05en json di server 
+            frmSplash.setStatus("Checking for updates...");
+            string urlJson = "http://ws.transbrowser.com/crossroads/updatedllpos/POS05EN.json";
+            string destJson = Path.Combine(cwd, "download", "POS05EN.json");
+            bool jsonOk = Downloader.DownloadAssetAsync(urlJson, destJson).GetAwaiter().GetResult();
+            if (!jsonOk)
+            {
+                frmSplash.setStatus("Unavailabel Update Information");
+                return;
+            }
+
+            // buka file json
+            string jsonContent = File.ReadAllText(destJson);
+            var serializer = new JavaScriptSerializer();
+            var obj = serializer.Deserialize<PosVersion>(jsonContent);
+
+
+            string currentVersion = getCurrentVersion();
+            if (currentVersion != null && obj.version == currentVersion)
+            {
+                frmSplash.setStatus("POS05EN.dll is up to date");
+                return;
+            }
+
+
+            Version localVer = new Version(currentVersion);
+            Version serverVer = new Version(obj.version);
+
+
+            int result = localVer.CompareTo(serverVer);
+            if (result >= 0)
+            {
+                frmSplash.setStatus("POS05EN.dll is up to date");
+                return;
+            }
+
+            // Versi di server lebih baru, lakukan update
+            frmSplash.setStatus($"Downloading update version {obj.version} ...");
+            string url = "http://ws.transbrowser.com/crossroads/updatedllpos/POS05EN.dll";
+            string dest = Path.Combine(cwd, "download", "POS05EN.dll");
+            bool ok = Downloader.DownloadAssetAsync(url, dest).GetAwaiter().GetResult();
+
+            if (ok)
+            {
+                // cek datahash
+                string downloadedHash = getMd5Hash(dest);
+                if (downloadedHash != obj.md5hash) {
+                    MessageBox.Show($"Error downloading POS05EN.dll version {obj.version}. Try again later ", "Download", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+
+                frmSplash.setStatus("Updating DLL");
+                // copy POS05EN.dll dari cwd/download ke cwd jika tidak ada
+                string sourcePathDll = Path.Combine(cwd, "download", "POS05EN.dll");
+                string destPathDll = Path.Combine(cwd, "POS05EN.dll");
+
+                string sourcePathJson = Path.Combine(cwd, "download", "POS05EN.json");
+                string destPathJson = Path.Combine(cwd, "POS05EN.json");
+
+
+                string msg;
+                TryDeleteFile(destPathDll, out msg);
+                if (File.Exists(sourcePathDll))
+                {
+                    File.Copy(sourcePathDll, destPathDll);
+                    // File.Delete(sourcePathDll);
+                }
+               
+ 
+                TryDeleteFile(destPathJson, out msg);
+                if (File.Exists(sourcePathJson))
+                {
+                    File.Copy(sourcePathJson, destPathJson);
+                    // File.Delete(sourcePathJson);
+                }
+
+            }
+
+
+
+
             // jika ada update di server, download dulu
             // download update dari server ke cwd/download
             // synchronous call dari Main:
-            frmSplash.setStatus("Checking for updates...");
+            /*
             string url = "http://localhostsdfr/crossroads/updatedllpos/POS05EN.dll";
             string dest = Path.Combine(cwd, "download", "POS05EN.dll");
 
-            bool ok = Downloader.DownloadPos05EnDllAsync(url, dest).GetAwaiter().GetResult();
+            bool ok = Downloader.DownloadAssetAsync(url, dest).GetAwaiter().GetResult();
 
             if (ok) {
 
@@ -156,11 +242,48 @@ namespace TBPOS
                 // hapus file di cwd/download
                 File.Delete(sourcePath);
             }
+            */
 
-            frmSplash.setStatus("");
+
         }
 
 
+        static string getCurrentVersion()
+        {
+            string cwd = Directory.GetCurrentDirectory();
+            string localDllPath = Path.Combine(cwd, "POS05EN.dll");
+            if (!File.Exists(localDllPath))
+            {
+                return null;
+            }
+
+            try
+            {
+                var versionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(localDllPath);
+                var version = versionInfo.FileVersion;
+                return version;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading local POS05EN.dll: " + ex.Message, "TBPOS", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+
+        }
+
+
+        static string getMd5Hash(string filepath)
+        {
+            using (var md5 = System.Security.Cryptography.MD5.Create())
+            {
+                using (var stream = System.IO.File.OpenRead(filepath))
+                {
+                    var hash = md5.ComputeHash(stream);
+                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+                }
+            }
+        }
 
     }
 }

@@ -83,6 +83,7 @@ Partial Class uiTrnPosEN
         Me.LabelUpdateBin = New System.Windows.Forms.Label()
         Me.ProgressBarUpdatebin = New System.Windows.Forms.ProgressBar()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btn_Hash = New System.Windows.Forms.Button()
         Me.btn_TestUnzip = New System.Windows.Forms.Button()
         Me.Label14 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
@@ -91,7 +92,6 @@ Partial Class uiTrnPosEN
         Me.btnShowParameter = New System.Windows.Forms.LinkLabel()
         Me.btnUpdateManual = New System.Windows.Forms.Button()
         Me.TimerAutosendData = New System.Windows.Forms.Timer(Me.components)
-        Me.btn_Hash = New System.Windows.Forms.Button()
         CType(Me.dsMaster, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.groupClossing.SuspendLayout()
         Me.groupTransaction.SuspendLayout()
@@ -580,7 +580,7 @@ Partial Class uiTrnPosEN
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(359, 13)
         Me.Label10.TabIndex = 35
-        Me.Label10.Text = "patch voucher"
+        Me.Label10.Text = "lama"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'LabelVersion
@@ -846,6 +846,16 @@ Partial Class uiTrnPosEN
         Me.Panel1.Size = New System.Drawing.Size(764, 547)
         Me.Panel1.TabIndex = 33
         '
+        'btn_Hash
+        '
+        Me.btn_Hash.ForeColor = System.Drawing.Color.Black
+        Me.btn_Hash.Location = New System.Drawing.Point(388, 504)
+        Me.btn_Hash.Name = "btn_Hash"
+        Me.btn_Hash.Size = New System.Drawing.Size(121, 23)
+        Me.btn_Hash.TabIndex = 41
+        Me.btn_Hash.Text = "Hash"
+        Me.btn_Hash.UseVisualStyleBackColor = True
+        '
         'btn_TestUnzip
         '
         Me.btn_TestUnzip.ForeColor = System.Drawing.Color.Black
@@ -919,16 +929,6 @@ Partial Class uiTrnPosEN
         '
         'TimerAutosendData
         '
-        '
-        'btn_Hash
-        '
-        Me.btn_Hash.ForeColor = System.Drawing.Color.Black
-        Me.btn_Hash.Location = New System.Drawing.Point(388, 504)
-        Me.btn_Hash.Name = "btn_Hash"
-        Me.btn_Hash.Size = New System.Drawing.Size(121, 23)
-        Me.btn_Hash.TabIndex = 41
-        Me.btn_Hash.Text = "Hash"
-        Me.btn_Hash.UseVisualStyleBackColor = True
         '
         'uiTrnPosEN
         '

@@ -44,7 +44,9 @@ namespace TBPOS
         //}
 
 
-        public static async Task<bool> DownloadPos05EnDllAsync(string url, string destFilePath, IProgress<int> progress = null, CancellationToken cancellationToken = default)
+        
+
+        public static async Task<bool> DownloadAssetAsync(string url, string destFilePath, IProgress<int> progress = null, CancellationToken cancellationToken = default)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(destFilePath) ?? ".");
             try
