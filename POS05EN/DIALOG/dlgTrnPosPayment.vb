@@ -1,6 +1,12 @@
 Public Class dlgTrnPosPayment
 
+    Private MaximumAlloScan As Decimal = 10000000
+
+
     Private myRetObj As Object
+
+    Private DefaultPaymentTypeId As String
+
 
     Private BonExternalId As String
     Private SelectedDiscType As String
@@ -470,10 +476,11 @@ Public Class dlgTrnPosPayment
                     Dim fmask As Form = uiTrnPosEN.CreateMask(0.75)
 
                     objPym.line = line
-                    If line = 1 Then
-                        MessageBox.Show("Main payment tidak dapat dihapus ")
-                        Exit Select
-                    End If
+
+                    'If line = 1 Then
+                    '    MessageBox.Show("Main payment tidak dapat dihapus ")
+                    '    Exit Select
+                    'End If
 
 
                     fmask.Show(Me)
@@ -486,6 +493,14 @@ Public Class dlgTrnPosPayment
                     f.Dispose()
                     If result IsNot Nothing Then
                         Me.POS.PaymentRemove(objPym, retline)
+                        Me.objPaymentCardNumber.Focus()
+
+
+                        ' Cek jika DgvPayment datanya sudah kosong, kembalikan SelectdPaymentId ke default
+                        If Me.DgvPayments.Rows.Count = 0 Then
+                            Me.PaymentType_IndexSet(Me.DefaultPaymentTypeId)
+                            Me.objPaymentType.Enabled = False
+                        End If
                     End If
 
                 End If
@@ -1314,6 +1329,7 @@ Public Class dlgTrnPosPayment
         Me.objPaymentValue.Text = "0"
         Me.objPaymentCash.Text = "0"
         Me.objPaymentTotalRefund.Text = "0"
+        Me.objApproval.Text = ""
 
 
         ' Hitung refund, apabila cash
@@ -1333,7 +1349,22 @@ Public Class dlgTrnPosPayment
         OutstandingPayment = CDec(Me.objPaymentGrantotal.Text) - Me.POS.PaymentSubtotal
 
 
-        Me.objPaymentValue.Text = OutstandingPayment
+        If Me.btn_Allo.Enabled Then
+            If OutstandingPayment > MaximumAlloScan Then
+                Me.objPaymentValue.Text = MaximumAlloScan
+            Else
+                Me.objPaymentValue.Text = OutstandingPayment
+            End If
+
+        Else
+            Me.objPaymentValue.Text = OutstandingPayment
+        End If
+
+
+
+
+
+
         Me.objPaymentOutstanding.Text = OutstandingPayment
 
 
@@ -1731,7 +1762,7 @@ Public Class dlgTrnPosPayment
         Me.PaymentType_GetShortcut()
 
 
-
+        Me.DefaultPaymentTypeId = Me.SelectedPaymentId
         Me.PaymentType_IndexSet(Me.SelectedPaymentId)
         Me.PreCalculation()
 
@@ -1934,7 +1965,19 @@ Public Class dlgTrnPosPayment
             Me.objPaymentValue.Text = total
             Me.objPaymentCash.Text = total
         Else
-            Me.objPaymentValue.Text = total
+            If Me.btn_Allo.Enabled Then
+                ' pembayaran menggunakan QRIS allo, maksimum scan 10 juta
+                If total > Me.MaximumAlloScan Then
+                    Me.objPaymentValue.Text = Me.MaximumAlloScan
+                Else
+                    Me.objPaymentValue.Text = total
+                End If
+            Else
+                Me.objPaymentValue.Text = total
+            End If
+
+
+
         End If
 
 
@@ -2018,16 +2061,10 @@ Public Class dlgTrnPosPayment
 
         Me.objPaymentDiscValue.Text = discvalue
 
-        Dim total As Decimal = CDec(sumsubtotal) - discvalue - adddiscvoucher
-
-
-
+        Dim total As Decimal = CDec(sumsubtotal) - discvalue
 
 
         ' ===========================
-
-
-
         '' Hitung ulang additional payment disc
         ' Dim discvalue As Decimal = (Me.SelectedPaymentDisc / 100) * CDec(sumsubtotal)
         ' Dim total As Decimal = sumsubtotal - discvalue
@@ -2057,8 +2094,18 @@ Public Class dlgTrnPosPayment
             Me.objPaymentValue.Text = total
             Me.objPaymentCash.Text = total
         Else
-            Me.objPaymentValue.Text = total
+            If Me.btn_Allo.Enabled Then
+                ' pembayaran menggunakan QRIS allo, maksimum scan 10 juta
+                If total > Me.MaximumAlloScan Then
+                    Me.objPaymentValue.Text = Me.MaximumAlloScan
+                Else
+                    Me.objPaymentValue.Text = total
+                End If
+            Else
+                Me.objPaymentValue.Text = total
+            End If
         End If
+
 
         Me.BindingContext(Me.POS.PosPaymentDialog).EndCurrentEdit()
         Me.POS.PosPaymentDialog.AcceptChanges()
@@ -2086,6 +2133,17 @@ Public Class dlgTrnPosPayment
 
     Private Sub dlgCancel()
         ' Me.myRetObj = New Object() {}
+
+
+
+        ' Cek dulu jika sudah ada pembayaran yang diinput, tidak bisa dicancel begitu saja.
+        ' harus hapus/kosongkan data pembayaran terlebih dahulu, baru bisa cancel
+        If Me.DgvPayments.Rows.Count > 0 Then
+            MessageBox.Show("Pembayaran sudah diinput. Hapus pembayaran terlebih dahulu untuk bisa membatalkan transaksi.", "Pembayaran", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
+            Exit Sub
+        End If
+
+
 
         ' Confirm Exit
         Dim args As Object = New Object() {}
@@ -2168,8 +2226,8 @@ Public Class dlgTrnPosPayment
         End If
 
 
-        If e.KeyCode = Keys.Delete Then
-            Me.Key(sender, Keys.Delete, False, Nothing)
+        If e.KeyCode = Keys.Delete Or e.KeyCode = Keys.F8 Then
+            Me.Key(sender, Keys.F8, False, Nothing)
         End If
 
         If e.KeyCode = Keys.F10 Then
@@ -2581,15 +2639,19 @@ Public Class dlgTrnPosPayment
     Private Sub btn_Allo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_Allo.Click
         Dim param As New MobilePaymentParameter()
         param.payment_type = "000000"
+        param.AllowSplitPayment = True
         QRPayment(param)
     End Sub
 
 
 
     Private Sub QRPayment(ByVal param As MobilePaymentParameter)
-        If (Me.DgvPayments.RowCount > 0) Then
-            MessageBox.Show("Pembayaran dengan Qris tidak bisa split payment", "Payment", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Exit Sub
+
+        If Not param.AllowSplitPayment Then
+            If (Me.DgvPayments.RowCount > 0) Then
+                MessageBox.Show("Pembayaran dengan Qris tidak bisa split payment", "Payment", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
         End If
 
         Dim dlg As dlgMobilePayment = New dlgMobilePayment
@@ -2601,6 +2663,7 @@ Public Class dlgTrnPosPayment
 
 
         Dim outstanding As Decimal = CDec(Me.objPaymentOutstanding.Text)
+        Dim paymentAmount As Decimal = CDec(Me.objPaymentValue.Text)
 
         If Me.bgwQRGenerate Is Nothing Then
             Me.bgwQRGenerate = New System.ComponentModel.BackgroundWorker
@@ -2610,7 +2673,8 @@ Public Class dlgTrnPosPayment
 
 
         param.RegionBranch = Me.POS.RegionId & "-" & Me.POS.BranchId
-        param.Amount = outstanding
+        'param.Amount = outstanding
+        param.Amount = paymentAmount
 
 
         Me.objPaymentInformation.Enabled = False
@@ -2618,35 +2682,10 @@ Public Class dlgTrnPosPayment
         Me.bgwQRGenerate.RunWorkerAsync(param)
 
 
-        'param.mid = "5555"
-        'param.tid = "1111"
-        'param.QRData = "123455"
-        'param.ReffNum = "MID65456456"
-
-        'dlg.SetParameter(param)
-
-        'Dim res As DialogResult = dlg.ShowDialog(Me)
-        'Dim payresult As MobilePaymentResult = dlg.PaymentResult
-        'dlg.Dispose()
-        'dlg = Nothing
-
-        'If res = Windows.Forms.DialogResult.Yes Then
-        '    Me.objPaymentCardNumber.Text = payresult.PaymentSource
-        '    Me.objPaymentCardHolder.Text = payresult.CustomerName
-        '    Me.objPaymentValue.Text = payresult.PaymentValue
-        '    Me.objPaymentCash.Text = "0"
-        '    Me.objPaymentBank.Text = payresult.source_id
-        '    Me.objApproval.Text = payresult.ApprovalCode
-        '    Me.objPaymentEdc.Text = "ALLO"
-        '    Me.objPaymentEdcName.text = payresult.ReffNo
-        '    Me.Key(Me.objPaymentValue, Keys.F5, False) ' Add To Payment
-        '    Me.Key(Me, Keys.F10, False) ' Save Transaction
-        'End If
-
     End Sub
 
 
-  
+
     Private Sub Label1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
@@ -2662,7 +2701,7 @@ Public Class dlgTrnPosPayment
             Dim param As MobilePaymentParameter = CType(e.Argument, MobilePaymentParameter)
             Dim wsaddress As String = Me.POS.QrisProxy
             Dim ws As POS05EN.FGTAWebService = New POS05EN.FGTAWebService(wsaddress)
-
+            res.Parameter = param
 
 
             ' Ambil data mid tid
@@ -2708,12 +2747,14 @@ Public Class dlgTrnPosPayment
             If RC = "00" Then
                 Dim QRCode As String = txInfo.Item("QRCode")
                 Dim ReffNo As String = txInfo.Item("ReffNo")
+                Dim QrisRef As String = txInfo.Item("QrisRef")
                 Dim error_message As String = txInfo.Item("error_message")
 
-                res.Parameter = param
+
                 With res.Parameter
                     .QRData = QRCode
                     .ReffNum = ReffNo
+                    .QrisRef = QrisRef
                 End With
                 res.success = True
             Else
@@ -2734,8 +2775,40 @@ Public Class dlgTrnPosPayment
         Dim res As MobilePaymentResult = New MobilePaymentResult
 
 
+        Dim OutstandingPayment As Decimal = 1
+
         Try
             res = CType(e.Result, MobilePaymentResult)
+
+
+            'Dim testing As Boolean = True
+            'If testing = True Then
+            '    Me.objPaymentCardNumber.Text = "0000000000000000"
+            '    Me.objPaymentCardHolder.Text = "TESTING QRIS"
+            '    Me.objPaymentValue.Text = res.Parameter.Amount
+            '    Me.objPaymentCash.Text = "0"
+            '    Me.objPaymentBank.Text = "ALLO"
+            '    Me.objApproval.Text = "123456"
+            '    Me.objPaymentEdc.Text = "QRIS"
+            '    Me.objPaymentEdcName.Text = "1234567890"
+
+            '    Dim paymintparam As PaymentInteractionParam = New PaymentInteractionParam()
+            '    paymintparam.skipcheck_digit = True
+            '    paymintparam.skipcheck_prefix = True
+
+            '    Me.Key(Me.objPaymentValue, Keys.F5, False, paymintparam) ' Add To Payment
+
+            '    OutstandingPayment = CDec(Me.objPaymentOutstanding.Text)
+
+            '    If OutstandingPayment <= 0 Then
+            '        Me.Key(Me, Keys.F10, False, Nothing) ' Save Transaction
+            '    End If
+
+            '    Exit Sub
+            'End If
+
+
+
             If Not res.success Then
                 Throw New Exception(res.error_message)
             End If
@@ -2761,7 +2834,7 @@ Public Class dlgTrnPosPayment
                 Me.objPaymentCardHolder.Text = payresult.CustomerName
                 Me.objPaymentValue.Text = payresult.PaymentValue
                 Me.objPaymentCash.Text = "0"
-                Me.objPaymentBank.Text = payresult.source_id
+                Me.objPaymentBank.Text = payresult.QrisRef
                 Me.objApproval.Text = payresult.ApprovalCode
                 Me.objPaymentEdc.Text = "QRIS"
                 Me.objPaymentEdcName.Text = payresult.ReffNo
@@ -2771,15 +2844,23 @@ Public Class dlgTrnPosPayment
                 paymintparam.skipcheck_prefix = True
 
                 Me.Key(Me.objPaymentValue, Keys.F5, False, paymintparam) ' Add To Payment
-                Me.Key(Me, Keys.F10, False, Nothing) ' Save Transaction
+                OutstandingPayment = CDec(Me.objPaymentOutstanding.Text)
+
+                If OutstandingPayment <= 0 Then
+                    Me.Key(Me, Keys.F10, False, Nothing) ' Save Transaction
+                End If
+
 
             End If
-
-            Me.Cursor = Cursors.Default
-            Me.objPaymentInformation.Enabled = True
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Mobile Payment", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Me.Close()
+        Finally
+            Me.Cursor = Cursors.Default
+            Me.objPaymentCardNumber.Focus()
+
+            If OutstandingPayment > 0 Then
+                Me.objPaymentInformation.Enabled = True
+            End If
         End Try
     End Sub
 
@@ -2893,11 +2974,27 @@ Public Class dlgTrnPosPayment
             Me.objPaymentGrantotal.Text = total
             Me.objPaymentOutstanding.Text = total
 
-            Me.objPaymentValue.Text = total
-            Me.objPaymentCash.Text = total
+
+            If Me.btn_Allo.Enabled Then
+                ' pembayaran menggunakan QRIS allo, maksimum scan 10 juta
+                If total > Me.MaximumAlloScan Then
+                    Me.objPaymentValue.Text = Me.MaximumAlloScan
+                Else
+                    Me.objPaymentValue.Text = total
+                End If
+            Else
+                Me.objPaymentValue.Text = total
+            End If
+
+
+            If Me.objPaymentCash.Enabled Then
+                Me.objPaymentCash.Text = total
+            Else
+                Me.objPaymentCash.Text = "0"
+            End If
 
             Me.BindingContext(Me.POS.PosPaymentDialog).EndCurrentEdit()
-            Me.POS.PosPaymentDialog.AcceptChanges()
-        End If
+                Me.POS.PosPaymentDialog.AcceptChanges()
+            End If
     End Sub
 End Class

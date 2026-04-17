@@ -19,29 +19,31 @@ Partial Class dlgMobilePayment
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(dlgMobilePayment))
-        Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel
-        Me.Label8 = New System.Windows.Forms.Label
-        Me.Label9 = New System.Windows.Forms.Label
-        Me.Label10 = New System.Windows.Forms.Label
-        Me.Label11 = New System.Windows.Forms.Label
-        Me.Label12 = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.Label7 = New System.Windows.Forms.Label
-        Me.FlowLayoutPanel2 = New System.Windows.Forms.FlowLayoutPanel
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox
-        Me.txt_PaymentTOTAL = New System.Windows.Forms.Label
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.txt_ReffNum = New System.Windows.Forms.TextBox
-        Me.txt_CountDown = New System.Windows.Forms.Label
+        Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.FlowLayoutPanel2 = New System.Windows.Forms.FlowLayoutPanel()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.txt_PaymentTOTAL = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.txt_ReffNum = New System.Windows.Forms.TextBox()
+        Me.txt_CountDown = New System.Windows.Forms.Label()
         Me.tmr_CountDown = New System.Windows.Forms.Timer(Me.components)
-        Me.lbl_StoreName = New System.Windows.Forms.Label
-        Me.lbl_param_paymenttype = New System.Windows.Forms.Label
-        Me.btn_Copy = New System.Windows.Forms.Button
+        Me.lbl_StoreName = New System.Windows.Forms.Label()
+        Me.lbl_param_paymenttype = New System.Windows.Forms.Label()
+        Me.btn_Copy = New System.Windows.Forms.Button()
+        Me.txtInfo = New System.Windows.Forms.TextBox()
+        Me.txt_QrisRef = New System.Windows.Forms.TextBox()
         Me.FlowLayoutPanel1.SuspendLayout()
         Me.FlowLayoutPanel2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -258,7 +260,7 @@ Partial Class dlgMobilePayment
         Me.txt_PaymentTOTAL.BackColor = System.Drawing.Color.Transparent
         Me.txt_PaymentTOTAL.Font = New System.Drawing.Font("Arial", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txt_PaymentTOTAL.ForeColor = System.Drawing.Color.MidnightBlue
-        Me.txt_PaymentTOTAL.Location = New System.Drawing.Point(76, 378)
+        Me.txt_PaymentTOTAL.Location = New System.Drawing.Point(76, 374)
         Me.txt_PaymentTOTAL.Name = "txt_PaymentTOTAL"
         Me.txt_PaymentTOTAL.Size = New System.Drawing.Size(255, 44)
         Me.txt_PaymentTOTAL.TabIndex = 28
@@ -279,10 +281,10 @@ Partial Class dlgMobilePayment
         'txt_ReffNum
         '
         Me.txt_ReffNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txt_ReffNum.Location = New System.Drawing.Point(66, 434)
+        Me.txt_ReffNum.Location = New System.Drawing.Point(66, 422)
         Me.txt_ReffNum.Name = "txt_ReffNum"
         Me.txt_ReffNum.ReadOnly = True
-        Me.txt_ReffNum.Size = New System.Drawing.Size(279, 20)
+        Me.txt_ReffNum.Size = New System.Drawing.Size(137, 20)
         Me.txt_ReffNum.TabIndex = 30
         Me.txt_ReffNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
@@ -290,7 +292,7 @@ Partial Class dlgMobilePayment
         '
         Me.txt_CountDown.BackColor = System.Drawing.Color.Transparent
         Me.txt_CountDown.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txt_CountDown.Location = New System.Drawing.Point(63, 457)
+        Me.txt_CountDown.Location = New System.Drawing.Point(63, 447)
         Me.txt_CountDown.Name = "txt_CountDown"
         Me.txt_CountDown.Size = New System.Drawing.Size(282, 18)
         Me.txt_CountDown.TabIndex = 31
@@ -304,7 +306,7 @@ Partial Class dlgMobilePayment
         '
         Me.lbl_StoreName.BackColor = System.Drawing.Color.Transparent
         Me.lbl_StoreName.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_StoreName.Location = New System.Drawing.Point(12, 354)
+        Me.lbl_StoreName.Location = New System.Drawing.Point(12, 351)
         Me.lbl_StoreName.Name = "lbl_StoreName"
         Me.lbl_StoreName.Size = New System.Drawing.Size(388, 18)
         Me.lbl_StoreName.TabIndex = 32
@@ -322,18 +324,42 @@ Partial Class dlgMobilePayment
         '
         'btn_Copy
         '
-        Me.btn_Copy.Location = New System.Drawing.Point(161, 501)
+        Me.btn_Copy.Location = New System.Drawing.Point(162, 580)
         Me.btn_Copy.Name = "btn_Copy"
         Me.btn_Copy.Size = New System.Drawing.Size(75, 23)
         Me.btn_Copy.TabIndex = 34
         Me.btn_Copy.Text = "Copy"
         Me.btn_Copy.UseVisualStyleBackColor = True
         '
+        'txtInfo
+        '
+        Me.txtInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtInfo.Location = New System.Drawing.Point(15, 480)
+        Me.txtInfo.Multiline = True
+        Me.txtInfo.Name = "txtInfo"
+        Me.txtInfo.ReadOnly = True
+        Me.txtInfo.Size = New System.Drawing.Size(381, 94)
+        Me.txtInfo.TabIndex = 35
+        Me.txtInfo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.txtInfo.WordWrap = False
+        '
+        'txt_QrisRef
+        '
+        Me.txt_QrisRef.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txt_QrisRef.Location = New System.Drawing.Point(209, 421)
+        Me.txt_QrisRef.Name = "txt_QrisRef"
+        Me.txt_QrisRef.ReadOnly = True
+        Me.txt_QrisRef.Size = New System.Drawing.Size(137, 20)
+        Me.txt_QrisRef.TabIndex = 36
+        Me.txt_QrisRef.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
         'dlgMobilePayment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(412, 536)
+        Me.ClientSize = New System.Drawing.Size(408, 615)
+        Me.Controls.Add(Me.txt_QrisRef)
+        Me.Controls.Add(Me.txtInfo)
         Me.Controls.Add(Me.btn_Copy)
         Me.Controls.Add(Me.lbl_param_paymenttype)
         Me.Controls.Add(Me.lbl_StoreName)
@@ -374,4 +400,6 @@ Partial Class dlgMobilePayment
     Friend WithEvents lbl_StoreName As System.Windows.Forms.Label
     Friend WithEvents lbl_param_paymenttype As System.Windows.Forms.Label
     Friend WithEvents btn_Copy As System.Windows.Forms.Button
+    Friend WithEvents txtInfo As TextBox
+    Friend WithEvents txt_QrisRef As TextBox
 End Class

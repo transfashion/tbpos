@@ -22,6 +22,7 @@ Public Class dlgMobilePayment
 
     Private Sub dlgMobilePayment_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        Me.txt_QrisRef.BorderStyle = BorderStyle.None
         Me.txt_ReffNum.BorderStyle = BorderStyle.None
         Me.txt_CountDown.BorderStyle = BorderStyle.None
 
@@ -52,13 +53,15 @@ Public Class dlgMobilePayment
 
         Dim QRData As String = param.QRData
         Dim ReffNum As String = param.ReffNum
+        Dim QrisRef As String = param.QrisRef
         Dim amount As Decimal = param.Amount
 
         Me._mid = param.mid
         Me._tid = param.tid
         Me.lbl_StoreName.Text = param.storename
         Me.txt_PaymentTOTAL.Text = amount.ToString("#,##0")
-        Me.txt_ReffNum.Text = param.ReffNum
+        Me.txt_ReffNum.Text = ReffNum
+        Me.txt_QrisRef.Text = QrisRef
         Me.txt_ReffNum.Select(1, 0)
         Me.lbl_param_paymenttype.Text = param.payment_type
 
@@ -148,7 +151,13 @@ Public Class dlgMobilePayment
             End If
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message)
+            ' MessageBox.Show(ex.Message)
+            Me.txtInfo.AppendText("Error checking QR status: " & ex.Message & vbCrLf)
+
+            ' Scroll to end
+            Me.txtInfo.SelectionStart = Me.txtInfo.Text.Length
+            Me.txtInfo.ScrollToCaret()
+
         Finally
             Cursor = Cursors.Arrow
         End Try
@@ -166,6 +175,7 @@ Public Class dlgMobilePayment
             .PaymentSource = PaymentSource
             .PaymentValue = amount
             .ReffNo = ReffNo
+            .QrisRef = Me.txt_QrisRef.Text
         End With
 
         Me.DialogResult = Windows.Forms.DialogResult.Yes
@@ -174,6 +184,7 @@ Public Class dlgMobilePayment
 
     Private Sub QRReset()
         Me.txt_ReffNum.Text = ""
+        Me.txt_QrisRef.Text = ""
         Me.PictureBox1.Image = Nothing
     End Sub
 

@@ -20,75 +20,75 @@ Partial Class dlgTrnPosNew
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(dlgTrnPosNew))
-        Me.PnlFormMain = New System.Windows.Forms.Panel
-        Me.lbl_itemfrom = New System.Windows.Forms.Label
-        Me.cbo_ItemFrom = New System.Windows.Forms.ComboBox
-        Me.objCboBonEventMain = New System.Windows.Forms.ComboBox
-        Me.objBonEvent = New System.Windows.Forms.TextBox
-        Me.lblBonStamp = New System.Windows.Forms.Label
-        Me.btnESC = New System.Windows.Forms.Label
-        Me.objBonExternal = New System.Windows.Forms.TextBox
-        Me.Label22 = New System.Windows.Forms.Label
-        Me.btnF10 = New System.Windows.Forms.Label
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox
-        Me.Label24 = New System.Windows.Forms.Label
-        Me.Label23 = New System.Windows.Forms.Label
-        Me.Label10 = New System.Windows.Forms.Label
-        Me.btnSalesBrowse = New System.Windows.Forms.Button
-        Me.Label9 = New System.Windows.Forms.Label
-        Me.objSalesId = New System.Windows.Forms.TextBox
-        Me.Label8 = New System.Windows.Forms.Label
-        Me.objSalesName = New System.Windows.Forms.Label
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.btnTfiMembership = New System.Windows.Forms.Label
-        Me.btnCtcorpMpcScan = New System.Windows.Forms.Label
-        Me.Label26 = New System.Windows.Forms.Label
-        Me.Label12 = New System.Windows.Forms.Label
-        Me.btnCustomerSearch = New System.Windows.Forms.LinkLabel
-        Me.objCustomerName = New System.Windows.Forms.TextBox
-        Me.objCustomerTitle = New System.Windows.Forms.Label
-        Me.Label25 = New System.Windows.Forms.Label
-        Me.objCustomerDisc = New System.Windows.Forms.TextBox
-        Me.Label21 = New System.Windows.Forms.Label
-        Me.Label20 = New System.Windows.Forms.Label
-        Me.objCustomerType = New System.Windows.Forms.TextBox
-        Me.Label19 = New System.Windows.Forms.Label
-        Me.objCustomerPassport = New System.Windows.Forms.TextBox
-        Me.objCustomerTelp = New System.Windows.Forms.TextBox
-        Me.Label18 = New System.Windows.Forms.Label
-        Me.btnCustomerBrowse = New System.Windows.Forms.Button
-        Me.objCustomerGenderId = New System.Windows.Forms.Label
-        Me.objCustomerNPWP = New System.Windows.Forms.TextBox
-        Me.Label16 = New System.Windows.Forms.Label
-        Me.Label15 = New System.Windows.Forms.Label
-        Me.Label14 = New System.Windows.Forms.Label
-        Me.objCustomerId = New System.Windows.Forms.TextBox
-        Me.lblGender = New System.Windows.Forms.Label
-        Me.objCustomerGender = New System.Windows.Forms.Label
-        Me.Label7 = New System.Windows.Forms.Label
-        Me.Group01 = New System.Windows.Forms.GroupBox
-        Me.btn_PgDown = New System.Windows.Forms.Label
-        Me.btn_PgUp = New System.Windows.Forms.Label
-        Me.objVoucher01Method = New System.Windows.Forms.Label
-        Me.objVoucher01TypeId = New System.Windows.Forms.TextBox
-        Me.objVoucher01Disc = New System.Windows.Forms.Label
-        Me.objVoucher01Type = New System.Windows.Forms.Label
-        Me.Label17 = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.objVoucher01TypeName = New System.Windows.Forms.Label
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.objPaymentVoucher01Code = New System.Windows.Forms.TextBox
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.objCustomerAgeId = New System.Windows.Forms.Label
-        Me.objCustomerNationalityId = New System.Windows.Forms.Label
-        Me.Label13 = New System.Windows.Forms.Label
-        Me.Label11 = New System.Windows.Forms.Label
-        Me.objCustomerNationality = New System.Windows.Forms.Label
-        Me.objCustomerAge = New System.Windows.Forms.Label
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Panel1 = New System.Windows.Forms.Panel
+        Me.PnlFormMain = New System.Windows.Forms.Panel()
+        Me.lbl_itemfrom = New System.Windows.Forms.Label()
+        Me.cbo_ItemFrom = New System.Windows.Forms.ComboBox()
+        Me.objCboBonEventMain = New System.Windows.Forms.ComboBox()
+        Me.objBonEvent = New System.Windows.Forms.TextBox()
+        Me.lblBonStamp = New System.Windows.Forms.Label()
+        Me.btnESC = New System.Windows.Forms.Label()
+        Me.objBonExternal = New System.Windows.Forms.TextBox()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.btnF10 = New System.Windows.Forms.Label()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Label24 = New System.Windows.Forms.Label()
+        Me.Label23 = New System.Windows.Forms.Label()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.btnSalesBrowse = New System.Windows.Forms.Button()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.objSalesId = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.objSalesName = New System.Windows.Forms.Label()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.btnTfiMembership = New System.Windows.Forms.Label()
+        Me.btnCtcorpMpcScan = New System.Windows.Forms.Label()
+        Me.Label26 = New System.Windows.Forms.Label()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.btnCustomerSearch = New System.Windows.Forms.LinkLabel()
+        Me.objCustomerName = New System.Windows.Forms.TextBox()
+        Me.objCustomerTitle = New System.Windows.Forms.Label()
+        Me.Label25 = New System.Windows.Forms.Label()
+        Me.objCustomerDisc = New System.Windows.Forms.TextBox()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.objCustomerType = New System.Windows.Forms.TextBox()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.objCustomerPassport = New System.Windows.Forms.TextBox()
+        Me.objCustomerTelp = New System.Windows.Forms.TextBox()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.btnCustomerBrowse = New System.Windows.Forms.Button()
+        Me.objCustomerGenderId = New System.Windows.Forms.Label()
+        Me.objCustomerNPWP = New System.Windows.Forms.TextBox()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.objCustomerId = New System.Windows.Forms.TextBox()
+        Me.lblGender = New System.Windows.Forms.Label()
+        Me.objCustomerGender = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Group01 = New System.Windows.Forms.GroupBox()
+        Me.btn_PgDown = New System.Windows.Forms.Label()
+        Me.btn_PgUp = New System.Windows.Forms.Label()
+        Me.objVoucher01Method = New System.Windows.Forms.Label()
+        Me.objVoucher01TypeId = New System.Windows.Forms.TextBox()
+        Me.objVoucher01Disc = New System.Windows.Forms.Label()
+        Me.objVoucher01Type = New System.Windows.Forms.Label()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.objVoucher01TypeName = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.objPaymentVoucher01Code = New System.Windows.Forms.TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.objCustomerAgeId = New System.Windows.Forms.Label()
+        Me.objCustomerNationalityId = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.objCustomerNationality = New System.Windows.Forms.Label()
+        Me.objCustomerAge = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Panel1 = New System.Windows.Forms.Panel()
         CType(Me.ds, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PnlFormMain.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -142,7 +142,7 @@ Partial Class dlgTrnPosNew
         '
         Me.objCboBonEventMain.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.objCboBonEventMain.FormattingEnabled = True
-        Me.objCboBonEventMain.Items.AddRange(New Object() {"REGULER", "e-BAZAR", "STAMP", "ONLINE", "CHAT", "CUSTOM"})
+        Me.objCboBonEventMain.Items.AddRange(New Object() {"REGULER", "e-BAZAR", "STAMP", "ONLINE", "CHAT", "TIKTOK", "CUSTOM"})
         Me.objCboBonEventMain.Location = New System.Drawing.Point(71, 488)
         Me.objCboBonEventMain.Name = "objCboBonEventMain"
         Me.objCboBonEventMain.Size = New System.Drawing.Size(86, 21)
@@ -401,8 +401,8 @@ Partial Class dlgTrnPosNew
         Me.Label26.Name = "Label26"
         Me.Label26.Size = New System.Drawing.Size(409, 31)
         Me.Label26.TabIndex = 31
-        Me.Label26.Text = "Apabila customer bersedia menerima copy bon ke email, isikan email customer pada " & _
-            "text berikut:"
+        Me.Label26.Text = "Apabila customer bersedia menerima copy bon ke email, isikan email customer pada " &
+    "text berikut:"
         '
         'Label12
         '
@@ -794,7 +794,7 @@ Partial Class dlgTrnPosNew
         'Label4
         '
         Me.Label4.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label4.BackColor = System.Drawing.Color.Black
         Me.Label4.Font = New System.Drawing.Font("Verdana", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ForeColor = System.Drawing.Color.White

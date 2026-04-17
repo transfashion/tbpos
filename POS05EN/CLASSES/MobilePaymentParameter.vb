@@ -7,12 +7,16 @@ Public Class MobilePaymentParameter
     Public QRData As String
     Public Amount As Decimal
     Public ReffNum As String
+    Public QrisRef As String
     Public mid As String
     Public tid As String
     Public storename As String
     Public payment_type As String
 
     Public CountDownSec As Integer
+
+
+    Public AllowSplitPayment As Boolean
 
 
     Public Sub New()

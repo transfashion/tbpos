@@ -283,7 +283,7 @@ Partial Class dlgTrnPosPayment
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(118, 22)
         Me.Label17.TabIndex = 59
-        Me.Label17.Text = "GRANT TOTAL"
+        Me.Label17.Text = "GRAND TOTAL"
         Me.Label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'objPaymentGrantotal

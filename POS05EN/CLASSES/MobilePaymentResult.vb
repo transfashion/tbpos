@@ -5,6 +5,7 @@ Public Class MobilePaymentResult
 
     Public CustomerName As String
     Public ReffNo As String
+    Public QrisRef As String
     Public PaymentSource As String
     Public source_id As String
     Public ApprovalCode As String

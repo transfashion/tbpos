@@ -834,13 +834,19 @@ Public Class PosPromo
             Me.mainPosDialog.RecalculateTotal()
 
 
+            ' pd.DataA.Add("TM10081049100")
+
             ' Ambil barang yang ada di list Promo
             Me.GetPromoItems(dtitem, pd, nA, vA, drA, nB, vB, drB)
 
             ' Kalau tidak item exit saja
+            ' 260414 sementara disable
             If drA.Count = 0 And drB.Count = 0 Then
                 Exit Function
             End If
+
+
+
 
             If Me.CURRENT_TOTAL < pd.TotalValueThreshold Then
                 Exit Function

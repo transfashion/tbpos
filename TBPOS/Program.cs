@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 
 
@@ -14,6 +16,14 @@ namespace TBPOS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            bool doUpdate = false; // set true untuk update POS05EN.dll dari server
+            if (doUpdate)
+            {
+                UpdatePOS05EnDll();
+            }
+           
+
 
             frmmain = new MINIFRAME.FormMain();
             frmmain.Text = "POS";
@@ -41,7 +51,7 @@ namespace TBPOS
                 ui.InitializeControl("", MINIFRAME.User.UserId, MINIFRAME.Preference.CentralServerAddress, MINIFRAME.Preference.CentralServerAddress, ref browser, ui.GetType().Assembly);
                 ui.SetDSNLocal(MINIFRAME.Preference.getOleDbConnection().ConnectionString);
 
-                
+
                 frmmain.InitUserControl(ui);
 
             }
@@ -57,6 +67,76 @@ namespace TBPOS
         {
             frmmain.InitPreferenceInfo();
         }
+
+
+        public static bool TryDeletePos05EnDll(string dirPath, out string message)
+        {
+            string filePath = Path.Combine(dirPath, "POS05EN.dll");
+            if (!File.Exists(filePath))
+            {
+                message = $"File not found: {filePath}";
+                return false;
+            }
+
+            try
+            {
+                File.Delete(filePath);
+                message = $"Deleted: {filePath}";
+                return true;
+            }
+            catch (IOException ex)
+            {
+                message = $"IO error (possibly in use): {ex.Message}";
+                return false;
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                message = $"Access denied: {ex.Message}";
+                return false;
+            }
+            catch (Exception ex)
+            {
+                message = $"Error: {ex.Message}";
+                return false;
+            }
+        }
+
+
+        static void UpdatePOS05EnDll()
+        {
+            // Implementasi update POS05EN.dll dari server
+            string cwd = Directory.GetCurrentDirectory();
+            string envCwd = Environment.CurrentDirectory;
+            string startup = Application.StartupPath;                  // typical for WinForms
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;   // also common and stable
+            string asmDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+
+            // jika ada update di server, download dulu
+            // download update dari server ke cwd/download
+            // synchronous call dari Main:
+            string url = "http://localhost/crossroads/updatedllpos/POS05EN.dll";
+            string dest = Path.Combine(cwd, "download", "POS05EN.dll");
+            bool ok = Downloader.DownloadPos05EnDllAsync(url, dest).GetAwaiter().GetResult();
+
+            if (ok) {
+                string msg;
+                TryDeletePos05EnDll(cwd, out msg);
+
+                // copy POS05EN.dll dari cwd/download ke cwd jika tidak ada
+                string sourcePath = Path.Combine(cwd, "download", "POS05EN.dll");
+                string destPath = Path.Combine(cwd, "POS05EN.dll");
+
+                if (File.Exists(sourcePath))
+                {
+                    File.Copy(sourcePath, destPath);
+                }
+
+                // hapus file di cwd/download
+                File.Delete(sourcePath);
+            }
+        }
+
 
 
     }
