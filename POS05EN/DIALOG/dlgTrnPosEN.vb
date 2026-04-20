@@ -1753,11 +1753,15 @@ Public Class dlgTrnPosEN
         End If
 
         If Not Me.DgvPOSItem.ReadOnly Then
-            If (e.KeyValue >= 48 And e.KeyValue <= 57) Or _
+            If (e.KeyValue >= 48 And e.KeyValue <= 57) Or
                (e.KeyValue >= 96 And e.KeyValue <= 105) _
             Then
                 Exit Sub
             Else
+                If e.KeyCode = Keys.F3 Then
+                    e.Handled = True
+                End If
+
                 Me.Key(Keys.F3, False, SuppressKeyPress)
                 Me.txtItemEntry.Focus()
                 Exit Sub

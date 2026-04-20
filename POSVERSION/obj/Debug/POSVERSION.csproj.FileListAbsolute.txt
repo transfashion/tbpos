@@ -5,4 +5,3 @@ C:\Users\agung\Development\transfashion\tbpos\POSVERSION\obj\Debug\POSVERSION.cs
 C:\Users\agung\Development\transfashion\tbpos\POSVERSION\obj\Debug\POSVERSION.csproj.CoreCompileInputs.cache
 C:\Users\agung\Development\transfashion\tbpos\POSVERSION\obj\Debug\POSVERSION.exe
 C:\Users\agung\Development\transfashion\tbpos\POSVERSION\obj\Debug\POSVERSION.pdb
-C:\Users\agung\Development\transfashion\tbpos\POSVERSION\obj\Debug\POSVERSION.exe.config
