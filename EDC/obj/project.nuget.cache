@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "B5IrJHkuBiU=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\agung\\Development\\transfashion\\tbpos\\EDC\\EDC.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\agung\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\agung\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -61,6 +61,8 @@ Public Class dlgItemSelect
                 Me.Close()
             Case Keys.Enter
                 dlgOK()
+            Case Keys.F3
+                e.Handled = True
         End Select
     End Sub
 

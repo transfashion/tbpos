@@ -854,23 +854,6 @@ Public Class dlgTrnPosPayment
                 Me.objErrorProvider.SetError(Me.objApproval, "")
             End If
 
-            '' Cek Promo KArtu Metro
-            '' Tambahan potongan harga dengan minimum transaksi :
-            '' - FURLA : minimum transaksi Rp 3.000.000,- mendapatkan potongan harga sebesar Rp 150.000,-   
-            '' - GEOX      : minimum transaksi Rp 2.000.000,- mendapatkan potongan harga sebesar Rp 100.000,-
-            '' - FIND KAPOOR : minimum transaksi Rp 2.000.000,- mendapatkan potongan harga sebesar Rp 100.000,-
-            'If Me.POS.RegionId = "02600" Or Me.POS.RegionId = "03400" Or Me.POS.RegionId = "03700" Then
-            '    Dim startdate As Date = New Date(2021, 12, 29, 0, 0, 0)
-            '    Dim enddate As Date = New Date(2022, 2, 28, 0, 0, 0)
-
-            '    If (Now.Date >= startdate And Now.Date <= enddate) Then
-            '        If Mid(obj.CardNumber, 1, 6) = "471439" Then
-            '            MessageBox.Show("Masukkan tambahan diskon untuk Furla, Geox, Find Kapoor sesuai ketentuan", "Promo Mega Metro Card", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            '        End If
-            '    Else
-            '    End If
-            'End If
-
 
             Dim MyPaymentType As String = Me.objPaymentTypeName.Text
             If Me.POS.ALLOW_MULTIPLE_PAYMENT_IN_FP = "1" Then
@@ -2236,6 +2219,14 @@ Public Class dlgTrnPosPayment
             End If
         End If
 
+
+        If e.KeyCode = Keys.F3 Then
+            e.Handled = True
+        End If
+
+
+
+        Me.objPaymentCardNumber.Focus()
         'If e.Control Or e.Alt Or e.Shift Then
         '    Me.txtItemEntry.Focus()
         '    Exit Sub
@@ -2948,8 +2939,6 @@ Public Class dlgTrnPosPayment
         OpenDonasiDialog()
     End Sub
 
-
-
     Private Sub OpenDonasiDialog()
 
         ' hanya bisa dibuka apabila belum ada payment yang dimasukkan
@@ -2994,7 +2983,10 @@ Public Class dlgTrnPosPayment
             End If
 
             Me.BindingContext(Me.POS.PosPaymentDialog).EndCurrentEdit()
-                Me.POS.PosPaymentDialog.AcceptChanges()
-            End If
+            Me.POS.PosPaymentDialog.AcceptChanges()
+        End If
     End Sub
+
+
+
 End Class
